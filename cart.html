@@ -7,9 +7,9 @@
 <title>سبد خرید | بازارچه</title>
 <link rel="manifest" href="manifest.json">
 <style>
-:root{--navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;--gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);--text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;--border:rgba(212,175,55,0.22);--danger:#e74c3c;--success:#2ecc71}
+:root{--navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;--gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);--text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;--border:rgba(212,175,55,0.22);--danger:#e74c3c;--success:#2ecc71;--whatsapp:#25D366}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;padding-bottom:120px;-webkit-font-smoothing:antialiased}
+html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;padding-bottom:130px;-webkit-font-smoothing:antialiased}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 input{font-family:inherit}
 ::-webkit-scrollbar{display:none}
@@ -22,7 +22,6 @@ input{font-family:inherit}
 
 .page{position:relative;z-index:2;min-height:100vh}
 
-/* Top Bar */
 .top-bar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(10,25,41,0.98),rgba(10,25,41,0.92));backdrop-filter:blur(16px);border-bottom:1px solid rgba(212,175,55,0.15);padding:12px 16px;display:flex;align-items:center;gap:12px}
 .icon-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);flex-shrink:0;transition:all .2s}
 .icon-btn:active{transform:scale(0.92);background:var(--gold-soft)}
@@ -30,10 +29,7 @@ input{font-family:inherit}
 .page-title{flex:1;font-size:16px;font-weight:800;text-align:center;color:var(--gold)}
 .page-title small{display:block;font-size:10.5px;color:var(--text-dim);font-weight:600;margin-top:2px}
 
-/* Wrap */
 .wrap{padding:16px;max-width:520px;margin:0 auto}
-
-/* Section */
 .section-head{display:flex;align-items:center;justify-content:space-between;padding:8px 0 12px}
 .section-title{font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
 .section-title .accent{display:inline-block;width:4px;height:14px;border-radius:2px;background:linear-gradient(180deg,var(--gold-2),var(--gold))}
@@ -41,7 +37,7 @@ input{font-family:inherit}
 .section-count{font-size:11.5px;color:var(--text-dim)}
 .section-group{margin-bottom:20px}
 
-/* Cart item */
+/* ===== Cart Item ===== */
 .cart-item{
   display:flex;gap:12px;padding:12px;
   background:var(--card);border:1px solid var(--border);
@@ -58,14 +54,14 @@ input{font-family:inherit}
 .cart-item-img svg{width:36px;height:36px;stroke:var(--gold);fill:none;stroke-width:1.5;opacity:0.5}
 .cart-item-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between}
 .cart-item-name{font-size:13.5px;font-weight:700;line-height:1.3;margin-bottom:4px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.cart-item-meta{font-size:11px;color:var(--text-dim);margin-bottom:8px;display:flex;flex-wrap:wrap;gap:6px}
-.meta-tag{background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.2);padding:2px 7px;border-radius:5px;display:flex;align-items:center;gap:3px}
+.cart-item-meta{font-size:11px;color:var(--text-dim);margin-bottom:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.meta-tag{background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.2);padding:2px 7px;border-radius:5px;display:flex;align-items:center;gap:3px;font-size:10px}
 .meta-tag .color-dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--border)}
 .cart-item-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .cart-item-price{font-size:14px;font-weight:900;color:var(--gold);white-space:nowrap}
 .cart-item-price span{font-size:9.5px;color:var(--text-dim);font-weight:600}
 
-/* Qty control */
+/* ===== Qty Control ===== */
 .qty-ctrl{display:flex;align-items:center;gap:4px;background:var(--navy);border:1px solid var(--border);border-radius:10px;padding:3px}
 .qty-btn{width:28px;height:28px;border-radius:8px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;transition:all .15s}
 .qty-btn:active{transform:scale(0.9);background:var(--gold)}
@@ -73,7 +69,7 @@ input{font-family:inherit}
 .qty-btn svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:2.5}
 .qty-value{font-size:13px;font-weight:900;color:var(--text);min-width:24px;text-align:center}
 
-/* Delete btn */
+/* ===== Delete ===== */
 .delete-btn{
   position:absolute;top:8px;
   width:26px;height:26px;border-radius:50%;
@@ -87,24 +83,35 @@ html[dir="ltr"] .delete-btn{right:8px}
 .delete-btn svg{width:13px;height:13px;stroke:var(--danger);fill:none;stroke-width:2.5}
 .delete-btn:active svg{stroke:#fff}
 
-/* Restaurant origin badge */
-.source-badge{
+/* ===== WhatsApp Button (small) ===== */
+.wa-btn{
   position:absolute;bottom:8px;
+  height:26px;padding:0 8px;border-radius:8px;
+  background:var(--whatsapp);
+  color:#fff;font-size:10px;font-weight:800;
+  display:flex;align-items:center;gap:4px;
+  transition:all .2s;
+  box-shadow:0 3px 10px rgba(37,211,102,0.4);
+  z-index:3;
+}
+html[dir="rtl"] .wa-btn{left:8px}
+html[dir="ltr"] .wa-btn{right:8px}
+.wa-btn:active{transform:scale(0.93);background:#128C7E}
+.wa-btn svg{width:12px;height:12px;fill:#fff;stroke:none}
+
+/* ===== Source Badge ===== */
+.source-badge{
+  display:inline-flex;align-items:center;gap:3px;
   background:rgba(212,175,55,0.15);
   border:1px solid rgba(212,175,55,0.3);
   padding:2px 8px;border-radius:6px;
   font-size:9px;font-weight:700;color:var(--gold);
-  display:flex;align-items:center;gap:3px;
+  margin-top:4px;
 }
-html[dir="rtl"] .source-badge{left:8px}
-html[dir="ltr"] .source-badge{right:8px}
 .source-badge svg{width:10px;height:10px;stroke:var(--gold);fill:none;stroke-width:2}
 
-/* Empty state */
-.empty-box{
-  text-align:center;padding:60px 20px;
-  animation:fadeUp .5s both;
-}
+/* ===== Empty ===== */
+.empty-box{text-align:center;padding:60px 20px;animation:fadeUp .5s both}
 .empty-icon{
   width:120px;height:120px;margin:0 auto 20px;
   border-radius:50%;
@@ -133,11 +140,11 @@ html[dir="ltr"] .source-badge{right:8px}
 .empty-btn.primary svg{stroke:var(--navy)}
 .empty-btn.secondary svg{stroke:var(--gold)}
 
-/* Summary */
+/* ===== Summary ===== */
 .summary{
   background:var(--card);border:1px solid var(--border);
-  border-radius:16px;padding:16px;
-  margin-top:12px;animation:fadeUp .4s both;
+  border-radius:16px;padding:16px;margin-top:12px;
+  animation:fadeUp .4s both;
 }
 .summary-row{
   display:flex;align-items:center;justify-content:space-between;
@@ -152,7 +159,7 @@ html[dir="ltr"] .source-badge{right:8px}
 .summary-row .val{color:var(--text);font-weight:700}
 .summary-row .free{color:var(--success);font-weight:800;font-size:12px}
 
-/* Actions */
+/* ===== Actions Bar ===== */
 .actions-bar{
   position:fixed;bottom:0;left:0;right:0;z-index:70;
   background:linear-gradient(180deg,rgba(10,25,41,0.85) 0%,var(--navy) 40%);
@@ -176,7 +183,7 @@ html[dir="ltr"] .source-badge{right:8px}
 .checkout-btn:active{transform:scale(0.97)}
 .checkout-btn svg{width:18px;height:18px;stroke:var(--navy);fill:none;stroke-width:2.5}
 
-/* Clear button */
+/* ===== Clear Button ===== */
 .clear-btn{
   display:flex;align-items:center;justify-content:center;gap:6px;
   width:100%;height:44px;margin-top:10px;
@@ -188,7 +195,7 @@ html[dir="ltr"] .source-badge{right:8px}
 .clear-btn:active{background:rgba(231,76,60,0.2)}
 .clear-btn svg{width:16px;height:16px;stroke:var(--danger);fill:none;stroke-width:2}
 
-/* Bottom Nav */
+/* ===== Bottom Nav ===== */
 .bottom-nav{position:fixed;bottom:8px;left:12px;right:12px;z-index:60;background:rgba(19,47,76,0.55);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(212,175,55,0.2);box-shadow:0 -8px 32px rgba(0,0,0,0.4);display:none;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));border-radius:20px}
 .bottom-nav.show{display:flex}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;color:var(--text-dim);font-size:9.5px;font-weight:700;position:relative}
@@ -196,26 +203,106 @@ html[dir="ltr"] .source-badge{right:8px}
 .nav-item.active{color:var(--gold)}
 .nav-item.active::after{content:'';position:absolute;bottom:0;width:4px;height:4px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
 
-/* Toast */
-.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:800;z-index:400;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,0.45);white-space:nowrap;max-width:90%}
+/* ===== Toast ===== */
+.toast{position:fixed;bottom:180px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:800;z-index:400;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,0.45);white-space:nowrap;max-width:90%}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.success{background:var(--success);color:#fff}
 .toast.error{background:var(--danger);color:#fff}
 
-/* Confirm modal */
-.confirm-overlay{position:fixed;inset:0;z-index:300;background:rgba(10,25,41,0.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
-.confirm-overlay.show{opacity:1;pointer-events:auto}
-.confirm-card{background:linear-gradient(180deg,#132f4c,#0a1929);border:1px solid var(--border);border-radius:20px;padding:26px 22px;max-width:360px;width:100%;text-align:center;transform:scale(0.9);transition:transform .3s cubic-bezier(0.34,1.56,0.64,1)}
-.confirm-overlay.show .confirm-card{transform:scale(1)}
-.confirm-icon{width:70px;height:70px;margin:0 auto 16px;border-radius:50%;background:rgba(231,76,60,0.15);display:flex;align-items:center;justify-content:center}
-.confirm-icon svg{width:36px;height:36px;stroke:var(--danger);fill:none;stroke-width:2}
-.confirm-title{font-size:17px;font-weight:800;color:var(--text);margin-bottom:8px}
-.confirm-text{font-size:13px;color:var(--text-dim);line-height:1.7;margin-bottom:20px}
-.confirm-actions{display:flex;gap:10px}
-.confirm-btn{flex:1;height:48px;border-radius:12px;font-size:13.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
-.confirm-btn.cancel{background:var(--card);border:1.5px solid var(--border);color:var(--text)}
-.confirm-btn.confirm{background:var(--danger);color:#fff}
-.confirm-btn:active{transform:scale(0.97)}
+/* ===== Modals ===== */
+.modal-overlay{position:fixed;inset:0;z-index:300;background:rgba(10,25,41,0.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal-card{background:linear-gradient(180deg,#132f4c,#0a1929);border:1px solid var(--border);border-radius:20px;padding:26px 22px;max-width:380px;width:100%;text-align:center;transform:scale(0.9);transition:transform .3s cubic-bezier(0.34,1.56,0.64,1)}
+.modal-overlay.show .modal-card{transform:scale(1)}
+.modal-icon{width:70px;height:70px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.modal-icon.danger{background:rgba(231,76,60,0.15)}
+.modal-icon.danger svg{width:36px;height:36px;stroke:var(--danger);fill:none;stroke-width:2}
+.modal-icon.gold{background:var(--gold-soft)}
+.modal-icon.gold svg{width:36px;height:36px;stroke:var(--gold);fill:none;stroke-width:2}
+.modal-title{font-size:17px;font-weight:800;color:var(--text);margin-bottom:8px}
+.modal-text{font-size:13px;color:var(--text-dim);line-height:1.7;margin-bottom:20px}
+.modal-actions{display:flex;gap:10px}
+.modal-btn{flex:1;height:48px;border-radius:12px;font-size:13.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.modal-btn.cancel{background:var(--card);border:1.5px solid var(--border);color:var(--text)}
+.modal-btn.confirm{background:var(--danger);color:#fff}
+.modal-btn.close{background:var(--gold);color:var(--navy)}
+.modal-btn:active{transform:scale(0.97)}
+
+/* ===== Payment Modal ===== */
+.payment-modal .modal-card{padding:0;overflow:hidden;max-width:420px}
+.payment-header{
+  padding:20px;
+  background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.03));
+  border-bottom:1px solid var(--border);
+  text-align:center;
+  position:relative;
+}
+.payment-header-icon{
+  width:70px;height:70px;margin:0 auto 12px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#f4d03f,#d4af37);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 25px rgba(212,175,55,0.4);
+  animation:pulse-ico 2s ease-in-out infinite;
+}
+@keyframes pulse-ico{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.payment-header-icon svg{width:36px;height:36px;stroke:var(--navy);fill:none;stroke-width:2}
+.payment-title{font-size:19px;font-weight:900;color:var(--gold);margin-bottom:6px}
+.payment-sub{font-size:12.5px;color:var(--text-dim);line-height:1.6}
+.payment-body{padding:20px}
+.payment-amount{
+  text-align:center;
+  padding:16px;
+  background:rgba(10,25,41,0.5);
+  border:1px solid var(--border);
+  border-radius:12px;
+  margin-bottom:20px;
+}
+.payment-amount-label{font-size:11px;color:var(--text-dim);margin-bottom:6px}
+.payment-amount-value{font-size:24px;font-weight:900;color:var(--gold)}
+.payment-amount-value span{font-size:13px;color:var(--text-dim);font-weight:600}
+
+.payment-methods{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.pay-method{
+  display:flex;align-items:center;gap:12px;
+  padding:14px;background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  opacity:0.55;cursor:not-allowed;position:relative;
+}
+.pay-method-logo{
+  width:42px;height:42px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:#fff;font-weight:900;font-size:14px;
+}
+.pay-method-logo.trust{background:linear-gradient(135deg,#3375BB,#0500FF)}
+.pay-method-logo.azipay{background:linear-gradient(135deg,#00B8A9,#00A896)}
+.pay-method-logo.hesab{background:linear-gradient(135deg,#FF6B35,#F7931E)}
+.pay-method-logo.bank{background:linear-gradient(135deg,#6A11CB,#2575FC)}
+.pay-method-logo.mpesa{background:linear-gradient(135deg,#4CAF50,#2E7D32)}
+.pay-method-logo svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2}
+.pay-method-info{flex:1;min-width:0}
+.pay-method-name{font-size:13px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pay-method-sub{font-size:10.5px;color:var(--text-dim);margin-top:2px}
+.soon-tag{
+  background:rgba(212,175,55,0.2);
+  color:var(--gold);
+  font-size:9px;font-weight:800;
+  padding:2px 6px;border-radius:5px;
+  border:1px solid rgba(212,175,55,0.4);
+}
+.payment-note{
+  text-align:center;
+  padding:12px;
+  background:rgba(212,175,55,0.06);
+  border:1px dashed rgba(212,175,55,0.3);
+  border-radius:10px;
+  font-size:11.5px;
+  color:var(--text-dim);
+  line-height:1.6;
+  margin-bottom:16px;
+}
+.payment-note b{color:var(--gold)}
 </style>
 </head>
 <body>
@@ -237,25 +324,23 @@ html[dir="ltr"] .source-badge{right:8px}
     </button>
   </div>
 
-  <div class="wrap" id="cartContent">
-    <!-- Filled by JS -->
-  </div>
+  <div class="wrap" id="cartContent"></div>
 
 </div>
 
-<!-- Actions Bar (fixed) -->
+<!-- Actions Bar -->
 <div class="actions-bar" id="actionsBar" style="display:none">
   <div class="total-box">
     <div class="total-label">جمع کل</div>
     <div class="total-value" id="totalValue">۰ <span>افغانی</span></div>
   </div>
-  <button class="checkout-btn" onclick="checkout()">
+  <button class="checkout-btn" onclick="showPaymentModal()">
     <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     پرداخت
   </button>
 </div>
 
-<!-- Bottom Nav (for empty state) -->
+<!-- Bottom Nav (only empty) -->
 <nav class="bottom-nav" id="bottomNav">
   <a href="home.html" class="nav-item">
     <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -275,17 +360,95 @@ html[dir="ltr"] .source-badge{right:8px}
   </a>
 </nav>
 
-<!-- Confirm Modal -->
-<div class="confirm-overlay" id="confirmModal">
-  <div class="confirm-card">
-    <div class="confirm-icon">
+<!-- Confirm Clear Modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-card">
+    <div class="modal-icon danger">
       <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
     </div>
-    <div class="confirm-title">پاک کردن سبد خرید</div>
-    <div class="confirm-text">آیا مطمئن هستید که می‌خواهید همه آیتم‌های سبد خرید را پاک کنید؟</div>
-    <div class="confirm-actions">
-      <button class="confirm-btn cancel" onclick="closeConfirm()">انصراف</button>
-      <button class="confirm-btn confirm" onclick="doClear()">پاک کردن</button>
+    <div class="modal-title">پاک کردن سبد خرید</div>
+    <div class="modal-text">آیا مطمئن هستید که می‌خواهید همه آیتم‌های سبد خرید را پاک کنید؟</div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" onclick="closeConfirm()">انصراف</button>
+      <button class="modal-btn confirm" onclick="doClear()">پاک کردن</button>
+    </div>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal-overlay payment-modal" id="paymentModal">
+  <div class="modal-card">
+    <div class="payment-header">
+      <div class="payment-header-icon">
+        <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      </div>
+      <div class="payment-title">پرداخت آنلاین</div>
+      <div class="payment-sub">درگاه پرداخت بانکی و کیف پول<br>به‌زودی فعال می‌شود</div>
+    </div>
+    <div class="payment-body">
+      <div class="payment-amount">
+        <div class="payment-amount-label">مبلغ قابل پرداخت</div>
+        <div class="payment-amount-value" id="paymentAmount">۰ <span>افغانی</span></div>
+      </div>
+
+      <div class="payment-methods">
+        <div class="pay-method">
+          <div class="pay-method-logo trust">
+            <svg viewBox="0 0 24 24"><path d="M12 2 3 7v6c0 5 4 9 9 9s9-4 9-9V7z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <div class="pay-method-info">
+            <div class="pay-method-name">Trust Wallet <span class="soon-tag">به‌زودی</span></div>
+            <div class="pay-method-sub">پرداخت با ارز دیجیتال</div>
+          </div>
+        </div>
+
+        <div class="pay-method">
+          <div class="pay-method-logo azipay">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
+          </div>
+          <div class="pay-method-info">
+            <div class="pay-method-name">Azipay <span class="soon-tag">به‌زودی</span></div>
+            <div class="pay-method-sub">پرداخت الکترونیکی افغانستان</div>
+          </div>
+        </div>
+
+        <div class="pay-method">
+          <div class="pay-method-logo hesab">
+            <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div class="pay-method-info">
+            <div class="pay-method-name">HesabPay <span class="soon-tag">به‌زودی</span></div>
+            <div class="pay-method-sub">کیف پول افغانستان</div>
+          </div>
+        </div>
+
+        <div class="pay-method">
+          <div class="pay-method-logo mpesa">
+            <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+          </div>
+          <div class="pay-method-info">
+            <div class="pay-method-name">M-Paisa <span class="soon-tag">به‌زودی</span></div>
+            <div class="pay-method-sub">پرداخت با موبایل</div>
+          </div>
+        </div>
+
+        <div class="pay-method">
+          <div class="pay-method-logo bank">
+            <svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
+          </div>
+          <div class="pay-method-info">
+            <div class="pay-method-name">کارت بانکی افغانی <span class="soon-tag">به‌زودی</span></div>
+            <div class="pay-method-sub">ویزا، مسترکارت، افغانی</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-note">
+        🔒 <b>پرداخت آنلاین به‌زودی فعال می‌شود.</b><br>
+        در حال حاضر می‌توانید برای سفارش‌های رستورانت از طریق واتساپ اقدام کنید.
+      </div>
+
+      <button class="modal-btn close" onclick="closePaymentModal()" style="width:100%">متوجه شدم</button>
     </div>
   </div>
 </div>
@@ -323,7 +486,7 @@ function goBack(){
 }
 
 /* ==========================================
-   Load Cart from localStorage
+   Load Cart
    ========================================== */
 function loadCart(){
   try {
@@ -331,7 +494,6 @@ function loadCart(){
     if(!Array.isArray(cart)) cart = [];
   } catch(e){ cart = []; }
 }
-
 function saveCart(){
   try {
     localStorage.setItem('bazaarcheh_cart', JSON.stringify(cart));
@@ -339,7 +501,46 @@ function saveCart(){
 }
 
 /* ==========================================
-   Detect item type
+   Unique Key for merging duplicates
+   ========================================== */
+function getKey(item){
+  if(item.key) return item.key;
+  if(item.restId){
+    return 'rest_' + item.restId + '_' + item.id;
+  }
+  if(item.size || item.color){
+    return 'cloth_' + item.id + '_' + (item.size || '') + '_' + (item.color || '');
+  }
+  return 'prod_' + item.id;
+}
+
+/* ==========================================
+   Deduplicate cart on load
+   ========================================== */
+function deduplicateCart(){
+  var merged = [];
+  var map = {};
+
+  for(var i = 0; i < cart.length; i++){
+    var item = cart[i];
+    var key = getKey(item);
+
+    if(map[key]){
+      map[key].qty = (map[key].qty || 1) + (item.qty || 1);
+    } else {
+      item.key = key;
+      item.qty = item.qty || 1;
+      map[key] = item;
+      merged.push(item);
+    }
+  }
+
+  cart = merged;
+  saveCart();
+}
+
+/* ==========================================
+   Detect type
    ========================================== */
 function getItemType(item){
   if(item.restId || item.restName) return 'restaurant';
@@ -352,6 +553,8 @@ function getItemType(item){
    ========================================== */
 function render(){
   loadCart();
+  deduplicateCart();
+
   var content = document.getElementById('cartContent');
   var actionsBar = document.getElementById('actionsBar');
   var bottomNav = document.getElementById('bottomNav');
@@ -374,10 +577,7 @@ function render(){
   actionsBar.style.display = 'flex';
   bottomNav.classList.remove('show');
 
-  // گروه‌بندی: لباس + رستورانت
-  var clothesItems = [];
-  var restaurantItems = [];
-  var otherItems = [];
+  var clothesItems = [], restaurantItems = [], otherItems = [];
 
   for(var j = 0; j < cart.length; j++){
     var type = getItemType(cart[j]);
@@ -436,7 +636,6 @@ function render(){
     html += '</div>';
   }
 
-  // Summary
   var subtotal = 0;
   for(var s = 0; s < cart.length; s++){
     subtotal += (cart[s].price || 0) * (cart[s].qty || 1);
@@ -461,7 +660,6 @@ function render(){
     + '</div>'
     + '</div>';
 
-  // Clear button
   html += '<button class="clear-btn" onclick="confirmClear()">'
     + '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>'
     + 'پاک کردن کل سبد خرید'
@@ -469,7 +667,6 @@ function render(){
 
   content.innerHTML = html;
 
-  // Update actions bar total
   document.getElementById('totalValue').innerHTML =
     formatPrice(total) + ' <span>افغانی</span>';
 }
@@ -496,42 +693,39 @@ function renderEmpty(){
 
 function renderItem(item, type){
   var qty = item.qty || 1;
-  var itemKey = item.key || (item.id + '_' + (item.size || '') + '_' + (item.color || ''));
+  var itemKey = getKey(item);
+  var keyEscaped = itemKey.replace(/'/g, "\\'");
 
   var metaHtml = '';
   if(type === 'clothes'){
-    if(item.size){
-      metaHtml += '<span class="meta-tag">سایز: ' + item.size + '</span>';
-    }
-    if(item.color){
-      metaHtml += '<span class="meta-tag">'
-        + '<span class="color-dot" style="background:' + item.color + '"></span>'
-        + '</span>';
-    }
-  } else if(type === 'restaurant'){
-    if(item.restName){
-      metaHtml += '<span class="meta-tag">'
-        + '<svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:var(--gold);fill:none;stroke-width:2"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/></svg>'
-        + item.restName
-        + '</span>';
-    }
+    if(item.size) metaHtml += '<span class="meta-tag">سایز: ' + item.size + '</span>';
+    if(item.color) metaHtml += '<span class="meta-tag"><span class="color-dot" style="background:' + item.color + '"></span></span>';
   }
 
   var sourceBadge = '';
-  if(type === 'clothes' && item.shopName){
-    sourceBadge = '<div class="source-badge">'
-      + '<svg viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>'
-      + item.shopName
-      + '</div>';
-  } else if(type === 'restaurant' && item.restName){
+  if(type === 'restaurant' && item.restName){
     sourceBadge = '<div class="source-badge">'
       + '<svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/></svg>'
       + item.restName
       + '</div>';
+  } else if(type === 'clothes' && item.shopName){
+    sourceBadge = '<div class="source-badge">'
+      + '<svg viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>'
+      + item.shopName
+      + '</div>';
+  }
+
+  // WhatsApp button for restaurants
+  var waButton = '';
+  if(type === 'restaurant' && (item.restWhatsapp || item.restPhone)){
+    waButton = '<button class="wa-btn" onclick="orderItemWhatsApp(\'' + keyEscaped + '\')">'
+      + '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>'
+      + 'واتساپ'
+      + '</button>';
   }
 
   return '<div class="cart-item">'
-    + '<button class="delete-btn" onclick="removeItem(\'' + itemKey + '\')">'
+    + '<button class="delete-btn" onclick="removeItem(\'' + keyEscaped + '\')">'
     + '<svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>'
     + '</button>'
     + '<div class="cart-item-img">'
@@ -544,32 +738,29 @@ function renderItem(item, type){
     + '<div class="cart-item-info">'
     + '<div>'
     + '<div class="cart-item-name">' + item.name + '</div>'
-    + (metaHtml ? '<div class="cart-item-meta">' + metaHtml + '</div>' : '<div style="height:8px"></div>')
+    + (metaHtml ? '<div class="cart-item-meta">' + metaHtml + '</div>' : '')
+    + sourceBadge
     + '</div>'
     + '<div class="cart-item-bottom">'
     + '<div class="cart-item-price">' + formatPrice(item.price * qty) + ' <span>افغانی</span></div>'
     + '<div class="qty-ctrl">'
-    + '<button class="qty-btn" onclick="changeQty(\'' + itemKey + '\', -1)">'
+    + '<button class="qty-btn" onclick="changeQty(\'' + keyEscaped + '\', -1)">'
     + '<svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>'
     + '</button>'
     + '<div class="qty-value">' + toPersianDigits(qty) + '</div>'
-    + '<button class="qty-btn" onclick="changeQty(\'' + itemKey + '\', 1)">'
+    + '<button class="qty-btn" onclick="changeQty(\'' + keyEscaped + '\', 1)">'
     + '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'
     + '</button>'
     + '</div>'
     + '</div>'
     + '</div>'
-    + sourceBadge
+    + waButton
     + '</div>';
 }
 
 /* ==========================================
    Actions
    ========================================== */
-function getKey(item){
-  return item.key || (item.id + '_' + (item.size || '') + '_' + (item.color || ''));
-}
-
 function changeQty(key, delta){
   for(var i = 0; i < cart.length; i++){
     if(getKey(cart[i]) === key){
@@ -598,7 +789,43 @@ function removeItem(key){
 }
 
 /* ==========================================
-   Clear cart
+   WhatsApp per item
+   ========================================== */
+function orderItemWhatsApp(key){
+  var item = null;
+  for(var i = 0; i < cart.length; i++){
+    if(getKey(cart[i]) === key){ item = cart[i]; break; }
+  }
+  if(!item) return;
+
+  var userName = 'کاربر بازارچه';
+  var userPhone = '';
+  try {
+    var session = JSON.parse(localStorage.getItem('bazaarcheh_session') || '{}');
+    if(session.name) userName = session.name;
+    if(session.phone) userPhone = session.phone;
+  } catch(e){}
+
+  var subtotal = (item.price || 0) * (item.qty || 1);
+
+  var message =
+    'سلام 🌹\n' +
+    'از اپلیکیشن *بازارچه*\n\n' +
+    '👤 نام: ' + userName + '\n' +
+    (userPhone ? '📱 شماره: ' + userPhone + '\n' : '') +
+    '🏪 رستورانت: ' + (item.restName || '') + '\n\n' +
+    '🛒 *سفارش:*\n' +
+    '• ' + item.name + ' × ' + item.qty + ' = ' + subtotal.toLocaleString('en-US') + ' افغانی\n\n' +
+    '💰 *جمع: ' + subtotal.toLocaleString('en-US') + ' افغانی*\n\n' +
+    'لطفاً سفارش من را تایید کنید.';
+
+  var waNumber = item.restWhatsapp || ('93' + (item.restPhone || '').replace(/^0/,''));
+  var url = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(message);
+  window.open(url, '_blank');
+}
+
+/* ==========================================
+   Clear
    ========================================== */
 function confirmClear(){
   document.getElementById('confirmModal').classList.add('show');
@@ -615,16 +842,15 @@ function doClear(){
 }
 
 /* ==========================================
-   Checkout
+   Payment Modal
    ========================================== */
-function checkout(){
+function showPaymentModal(){
   loadCart();
   if(cart.length === 0){
     showToast('سبد خرید خالی است', 'error');
     return;
   }
 
-  // محاسبه جمع کل
   var subtotal = 0;
   for(var i = 0; i < cart.length; i++){
     subtotal += (cart[i].price || 0) * (cart[i].qty || 1);
@@ -632,21 +858,13 @@ function checkout(){
   var shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FEE;
   var total = subtotal + shipping;
 
-  // ذخیره‌ی اطلاعات پرداخت
-  var order = {
-    items: cart.slice(),
-    subtotal: subtotal,
-    shipping: shipping,
-    total: total,
-    date: new Date().toISOString(),
-    status: 'pending'
-  };
-  try {
-    localStorage.setItem('bazaarcheh_pending_order', JSON.stringify(order));
-  } catch(e){}
+  document.getElementById('paymentAmount').innerHTML =
+    formatPrice(total) + ' <span>افغانی</span>';
 
-  // رفتن به صفحه پرداخت
-  location.href = 'checkout.html';
+  document.getElementById('paymentModal').classList.add('show');
+}
+function closePaymentModal(){
+  document.getElementById('paymentModal').classList.remove('show');
 }
 
 /* ==========================================
@@ -654,17 +872,10 @@ function checkout(){
    ========================================== */
 render();
 
-/* چک تغییرات localStorage از تب‌های دیگه */
 window.addEventListener('storage', function(e){
-  if(e.key === 'bazaarcheh_cart'){
-    render();
-  }
+  if(e.key === 'bazaarcheh_cart') render();
 });
-
-/* وقتی برمی‌گردیم به این صفحه */
-window.addEventListener('pageshow', function(){
-  render();
-});
+window.addEventListener('pageshow', function(){ render(); });
 </script>
 </body>
 </html>
