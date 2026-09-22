@@ -13,6 +13,7 @@
   --text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;
   --border:rgba(212,175,55,0.22);
   --danger:#e74c3c;--success:#2ecc71;--live:#ff2d55;
+  --whatsapp:#25D366;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;padding-bottom:100px;-webkit-font-smoothing:antialiased}
@@ -31,9 +32,19 @@ input{font-family:inherit}
 
 .top-bar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(10,25,41,0.98),rgba(10,25,41,0.92));backdrop-filter:blur(16px);border-bottom:1px solid rgba(212,175,55,0.15);padding:12px 16px}
 .top-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.icon-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);transition:all .2s;flex-shrink:0}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);transition:all .2s;flex-shrink:0;position:relative}
 .icon-btn:active{transform:scale(0.92);background:var(--gold-soft)}
 .icon-btn svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cart-badge{
+  position:absolute;top:-4px;right:-4px;
+  min-width:18px;height:18px;padding:0 5px;
+  background:var(--danger);color:#fff;
+  font-size:10px;font-weight:800;border-radius:9px;
+  display:none;align-items:center;justify-content:center;
+  border:2px solid var(--navy);
+}
+.cart-badge.show{display:flex;animation:pop 0.3s}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
 .page-title{flex:1;font-size:16px;font-weight:800;text-align:center;color:var(--gold)}
 
 .search-wrap{position:relative}
@@ -43,33 +54,19 @@ input{font-family:inherit}
 .search-wrap .si{position:absolute;top:50%;right:14px;transform:translateY(-50%);width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2;pointer-events:none}
 .search-wrap .mic{position:absolute;top:50%;left:14px;transform:translateY(-50%);width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2}
 
-/* Section Head */
 .section-head{display:flex;align-items:center;justify-content:space-between;padding:18px 16px 10px;max-width:520px;margin:0 auto}
 .section-title{font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
 .section-title .accent{display:inline-block;width:4px;height:14px;border-radius:2px;background:linear-gradient(180deg,var(--gold-2),var(--gold))}
 .section-count{font-size:11.5px;color:var(--text-dim)}
 
-/* Wrap */
 .wrap{padding:0 16px 30px;max-width:520px;margin:0 auto}
 .restaurants{display:flex;flex-direction:column;gap:14px;padding:0 0 8px}
 
-/* Restaurant Card */
-.rest-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:16px;overflow:hidden;
-  position:relative;
-  transition:transform .2s;
-  animation:fadeUp .4s both;
-}
+.rest-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative;transition:transform .2s;animation:fadeUp .4s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
 .rest-card:active{transform:scale(0.99)}
 
-.rest-cover{
-  position:relative;width:100%;aspect-ratio:16/9;
-  background:linear-gradient(135deg,var(--navy-3),var(--navy-2));
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-}
+.rest-cover{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,var(--navy-3),var(--navy-2));display:flex;align-items:center;justify-content:center;overflow:hidden}
 .rest-cover svg.cover-icon{width:60px;height:60px;stroke:var(--gold);fill:none;stroke-width:1;opacity:0.4}
 .rest-badges{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:6px;z-index:2}
 html[dir="ltr"] .rest-badges{left:auto;right:12px}
@@ -98,43 +95,19 @@ html[dir="ltr"] .fav-rest{right:auto;left:12px}
 .rest-location{font-size:11px;color:var(--text-dim);display:flex;align-items:center;gap:5px;margin-bottom:10px}
 .rest-location svg{width:12px;height:12px;stroke:var(--gold);fill:none;stroke-width:2}
 
-.rest-actions-row{
-  display:flex;gap:8px;align-items:stretch;
-  padding-top:12px;border-top:1px solid rgba(212,175,55,0.1);
-}
+.rest-actions-row{display:flex;gap:8px;align-items:stretch;padding-top:12px;border-top:1px solid rgba(212,175,55,0.1)}
 
-.info-btn{
-  width:46px;height:46px;border-radius:12px;flex-shrink:0;
-  background:var(--gold-soft);border:1.5px solid var(--gold);
-  display:flex;align-items:center;justify-content:center;
-  transition:all .2s;cursor:pointer;
-}
+.info-btn{width:46px;height:46px;border-radius:12px;flex-shrink:0;background:var(--gold-soft);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;transition:all .2s;cursor:pointer}
 .info-btn:active{transform:scale(0.94);background:var(--gold)}
 .info-btn svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:2}
 .info-btn:active svg{stroke:var(--navy)}
 
-.rest-meta-quick{
-  flex:1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-  font-size:11.5px;color:var(--text-dim);padding-inline-start:6px;
-}
+.rest-meta-quick{flex:1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11.5px;color:var(--text-dim);padding-inline-start:6px}
 .rest-meta-quick span{display:flex;align-items:center;gap:5px}
 .rest-meta-quick svg{width:13px;height:13px;stroke:var(--gold);fill:none;stroke-width:2}
-.plus-code{
-  font-size:10px;font-family:monospace;direction:ltr;
-  padding:2px 7px;background:rgba(212,175,55,0.1);
-  border:1px solid rgba(212,175,55,0.25);
-  border-radius:5px;color:var(--gold);font-weight:700;
-}
+.plus-code{font-size:10px;font-family:monospace;direction:ltr;padding:2px 7px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.25);border-radius:5px;color:var(--gold);font-weight:700}
 
-.view-menu-btn{
-  flex:1;height:46px;border-radius:12px;
-  background:linear-gradient(135deg,#f4d03f,#d4af37);
-  color:var(--navy);
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  font-size:13px;font-weight:800;
-  box-shadow:0 6px 20px rgba(212,175,55,0.3);
-  transition:all .2s;
-}
+.view-menu-btn{flex:1;height:46px;border-radius:12px;background:linear-gradient(135deg,#f4d03f,#d4af37);color:var(--navy);display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;box-shadow:0 6px 20px rgba(212,175,55,0.3);transition:all .2s}
 .view-menu-btn:active{transform:scale(0.97)}
 .view-menu-btn svg{width:16px;height:16px;stroke:var(--navy);fill:none;stroke-width:2.5}
 
@@ -145,97 +118,33 @@ html[dir="ltr"] .fav-rest{right:auto;left:12px}
 /* ==========================================
    Modal Base
    ========================================== */
-.modal-overlay{
-  position:fixed;inset:0;z-index:200;
-  background:rgba(10,25,41,0.85);
-  backdrop-filter:blur(8px);
-  display:flex;align-items:flex-end;justify-content:center;
-  opacity:0;pointer-events:none;
-  transition:opacity .3s;
-}
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(10,25,41,0.85);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
 .modal-overlay.show{opacity:1;pointer-events:auto}
-
-.modal-sheet{
-  width:100%;max-width:560px;
-  max-height:90vh;
-  background:linear-gradient(180deg,#132f4c 0%,#0a1929 100%);
-  border-radius:24px 24px 0 0;
-  border-top:1px solid var(--border);
-  overflow-y:auto;
-  transform:translateY(100%);
-  transition:transform .35s cubic-bezier(0.34,1.56,0.64,1);
-  box-shadow:0 -20px 60px rgba(0,0,0,0.6);
-  scrollbar-width:none;
-}
+.modal-sheet{width:100%;max-width:560px;max-height:90vh;background:linear-gradient(180deg,#132f4c 0%,#0a1929 100%);border-radius:24px 24px 0 0;border-top:1px solid var(--border);overflow-y:auto;transform:translateY(100%);transition:transform .35s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 -20px 60px rgba(0,0,0,0.6);scrollbar-width:none}
 .modal-sheet::-webkit-scrollbar{display:none}
 .modal-overlay.show .modal-sheet{transform:translateY(0)}
-
 .modal-handle{width:44px;height:4px;border-radius:2px;background:rgba(212,175,55,0.4);margin:10px auto 0}
 
-/* ==========================================
-   Info Modal (ℹ)
-   ========================================== */
-.info-modal-head{
-  padding:16px 20px 8px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.info-modal-title{
-  display:flex;align-items:center;gap:10px;
-  font-size:16px;font-weight:800;color:var(--gold);
-}
-.info-modal-title .icon-circle{
-  width:36px;height:36px;border-radius:50%;
-  background:var(--gold-soft);
-  display:flex;align-items:center;justify-content:center;
-}
+/* Info Modal */
+.info-modal-head{padding:16px 20px 8px;display:flex;align-items:center;justify-content:space-between}
+.info-modal-title{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800;color:var(--gold)}
+.info-modal-title .icon-circle{width:36px;height:36px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center}
 .info-modal-title .icon-circle svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2}
-
-.close-x{
-  width:36px;height:36px;border-radius:50%;
-  background:var(--card);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all .2s;flex-shrink:0;
-}
+.close-x{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0}
 .close-x:active{transform:scale(0.9)}
 .close-x svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2.5}
-
 .info-modal-body{padding:8px 20px 20px}
-
-.rest-name-big{
-  font-size:20px;font-weight:900;
-  color:var(--text);margin-bottom:4px;
-}
-.rest-en-big{
-  font-size:11.5px;color:var(--text-dim);
-  direction:ltr;text-align:start;margin-bottom:10px;
-  font-family:monospace;
-}
-.rest-cuisine-big{
-  font-size:13px;color:var(--gold);font-weight:700;margin-bottom:16px;
-}
-
-.rating-row{
-  display:flex;align-items:center;gap:14px;
-  padding:12px 14px;background:rgba(212,175,55,0.06);
-  border:1px solid rgba(212,175,55,0.2);
-  border-radius:12px;margin-bottom:16px;
-}
+.rest-name-big{font-size:20px;font-weight:900;color:var(--text);margin-bottom:4px}
+.rest-en-big{font-size:11.5px;color:var(--text-dim);direction:ltr;text-align:start;margin-bottom:10px;font-family:monospace}
+.rest-cuisine-big{font-size:13px;color:var(--gold);font-weight:700;margin-bottom:16px}
+.rating-row{display:flex;align-items:center;gap:14px;padding:12px 14px;background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.2);border-radius:12px;margin-bottom:16px}
 .rating-row .r-item{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--text-dim)}
 .rating-row .r-item svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:2}
 .rating-row .r-item.highlight svg{fill:var(--gold);stroke:none}
 .rating-row .r-item .val{color:var(--gold);font-weight:800}
-
-.info-grid{
-  display:flex;flex-direction:column;gap:12px;
-  margin-bottom:18px;
-}
+.info-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
 .info-row{display:flex;gap:12px;align-items:flex-start;padding:12px;background:rgba(10,25,41,0.4);border:1px solid var(--border);border-radius:12px}
-.info-icon{
-  width:40px;height:40px;border-radius:11px;
-  background:var(--gold-soft);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
+.info-icon{width:40px;height:40px;border-radius:11px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .info-icon svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2}
 .info-content{flex:1;min-width:0}
 .info-label{font-size:10.5px;color:var(--text-dim);font-weight:700;margin-bottom:4px;letter-spacing:0.3px}
@@ -243,139 +152,148 @@ html[dir="ltr"] .fav-rest{right:auto;left:12px}
 .info-value.phone{direction:ltr;text-align:start;font-family:monospace;color:var(--gold);font-size:14px;font-weight:800}
 .info-value.plus-code-value{font-family:monospace;direction:ltr;color:var(--gold);font-weight:800;font-size:14px}
 .info-value.hours{color:var(--success);font-weight:700}
-
-.desc-box{
-  background:rgba(212,175,55,0.06);
-  border:1px solid rgba(212,175,55,0.15);
-  border-radius:12px;
-  padding:14px;
-  margin-bottom:16px;
-}
-.desc-box-title{
-  font-size:12px;font-weight:800;color:var(--gold);
-  margin-bottom:8px;display:flex;align-items:center;gap:6px;
-}
+.desc-box{background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.15);border-radius:12px;padding:14px;margin-bottom:16px}
+.desc-box-title{font-size:12px;font-weight:800;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .desc-box-title svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:2}
-.desc-box-text{
-  font-size:12.5px;color:var(--text-dim);line-height:1.8;
-}
+.desc-box-text{font-size:12.5px;color:var(--text-dim);line-height:1.8}
+.info-modal-actions{display:flex;gap:10px;padding:8px 20px calc(20px + env(safe-area-inset-bottom));position:sticky;bottom:0;background:linear-gradient(180deg,transparent,rgba(10,25,41,0.95) 30%)}
 
-.info-modal-actions{
-  display:flex;gap:10px;
-  padding:8px 20px calc(20px + env(safe-area-inset-bottom));
-  position:sticky;bottom:0;
-  background:linear-gradient(180deg,transparent,rgba(10,25,41,0.95) 30%);
-}
-
-.modal-action-btn{
-  flex:1;height:50px;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  font-size:13px;font-weight:800;transition:all .2s;
-}
+.modal-action-btn{flex:1;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;transition:all .2s}
 .modal-action-btn:active{transform:scale(0.97)}
 .modal-action-btn svg{width:18px;height:18px;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.modal-action-btn.call{
-  background:linear-gradient(135deg,#2ecc71,#27ae60);
-  color:#fff;box-shadow:0 6px 20px rgba(46,204,113,0.3);
-}
+.modal-action-btn.call{background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;box-shadow:0 6px 20px rgba(46,204,113,0.3)}
 .modal-action-btn.call svg{stroke:#fff}
-.modal-action-btn.share{
-  background:var(--card);border:1.5px solid var(--border);color:var(--gold);
-}
+.modal-action-btn.share{background:var(--card);border:1.5px solid var(--border);color:var(--gold)}
 .modal-action-btn.share svg{stroke:var(--gold)}
+.modal-action-btn.wa{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;box-shadow:0 6px 20px rgba(37,211,102,0.35)}
+.modal-action-btn.wa svg{stroke:#fff}
 
-/* ==========================================
-   Menu Modal (🍽)
-   ========================================== */
-.menu-modal-head{
-  padding:16px 20px 8px;
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid rgba(212,175,55,0.1);
-}
-.menu-modal-title{
-  display:flex;align-items:center;gap:10px;
-  font-size:16px;font-weight:800;color:var(--gold);
-}
-.menu-modal-title .icon-circle{
-  width:36px;height:36px;border-radius:50%;
-  background:var(--gold-soft);
-  display:flex;align-items:center;justify-content:center;
-}
+/* Menu Modal */
+.menu-modal-head{padding:16px 20px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(212,175,55,0.1)}
+.menu-modal-title{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800;color:var(--gold)}
+.menu-modal-title .icon-circle{width:36px;height:36px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center}
 .menu-modal-title .icon-circle svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2}
-
 .menu-modal-body{padding:16px 20px 20px}
-
-.menu-rest-name{
-  font-size:15px;font-weight:800;color:var(--text);
-  margin-bottom:4px;
-}
-.menu-rest-sub{
-  font-size:11.5px;color:var(--text-dim);
-  margin-bottom:14px;
-}
+.menu-rest-name{font-size:15px;font-weight:800;color:var(--text);margin-bottom:4px}
+.menu-rest-sub{font-size:11.5px;color:var(--text-dim);margin-bottom:14px}
 
 .menu-tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px;scrollbar-width:none}
 .menu-tabs::-webkit-scrollbar{display:none}
-.menu-tab{
-  flex-shrink:0;padding:8px 14px;border-radius:18px;
-  background:var(--card);border:1.5px solid var(--border);
-  font-size:12px;font-weight:700;color:var(--text-dim);
-  transition:all .2s;
-}
+.menu-tab{flex-shrink:0;padding:8px 14px;border-radius:18px;background:var(--card);border:1.5px solid var(--border);font-size:12px;font-weight:700;color:var(--text-dim);transition:all .2s}
 .menu-tab:active{transform:scale(0.95)}
 .menu-tab.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
 
 .menu-list{display:flex;flex-direction:column;gap:10px;padding-bottom:20px}
-.menu-item{
-  display:flex;gap:12px;
-  padding:12px;background:var(--card);
-  border:1px solid var(--border);border-radius:12px;
-  animation:fadeUp .3s both;
-}
-.menu-item-img{
-  width:80px;height:80px;border-radius:12px;
-  background:linear-gradient(135deg,#1a3a5c,#0d2137);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;overflow:hidden;
-}
+.menu-item{display:flex;gap:12px;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;animation:fadeUp .3s both}
+.menu-item-img{width:80px;height:80px;border-radius:12px;background:linear-gradient(135deg,#1a3a5c,#0d2137);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
 .menu-item-img svg{width:36px;height:36px;stroke:var(--gold);fill:none;stroke-width:1.5;opacity:0.5}
 .menu-item-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;padding:2px 0}
 .menu-item-name{font-size:14px;font-weight:800;margin-bottom:4px;line-height:1.3}
+.menu-item-desc{font-size:11px;color:var(--text-dim);line-height:1.4;margin-bottom:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.menu-item-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .menu-item-price{font-size:15px;font-weight:900;color:var(--gold)}
 .menu-item-price span{font-size:10px;color:var(--text-dim);font-weight:600}
+.add-item-btn{
+  padding:8px 12px;border-radius:9px;
+  background:var(--gold-soft);border:1.5px solid var(--gold);
+  color:var(--gold);font-size:11.5px;font-weight:800;
+  display:flex;align-items:center;gap:5px;
+  transition:all .2s;flex-shrink:0;
+}
+.add-item-btn:active{background:var(--gold);color:var(--navy)}
+.add-item-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+/* Menu cart footer */
+.menu-cart-footer{
+  position:sticky;bottom:0;
+  padding:12px 20px calc(16px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,transparent,rgba(10,25,41,0.95) 20%);
+  border-top:1px solid rgba(212,175,55,0.15);
+  margin-top:8px;
+}
+.cart-summary{
+  display:flex;align-items:center;gap:12px;
+  background:linear-gradient(135deg,#f4d03f,#d4af37);
+  border-radius:14px;padding:12px 16px;
+  box-shadow:0 10px 30px rgba(212,175,55,0.35);
+}
+.cart-summary-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:rgba(10,25,41,0.15);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;position:relative;
+}
+.cart-summary-icon svg{width:22px;height:22px;stroke:var(--navy);fill:none;stroke-width:2.5}
+.cart-summary-count{
+  position:absolute;top:-4px;right:-4px;
+  min-width:20px;height:20px;padding:0 5px;
+  background:var(--danger);color:#fff;
+  font-size:10px;font-weight:800;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--gold);
+}
+.cart-summary-info{flex:1;min-width:0}
+.cart-summary-label{font-size:10.5px;color:rgba(10,25,41,0.75);font-weight:700;margin-bottom:2px}
+.cart-summary-total{font-size:16px;font-weight:900;color:var(--navy)}
+.cart-summary-btn{
+  padding:10px 14px;border-radius:10px;
+  background:var(--navy);color:var(--gold);
+  font-size:12px;font-weight:800;
+  display:flex;align-items:center;gap:6px;
+  flex-shrink:0;
+}
+.cart-summary-btn:active{transform:scale(0.95)}
+.cart-summary-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
 
 /* Coming Soon */
-.coming-soon-box{
-  text-align:center;
-  padding:40px 20px 30px;
-}
-.coming-icon{
-  width:100px;height:100px;margin:0 auto 20px;
-  border-radius:50%;
-  background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.03));
-  border:2px dashed rgba(212,175,55,0.4);
-  display:flex;align-items:center;justify-content:center;
-  animation:pulse-glow 2.5s ease-in-out infinite;
-}
-@keyframes pulse-glow{
-  0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0.3);transform:scale(1)}
-  50%{box-shadow:0 0 0 18px rgba(212,175,55,0);transform:scale(1.03)}
-}
+.coming-soon-box{text-align:center;padding:40px 20px 30px}
+.coming-icon{width:100px;height:100px;margin:0 auto 20px;border-radius:50%;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.03));border:2px dashed rgba(212,175,55,0.4);display:flex;align-items:center;justify-content:center;animation:pulse-glow 2.5s ease-in-out infinite}
+@keyframes pulse-glow{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0.3);transform:scale(1)}50%{box-shadow:0 0 0 18px rgba(212,175,55,0);transform:scale(1.03)}}
 .coming-icon svg{width:48px;height:48px;stroke:var(--gold);fill:none;stroke-width:1.5}
-.coming-title{
-  font-size:20px;font-weight:900;color:var(--gold);margin-bottom:10px;
+.coming-title{font-size:20px;font-weight:900;color:var(--gold);margin-bottom:10px}
+.coming-text{font-size:13px;color:var(--text-dim);line-height:1.8;max-width:320px;margin:0 auto 20px}
+.coming-badge{display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(212,175,55,0.15);border:1px solid rgba(212,175,55,0.4);font-size:12px;font-weight:800;color:var(--gold)}
+
+/* ========== Floating Cart Bar ========== */
+.floating-cart{
+  position:fixed;bottom:90px;left:16px;right:16px;z-index:80;
+  background:linear-gradient(135deg,#f4d03f,#d4af37);
+  border-radius:16px;
+  padding:12px 16px;
+  display:none;align-items:center;gap:12px;
+  box-shadow:0 12px 40px rgba(212,175,55,0.5);
+  animation:slideUp .4s cubic-bezier(0.34,1.56,0.64,1);
+  max-width:520px;margin:0 auto;
 }
-.coming-text{
-  font-size:13px;color:var(--text-dim);line-height:1.8;
-  max-width:320px;margin:0 auto 20px;
+.floating-cart.show{display:flex}
+@keyframes slideUp{from{opacity:0;transform:translateY(100px)}to{opacity:1;transform:translateY(0)}}
+.fc-icon{
+  width:42px;height:42px;border-radius:11px;
+  background:rgba(10,25,41,0.15);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;position:relative;
 }
-.coming-badge{
-  display:inline-block;
-  padding:6px 16px;border-radius:20px;
-  background:rgba(212,175,55,0.15);
-  border:1px solid rgba(212,175,55,0.4);
-  font-size:12px;font-weight:800;color:var(--gold);
+.fc-icon svg{width:20px;height:20px;stroke:var(--navy);fill:none;stroke-width:2.5}
+.fc-count{
+  position:absolute;top:-4px;right:-4px;
+  min-width:18px;height:18px;padding:0 5px;
+  background:var(--danger);color:#fff;
+  font-size:10px;font-weight:800;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--gold);
 }
+.fc-info{flex:1;min-width:0}
+.fc-label{font-size:10.5px;color:rgba(10,25,41,0.75);font-weight:700}
+.fc-total{font-size:15px;font-weight:900;color:var(--navy)}
+.fc-btn{
+  padding:10px 14px;border-radius:10px;
+  background:var(--navy);color:var(--gold);
+  font-size:12px;font-weight:800;
+  display:flex;align-items:center;gap:6px;
+  flex-shrink:0;
+}
+.fc-btn:active{transform:scale(0.95)}
+.fc-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
 
 /* Bottom Nav */
 .bottom-nav{position:fixed;bottom:8px;left:12px;right:12px;z-index:60;background:rgba(19,47,76,0.55);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(212,175,55,0.2);box-shadow:0 -8px 32px rgba(0,0,0,0.4);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));border-radius:20px}
@@ -384,9 +302,10 @@ html[dir="ltr"] .fav-rest{right:auto;left:12px}
 .nav-item.active{color:var(--gold)}
 .nav-item.active::after{content:'';position:absolute;bottom:0;width:4px;height:4px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
 
-.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:800;z-index:400;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,0.45);white-space:nowrap;max-width:90%}
+.toast{position:fixed;bottom:170px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:800;z-index:400;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,0.45);white-space:nowrap;max-width:90%}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.success{background:var(--success);color:#fff}
+.toast.error{background:var(--danger);color:#fff}
 </style>
 </head>
 <body>
@@ -401,8 +320,9 @@ html[dir="ltr"] .fav-rest{right:auto;left:12px}
         <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
       </button>
       <div class="page-title">رستورانت‌ها</div>
-      <button class="icon-btn" onclick="location.href='search.html'">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <button class="icon-btn" onclick="location.href='cart.html'">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge" id="topCartBadge">0</span>
       </button>
     </div>
     <div class="search-wrap">
@@ -445,12 +365,28 @@ html[dir="ltr"] .fav-rest{right:auto;left:12px}
 
 </div>
 
-<!-- ============ Info Modal (ℹ) ============ -->
+<!-- Floating Cart Bar -->
+<div class="floating-cart" id="floatingCart" onclick="location.href='cart.html'">
+  <div class="fc-icon">
+    <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    <div class="fc-count" id="fcCount">0</div>
+  </div>
+  <div class="fc-info">
+    <div class="fc-label">مشاهده سبد خرید</div>
+    <div class="fc-total" id="fcTotal">۰ افغانی</div>
+  </div>
+  <div class="fc-btn">
+    <span>مشاهده</span>
+    <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+  </div>
+</div>
+
+<!-- Info Modal -->
 <div class="modal-overlay" id="infoModal" onclick="if(event.target===this)closeInfoModal()">
   <div class="modal-sheet" id="infoContent"></div>
 </div>
 
-<!-- ============ Menu Modal (🍽) ============ -->
+<!-- Menu Modal -->
 <div class="modal-overlay" id="menuModal" onclick="if(event.target===this)closeMenuModal()">
   <div class="modal-sheet" id="menuContent"></div>
 </div>
@@ -462,29 +398,16 @@ html[dir="ltr"] .fav-rest{right:auto;left:12px}
    📊 DATABASE
    ========================================== */
 const RESTAURANTS = [
-  /* ===== ⭐ ویژگی: گل یخ و ضیافت ===== */
   {
-    id: 101,
-    name: 'رستورانت گل یخ',
-    en: 'Gole Yakh Restaurant',
-    featured: true,
-    rank: 1,
-    area: 'برچی، کابل',
-    address: 'برچی، سرک عمومی، مقابل شهرک',
-    plusCode: 'H52C+X5M',
+    id: 101, name: 'رستورانت گل یخ', en: 'Gole Yakh Restaurant',
+    featured: true, rank: 1, area: 'برچی، کابل',
+    address: 'برچی، سرک عمومی، مقابل شهرک', plusCode: 'H52C+X5M',
     cuisine: 'آشپزی افغانی، فست فود، چلو کباب',
-    description: 'یکی از بهترین و مدرن‌ترین رستورانت‌های برچی کابل با فضای دل‌نشین، کیفیت بی‌نظیر غذا و پذیرایی گرم. مخصوص کباب، چلو و فست‌فود با مواد تازه و طعم خانگی.',
+    description: 'یکی از بهترین و مدرن‌ترین رستورانت‌های برچی کابل با فضای دل‌نشین، کیفیت بی‌نظیر غذا و پذیرایی گرم.',
     workingHours: 'هر روز — ۱۰:۰۰ صبح تا ۱۱:۰۰ شب',
-    rating: 4.9,
-    reviews: 512,
-    delivery: 25,
-    distance: 2.0,
-    minOrder: 150,
-    isOpen: true,
-    free: true,
-    live: false,
-    phone: '0780111222',
-    hasMenu: true,
+    rating: 4.9, reviews: 512, delivery: 25, distance: 2.0, minOrder: 150,
+    isOpen: true, free: true, live: false, phone: '0780111222', hasMenu: true,
+    whatsapp: '93780111222',
     menu: [
       {id:10101, cat:'kabab', name:'کباب قوچی گل یخ', desc:'گوشت گوسفندی تازه با ادویه‌های مخصوص', price:800},
       {id:10102, cat:'kabab', name:'چوپان کباب', desc:'کباب چوپانی سنتی با چربی گوسفند', price:700},
@@ -496,27 +419,15 @@ const RESTAURANTS = [
     ]
   },
   {
-    id: 102,
-    name: 'رستورانت ضیافت',
-    en: 'Ziyafat Restaurant',
-    featured: true,
-    rank: 2,
-    area: 'وزیر اکبر خان، کابل',
-    address: 'وزیر اکبر خان، سرک عمومی، نزدیک پارک',
-    plusCode: 'G5MC+9Q5',
+    id: 102, name: 'رستورانت ضیافت', en: 'Ziyafat Restaurant',
+    featured: true, rank: 2, area: 'وزیر اکبر خان، کابل',
+    address: 'وزیر اکبر خان، سرک عمومی، نزدیک پارک', plusCode: 'G5MC+9Q5',
     cuisine: 'آشپزی میکس افغانی و ترکی',
-    description: 'رستورانت ضیافت یکی از محبوب‌ترین رستورانت‌های فامیلی کابل با فضای بزرگ، منوی میکس افغانی-ترکی و کیفیت بالای غذا. مخصوص کباب‌هایش شهرت دارد.',
+    description: 'رستورانت ضیافت یکی از محبوب‌ترین رستورانت‌های فامیلی کابل با فضای بزرگ و منوی میکس افغانی-ترکی.',
     workingHours: 'هر روز — ۱۱:۰۰ صبح تا ۱۲:۰۰ شب',
-    rating: 4.8,
-    reviews: 387,
-    delivery: 30,
-    distance: 3.2,
-    minOrder: 250,
-    isOpen: true,
-    free: true,
-    live: true,
-    phone: '0790222333',
-    hasMenu: true,
+    rating: 4.8, reviews: 387, delivery: 30, distance: 3.2, minOrder: 250,
+    isOpen: true, free: true, live: true, phone: '0790222333', hasMenu: true,
+    whatsapp: '93790222333',
     menu: [
       {id:10201, cat:'kabab', name:'کباب فمیلی ضیافت', desc:'سینی کباب مخصوص برای ۳-۴ نفر', price:2200},
       {id:10202, cat:'kabab', name:'اسکندر کباب', desc:'کباب ترکی با سس مخصوص', price:750},
@@ -525,39 +436,27 @@ const RESTAURANTS = [
       {id:10205, cat:'cafe', name:'چای سبز افغانی', desc:'چای سبز با هل و زعفران', price:60}
     ]
   },
-
-  /* ===== کابل ===== */
-  {id:1, name:'Sufi Mahal', en:'Sufi Mahal Restaurant', area:'کلوله پشته، کابل', address:'کلوله پشته، کابل', plusCode:'G5W8+V42', cuisine:'آشپزی افغانی، کباب، قابلی', description:'رستورانت صوفی محل با منظره زیبا و فضای سنتی افغانی، مخصوص کباب چوپان و قابلی پلو.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.7, reviews:245, delivery:35, distance:4.5, minOrder:300, isOpen:true, free:false, live:false, phone:'0700000001', hasMenu:false},
-  {id:2, name:'The Cafeteria', en:'The Cafeteria Kabul', area:'شهرنو، چهارراهی حاجی یعقوب', address:'شهرنو، چهارراهی حاجی یعقوب', plusCode:'H53F+G52', cuisine:'سالاد، کباب بختیاری، فست فود', description:'کافه تریا با فضای مدرن و منوی بین‌المللی، مخصوص سالاد انار و کباب بختیاری.', workingHours:'هر روز — ۹:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.6, reviews:178, delivery:25, distance:2.8, minOrder:250, isOpen:true, free:false, live:false, phone:'0700000002', hasMenu:false},
-  {id:3, name:'Kabul Serena Restaurant', en:'Serena Hotel Restaurant', area:'مرکز شهر، جاده اصغرخان', address:'مرکز شهر، جاده اصغرخان', plusCode:'G5G7+M54', cuisine:'آسیایی، بین‌المللی، دسر لوکس', description:'رستورانت لوکس هوتل سرینا با بوفه بین‌المللی و دسر‌های اروپایی.', workingHours:'هر روز — ۶:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.9, reviews:320, delivery:45, distance:5.0, minOrder:500, isOpen:true, free:false, live:false, phone:'0700000003', hasMenu:false},
-  {id:4, name:'Shaam Kabul', en:'Shaam Kabul Restaurant', area:'جاده احمد ظاهر', address:'جاده احمد ظاهر', plusCode:'G5J3+XWX', cuisine:'آشپزی سنتی افغانی', description:'گوشت روش سنتی، کوفته و کباب گوسفندی در فضای سنتی.', workingHours:'هر روز — ۱۲:۰۰ ظهر تا ۱۰:۰۰ شب', rating:4.7, reviews:210, delivery:30, distance:3.5, minOrder:250, isOpen:true, free:true, live:false, phone:'0700000004', hasMenu:false},
-  {id:6, name:'Bukhara Restaurant', en:'Bukhara Restaurant', area:'شهرنو، جاده تورابازخان', address:'شهرنو، جاده تورابازخان', plusCode:'H52C+R41', cuisine:'مغز مصالح، کباب تکه، قورمه محلی', description:'رستورانت بخارا با غذاهای اصیل افغانی و مغز مصالح مخصوص.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.6, reviews:156, delivery:30, distance:3.0, minOrder:250, isOpen:true, free:false, live:false, phone:'0700000006', hasMenu:false},
-  {id:7, name:'Turkish Family Restaurant', en:'Turkish Family Restaurant', area:'سرک صلح', address:'سرک صلح', plusCode:'H52F+X42', cuisine:'آشپزی ترکی', description:'اسکندر کباب، بورک ترکی و پیده گوشت در فضای گرم ترکی.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.7, reviews:189, delivery:32, distance:3.8, minOrder:300, isOpen:true, free:false, live:false, phone:'0700000007', hasMenu:false},
-  {id:8, name:'Barg Continental', en:'Barg Continental Restaurant', area:'سرک دهم تایمنی', address:'سرک دهم تایمنی', plusCode:'H563+R32', cuisine:'چیکن تیکا، کباب شینواری', description:'رستورانت برگ با غذاهای قاره‌ای و افغانی، چیکن تیکا مخصوص.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.5, reviews:134, delivery:28, distance:3.0, minOrder:250, isOpen:true, free:true, live:false, phone:'0700000008', hasMenu:false},
-  {id:9, name:'Plan B Cafe & Restaurant', en:'Plan B Cafe & Restaurant', area:'پروژۀ تایمنی', address:'پروژۀ تایمنی', plusCode:'H553+M4X', cuisine:'استیک، برگر، پاستا، قهوه', description:'کافه و رستورانت مدرن با استیک مرغ، برگر مخصوص و قهوه اسپرسو.', workingHours:'هر روز — ۸:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.6, reviews:167, delivery:25, distance:2.5, minOrder:200, isOpen:true, free:false, live:false, phone:'0700000009', hasMenu:false},
-  {id:10, name:'Istanbul Restaurant', en:'Istanbul Restaurant', area:'وزیر اکبر خان', address:'وزیر اکبر خان', plusCode:'G5PC+X81', cuisine:'آشپزی ترکی', description:'کباب دونر، باقلوا ترکی و آبمیوه معجون مخصوص.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.5, reviews:145, delivery:32, distance:3.5, minOrder:250, isOpen:true, free:false, live:false, phone:'0700000010', hasMenu:false},
-  {id:11, name:'BBQ Tonight Kabul', en:'BBQ Tonight', area:'پل سرخ', address:'پل سرخ', plusCode:'G44M+Q8J', cuisine:'چیکن باتر، کباب سیخی، بریانی', description:'مرغ مکهنی، کباب سیخی و بریانی با کیفیت بین‌المللی.', workingHours:'هر روز — ۱۲:۰۰ ظهر تا ۱۲:۰۰ شب', rating:4.7, reviews:267, delivery:35, distance:4.2, minOrder:350, isOpen:true, free:false, live:false, phone:'0700000011', hasMenu:false},
-  {id:12, name:'Chehelseton Palace', en:'Chehelseton Palace Restaurant', area:'باغ چهلستون', address:'باغ چهلستون', plusCode:'F5C3+V36', cuisine:'آشپزی شاهانه سنتی', description:'منوی سنتی شاهانه، قابلی پلو اوزبکی و منتو در فضای باغ چهلستون.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.8, reviews:234, delivery:40, distance:5.5, minOrder:400, isOpen:true, free:false, live:false, phone:'0700000012', hasMenu:false},
-
-  /* ===== مزار شریف ===== */
-  {id:21, name:'Rayhan Restaurant', en:'Rayhan Restaurant', area:'مرکز شهر مزار', address:'مرکز شهر مزار شریف', plusCode:'P447+GG3', cuisine:'کباب، چوپان، اسپاگتی، بریانی', description:'رستورانت ریحان با سینی کباب مخصوص، چوپان کباب و اسپاگتی و بریانی.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.7, reviews:189, delivery:30, distance:3.0, minOrder:200, isOpen:true, free:true, live:false, phone:'0770000011', hasMenu:false},
-  {id:22, name:'Bilal Restaurant', en:'Bilal Restaurant', area:'سرک شادین، مزار', address:'سرک شادین، مزار شریف', plusCode:'P446+CQ5', cuisine:'قابلی پلو، شیش کباب، شینسل', description:'قابلی پلو مزار، شیش کباب و شینسل مرغ در رستورانت بلال.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.6, reviews:145, delivery:28, distance:2.5, minOrder:200, isOpen:true, free:true, live:false, phone:'0770000012', hasMenu:false},
-
-  /* ===== بامیان ===== */
-  {id:31, name:'هوتل بامیان شاهان', en:'Bamyan Shahaan Hotel', area:'بامیان جدید', address:'بامیان جدید، سمت شمال ریاست حج و اوقاف', plusCode:'RR8G+F42', cuisine:'بریانی هندی، چلو کباب', description:'هوتل و رستورانت بامیان شاهان با منظره کوه‌های بامیان و منوی متنوع.', workingHours:'هر روز — ۷:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.5, reviews:98, delivery:35, distance:5.0, minOrder:200, isOpen:true, free:false, live:false, phone:'0790000021', hasMenu:false},
-  {id:32, name:'رستورانت غلغله', en:'Ghalghala Restaurant', area:'سرک عمومی بامیان', address:'داخل افغانتور، نزدیک بت‌های بامیان', plusCode:'RR9G+W5V', cuisine:'شامی کباب، منتو بامیانی', description:'رستورانت غلغله داخل افغانتور بامیان با منوی محلی و سنتی.', workingHours:'هر روز — ۸:۰۰ صبح تا ۹:۰۰ شب', rating:4.4, reviews:67, delivery:40, distance:6.0, minOrder:150, isOpen:true, free:false, live:false, phone:'0790000022', hasMenu:false},
-
-  /* ===== غزنی ===== */
-  {id:41, name:'غزنی رستورانت', en:'Ghazni Restaurant', area:'مرکز شهر غزنی', address:'مرکز شهر غزنی', plusCode:'GCW8+49', cuisine:'پیتزا، کباب چوپان، برگر', description:'رستورانت غزنی با پیتزا چیکن ویژه، کباب چوپان و برگر.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.3, reviews:76, delivery:32, distance:4.0, minOrder:150, isOpen:true, free:true, live:false, phone:'0798000031', hasMenu:false},
-  {id:42, name:'رستورانت ستاره شهر', en:'Setara-e-Shahr Restaurant', area:'سرک عمومی غزنی', address:'سرک عمومی غزنی', plusCode:'GCX9+RCQ', cuisine:'مرغ تندوری، چلو جوجه', description:'مرغ تندوری و چلو جوجه کباب در رستورانت ستاره شهر.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.4, reviews:89, delivery:35, distance:4.5, minOrder:200, isOpen:true, free:false, live:false, phone:'0798000032', hasMenu:false},
-
-  /* ===== جلال‌آباد ===== */
-  {id:51, name:'Zeenat Restaurant', en:'Zeenat Restaurant', area:'چهارراهی تلاشی', address:'چهارراهی تلاشی، جلال‌آباد', plusCode:'CFJ5+VF5', cuisine:'فست فود، پیتزا، کرایی', description:'زینت رستورانت با فست فود بین‌المللی و کرایی شینواری.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.5, reviews:112, delivery:30, distance:3.0, minOrder:180, isOpen:true, free:true, live:false, phone:'0788000041', hasMenu:false},
-  {id:52, name:'Adam Khan Chapli Kabab', en:'Adam Khan Chapli Kabab', area:'سرک جلال‌آباد - کنر', address:'سرک جلال‌آباد - کنر', plusCode:'CFM5+GJW', cuisine:'چپلی کباب ننگرهار', description:'چپلی کباب مخصوص ننگرهار، تند و سنتی همراه با نان گرم خاص.', workingHours:'هر روز — ۷:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.8, reviews:234, delivery:25, distance:2.0, minOrder:100, isOpen:true, free:false, live:true, phone:'0788000042', hasMenu:false},
-
-  /* ===== بدخشان ===== */
-  {id:61, name:'قصر کوکچه', en:'Qasri Kokcha Restaurant', area:'شهر نو فیض‌آباد', address:'شهر نو فیض‌آباد، روبروی دریای کوکچه', plusCode:'4H24+M52', cuisine:'سنتی، بین‌المللی، ماهی تازه', description:'قصر کوکچه با منظره دریای کوکچه، کباب ملوکانه و ماهی تازه.', workingHours:'هر روز — ۹:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.7, reviews:145, delivery:40, distance:5.5, minOrder:250, isOpen:true, free:false, live:false, phone:'0799000051', hasMenu:false},
-  {id:62, name:'رستورانت زیتون بدخشان', en:'Zaytoon Badakhshan', area:'فیض‌آباد', address:'فیض‌آباد، روبروی ریاست معارف', plusCode:'4H24+J3X', cuisine:'فست فود، کباب سیخی، قورمه', description:'رستورانت زیتون با فست فود و کباب سیخی و قورمه پاچه.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.5, reviews:98, delivery:35, distance:4.0, minOrder:180, isOpen:true, free:true, live:false, phone:'0799000052', hasMenu:false}
+  {id:1, name:'Sufi Mahal', en:'Sufi Mahal Restaurant', area:'کلوله پشته، کابل', address:'کلوله پشته، کابل', plusCode:'G5W8+V42', cuisine:'آشپزی افغانی، کباب، قابلی', description:'رستورانت صوفی محل با منظره زیبا و فضای سنتی افغانی.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.7, reviews:245, delivery:35, distance:4.5, minOrder:300, isOpen:true, free:false, live:false, phone:'0700000001', hasMenu:false},
+  {id:2, name:'The Cafeteria', en:'The Cafeteria Kabul', area:'شهرنو، چهارراهی حاجی یعقوب', address:'شهرنو، چهارراهی حاجی یعقوب', plusCode:'H53F+G52', cuisine:'سالاد، کباب بختیاری، فست فود', description:'کافه تریا با فضای مدرن و منوی بین‌المللی.', workingHours:'هر روز — ۹:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.6, reviews:178, delivery:25, distance:2.8, minOrder:250, isOpen:true, free:false, live:false, phone:'0700000002', hasMenu:false},
+  {id:3, name:'Kabul Serena Restaurant', en:'Serena Hotel Restaurant', area:'مرکز شهر، جاده اصغرخان', address:'مرکز شهر، جاده اصغرخان', plusCode:'G5G7+M54', cuisine:'آسیایی، بین‌المللی، دسر لوکس', description:'رستورانت لوکس هوتل سرینا با بوفه بین‌المللی.', workingHours:'هر روز — ۶:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.9, reviews:320, delivery:45, distance:5.0, minOrder:500, isOpen:true, free:false, live:false, phone:'0700000003', hasMenu:false},
+  {id:4, name:'Shaam Kabul', en:'Shaam Kabul Restaurant', area:'جاده احمد ظاهر', address:'جاده احمد ظاهر', plusCode:'G5J3+XWX', cuisine:'آشپزی سنتی افغانی', description:'گوشت روش سنتی، کوفته و کباب گوسفندی.', workingHours:'هر روز — ۱۲:۰۰ ظهر تا ۱۰:۰۰ شب', rating:4.7, reviews:210, delivery:30, distance:3.5, minOrder:250, isOpen:true, free:true, live:false, phone:'0700000004', hasMenu:false},
+  {id:6, name:'Bukhara Restaurant', en:'Bukhara Restaurant', area:'شهرنو، جاده تورابازخان', address:'شهرنو، جاده تورابازخان', plusCode:'H52C+R41', cuisine:'مغز مصالح، کباب تکه، قورمه محلی', description:'رستورانت بخارا با غذاهای اصیل افغانی.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.6, reviews:156, delivery:30, distance:3.0, minOrder:250, isOpen:true, free:false, live:false, phone:'0700000006', hasMenu:false},
+  {id:7, name:'Turkish Family Restaurant', en:'Turkish Family Restaurant', area:'سرک صلح', address:'سرک صلح', plusCode:'H52F+X42', cuisine:'آشپزی ترکی', description:'اسکندر کباب، بورک ترکی و پیده گوشت.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.7, reviews:189, delivery:32, distance:3.8, minOrder:300, isOpen:true, free:false, live:false, phone:'0700000007', hasMenu:false},
+  {id:8, name:'Barg Continental', en:'Barg Continental Restaurant', area:'سرک دهم تایمنی', address:'سرک دهم تایمنی', plusCode:'H563+R32', cuisine:'چیکن تیکا، کباب شینواری', description:'رستورانت برگ با غذاهای قاره‌ای و افغانی.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.5, reviews:134, delivery:28, distance:3.0, minOrder:250, isOpen:true, free:true, live:false, phone:'0700000008', hasMenu:false},
+  {id:9, name:'Plan B Cafe & Restaurant', en:'Plan B Cafe & Restaurant', area:'پروژۀ تایمنی', address:'پروژۀ تایمنی', plusCode:'H553+M4X', cuisine:'استیک، برگر، پاستا، قهوه', description:'کافه و رستورانت مدرن.', workingHours:'هر روز — ۸:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.6, reviews:167, delivery:25, distance:2.5, minOrder:200, isOpen:true, free:false, live:false, phone:'0700000009', hasMenu:false},
+  {id:10, name:'Istanbul Restaurant', en:'Istanbul Restaurant', area:'وزیر اکبر خان', address:'وزیر اکبر خان', plusCode:'G5PC+X81', cuisine:'آشپزی ترکی', description:'کباب دونر، باقلوا ترکی و آبمیوه معجون.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.5, reviews:145, delivery:32, distance:3.5, minOrder:250, isOpen:true, free:false, live:false, phone:'0700000010', hasMenu:false},
+  {id:11, name:'BBQ Tonight Kabul', en:'BBQ Tonight', area:'پل سرخ', address:'پل سرخ', plusCode:'G44M+Q8J', cuisine:'چیکن باتر، کباب سیخی، بریانی', description:'مرغ مکهنی، کباب سیخی و بریانی.', workingHours:'هر روز — ۱۲:۰۰ ظهر تا ۱۲:۰۰ شب', rating:4.7, reviews:267, delivery:35, distance:4.2, minOrder:350, isOpen:true, free:false, live:false, phone:'0700000011', hasMenu:false},
+  {id:12, name:'Chehelseton Palace', en:'Chehelseton Palace Restaurant', area:'باغ چهلستون', address:'باغ چهلستون', plusCode:'F5C3+V36', cuisine:'آشپزی شاهانه سنتی', description:'منوی سنتی شاهانه، قابلی پلو اوزبکی و منتو.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.8, reviews:234, delivery:40, distance:5.5, minOrder:400, isOpen:true, free:false, live:false, phone:'0700000012', hasMenu:false},
+  {id:21, name:'Rayhan Restaurant', en:'Rayhan Restaurant', area:'مرکز شهر مزار', address:'مرکز شهر مزار شریف', plusCode:'P447+GG3', cuisine:'کباب، چوپان، اسپاگتی، بریانی', description:'رستورانت ریحان با سینی کباب مخصوص.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.7, reviews:189, delivery:30, distance:3.0, minOrder:200, isOpen:true, free:true, live:false, phone:'0770000011', hasMenu:false},
+  {id:22, name:'Bilal Restaurant', en:'Bilal Restaurant', area:'سرک شادین، مزار', address:'سرک شادین، مزار شریف', plusCode:'P446+CQ5', cuisine:'قابلی پلو، شیش کباب، شینسل', description:'قابلی پلو مزار، شیش کباب و شینسل مرغ.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.6, reviews:145, delivery:28, distance:2.5, minOrder:200, isOpen:true, free:true, live:false, phone:'0770000012', hasMenu:false},
+  {id:31, name:'هوتل بامیان شاهان', en:'Bamyan Shahaan Hotel', area:'بامیان جدید', address:'بامیان جدید، سمت شمال ریاست حج و اوقاف', plusCode:'RR8G+F42', cuisine:'بریانی هندی، چلو کباب', description:'هوتل و رستورانت بامیان شاهان با منظره کوه‌های بامیان.', workingHours:'هر روز — ۷:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.5, reviews:98, delivery:35, distance:5.0, minOrder:200, isOpen:true, free:false, live:false, phone:'0790000021', hasMenu:false},
+  {id:32, name:'رستورانت غلغله', en:'Ghalghala Restaurant', area:'سرک عمومی بامیان', address:'داخل افغانتور، نزدیک بت‌های بامیان', plusCode:'RR9G+W5V', cuisine:'شامی کباب، منتو بامیانی', description:'رستورانت غلغله داخل افغانتور بامیان.', workingHours:'هر روز — ۸:۰۰ صبح تا ۹:۰۰ شب', rating:4.4, reviews:67, delivery:40, distance:6.0, minOrder:150, isOpen:true, free:false, live:false, phone:'0790000022', hasMenu:false},
+  {id:41, name:'غزنی رستورانت', en:'Ghazni Restaurant', area:'مرکز شهر غزنی', address:'مرکز شهر غزنی', plusCode:'GCW8+49', cuisine:'پیتزا، کباب چوپان، برگر', description:'رستورانت غزنی با پیتزا چیکن ویژه.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.3, reviews:76, delivery:32, distance:4.0, minOrder:150, isOpen:true, free:true, live:false, phone:'0798000031', hasMenu:false},
+  {id:42, name:'رستورانت ستاره شهر', en:'Setara-e-Shahr Restaurant', area:'سرک عمومی غزنی', address:'سرک عمومی غزنی', plusCode:'GCX9+RCQ', cuisine:'مرغ تندوری، چلو جوجه', description:'مرغ تندوری و چلو جوجه کباب.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.4, reviews:89, delivery:35, distance:4.5, minOrder:200, isOpen:true, free:false, live:false, phone:'0798000032', hasMenu:false},
+  {id:51, name:'Zeenat Restaurant', en:'Zeenat Restaurant', area:'چهارراهی تلاشی', address:'چهارراهی تلاشی، جلال‌آباد', plusCode:'CFJ5+VF5', cuisine:'فست فود، پیتزا، کرایی', description:'زینت رستورانت با فست فود بین‌المللی.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.5, reviews:112, delivery:30, distance:3.0, minOrder:180, isOpen:true, free:true, live:false, phone:'0788000041', hasMenu:false},
+  {id:52, name:'Adam Khan Chapli Kabab', en:'Adam Khan Chapli Kabab', area:'سرک جلال‌آباد - کنر', address:'سرک جلال‌آباد - کنر', plusCode:'CFM5+GJW', cuisine:'چپلی کباب ننگرهار', description:'چپلی کباب مخصوص ننگرهار، تند و سنتی.', workingHours:'هر روز — ۷:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.8, reviews:234, delivery:25, distance:2.0, minOrder:100, isOpen:true, free:false, live:true, phone:'0788000042', hasMenu:false},
+  {id:61, name:'قصر کوکچه', en:'Qasri Kokcha Restaurant', area:'شهر نو فیض‌آباد', address:'شهر نو فیض‌آباد، روبروی دریای کوکچه', plusCode:'4H24+M52', cuisine:'سنتی، بین‌المللی، ماهی تازه', description:'قصر کوکچه با منظره دریای کوکچه.', workingHours:'هر روز — ۹:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.7, reviews:145, delivery:40, distance:5.5, minOrder:250, isOpen:true, free:false, live:false, phone:'0799000051', hasMenu:false},
+  {id:62, name:'رستورانت زیتون بدخشان', en:'Zaytoon Badakhshan', area:'فیض‌آباد', address:'فیض‌آباد، روبروی ریاست معارف', plusCode:'4H24+J3X', cuisine:'فست فود، کباب سیخی، قورمه', description:'رستورانت زیتون با فست فود و کباب سیخی.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.5, reviews:98, delivery:35, distance:4.0, minOrder:180, isOpen:true, free:true, live:false, phone:'0799000052', hasMenu:false}
 ];
 
 const CAT_NAMES = {
@@ -568,7 +467,6 @@ const CAT_NAMES = {
 
 /* ========== State ========== */
 let favorites = JSON.parse(localStorage.getItem('bazaarcheh_rest_favs') || '[]');
-let cart = JSON.parse(localStorage.getItem('bazaarcheh_cart') || '[]');
 let currentSearch = '';
 let currentRest = null;
 let currentMenuCat = 'all';
@@ -592,6 +490,41 @@ function checkAuth(){
     if(!s || !s.id){ location.replace('index.html'); return false; }
   } catch(e){ location.replace('index.html'); return false; }
   return true;
+}
+
+/* ========== Cart Helpers ========== */
+function getCart(){
+  try { return JSON.parse(localStorage.getItem('bazaarcheh_cart') || '[]'); }
+  catch(e){ return []; }
+}
+function saveCart(c){
+  try { localStorage.setItem('bazaarcheh_cart', JSON.stringify(c)); } catch(e){}
+}
+function updateCartCount(){
+  const cart = getCart();
+  let total = 0;
+  for(let i = 0; i < cart.length; i++) total += cart[i].qty || 1;
+
+  const badge = document.getElementById('topCartBadge');
+  if(badge){
+    badge.textContent = toPersianDigits(total);
+    badge.classList.toggle('show', total > 0);
+  }
+
+  const fc = document.getElementById('floatingCart');
+  const fcCount = document.getElementById('fcCount');
+  const fcTotal = document.getElementById('fcTotal');
+
+  if(total > 0){
+    fc.classList.add('show');
+    fcCount.textContent = toPersianDigits(total);
+
+    let sum = 0;
+    for(let i = 0; i < cart.length; i++) sum += (cart[i].price || 0) * (cart[i].qty || 1);
+    fcTotal.textContent = toPersianDigits(sum.toLocaleString('en-US')) + ' افغانی';
+  } else {
+    fc.classList.remove('show');
+  }
 }
 
 /* ========== Filtered ========== */
@@ -652,7 +585,7 @@ function renderList(){
         </div>
 
         <div class="rest-actions-row">
-          <button class="info-btn" onclick="event.stopPropagation();openInfoModal(${r.id})" title="اطلاعات">
+          <button class="info-btn" onclick="event.stopPropagation();openInfoModal(${r.id})">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
           </button>
           <div class="rest-meta-quick">
@@ -696,7 +629,6 @@ function openInfoModal(id){
     </div>
 
     <div class="info-modal-body">
-
       <div class="rest-name-big">${r.name}</div>
       ${r.en ? `<div class="rest-en-big">${r.en}</div>` : ''}
       <div class="rest-cuisine-big">${r.cuisine}</div>
@@ -713,67 +645,30 @@ function openInfoModal(id){
       </div>
 
       <div class="info-grid">
-
         <div class="info-row">
-          <div class="info-icon">
-            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          </div>
-          <div class="info-content">
-            <div class="info-label">آدرس</div>
-            <div class="info-value">${r.address}</div>
-          </div>
+          <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div class="info-content"><div class="info-label">آدرس</div><div class="info-value">${r.address}</div></div>
         </div>
-
         <div class="info-row">
-          <div class="info-icon">
-            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          </div>
-          <div class="info-content">
-            <div class="info-label">پلس کد گوگل مپ</div>
-            <div class="info-value plus-code-value">${r.plusCode}</div>
-          </div>
+          <div class="info-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <div class="info-content"><div class="info-label">پلس کد گوگل مپ</div><div class="info-value plus-code-value">${r.plusCode}</div></div>
         </div>
-
         <div class="info-row">
-          <div class="info-icon">
-            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          </div>
-          <div class="info-content">
-            <div class="info-label">شماره تماس</div>
-            <div class="info-value phone">${r.phone}</div>
-          </div>
+          <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div class="info-content"><div class="info-label">شماره تماس</div><div class="info-value phone">${r.phone}</div></div>
         </div>
-
         <div class="info-row">
-          <div class="info-icon">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          </div>
-          <div class="info-content">
-            <div class="info-label">ساعت کاری</div>
-            <div class="info-value hours">${r.workingHours}</div>
-          </div>
+          <div class="info-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div class="info-content"><div class="info-label">ساعت کاری</div><div class="info-value hours">${r.workingHours}</div></div>
         </div>
-
         <div class="info-row">
-          <div class="info-icon">
-            <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          </div>
-          <div class="info-content">
-            <div class="info-label">خدمات دلیوری</div>
-            <div class="info-value">${r.free ? 'ارسال رایگان •' : ''} حدود ${toPersianDigits(r.delivery)} دقیقه • فاصله ${toPersianDigits(r.distance)} کیلومتر</div>
-          </div>
+          <div class="info-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          <div class="info-content"><div class="info-label">خدمات دلیوری</div><div class="info-value">${r.free ? 'ارسال رایگان •' : ''} حدود ${toPersianDigits(r.delivery)} دقیقه • فاصله ${toPersianDigits(r.distance)} کیلومتر</div></div>
         </div>
-
         <div class="info-row">
-          <div class="info-icon">
-            <svg viewBox="0 0 24 24"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>
-          </div>
-          <div class="info-content">
-            <div class="info-label">حداقل سفارش</div>
-            <div class="info-value">${toPersianDigits(r.minOrder)} افغانی</div>
-          </div>
+          <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg></div>
+          <div class="info-content"><div class="info-label">حداقل سفارش</div><div class="info-value">${toPersianDigits(r.minOrder)} افغانی</div></div>
         </div>
-
       </div>
 
       <div class="desc-box">
@@ -783,7 +678,6 @@ function openInfoModal(id){
         </div>
         <div class="desc-box-text">${r.description}</div>
       </div>
-
     </div>
 
     <div class="info-modal-actions">
@@ -806,7 +700,7 @@ function closeInfoModal(){
 }
 
 /* ==========================================
-   🍽 Menu Modal
+   🍽 Menu Modal (with Add to Cart)
    ========================================== */
 function openMenuModal(id){
   const r = RESTAURANTS.find(x => x.id === id);
@@ -814,7 +708,6 @@ function openMenuModal(id){
   currentRest = r;
   currentMenuCat = 'all';
 
-  // اگه منو نداره → به‌زودی
   if(!r.hasMenu){
     document.getElementById('menuContent').innerHTML = `
       <div class="modal-handle"></div>
@@ -832,13 +725,12 @@ function openMenuModal(id){
       <div class="menu-modal-body">
         <div class="menu-rest-name">${r.name}</div>
         <div class="menu-rest-sub">${r.area}</div>
-
         <div class="coming-soon-box">
           <div class="coming-icon">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
           <div class="coming-title">به‌زودی</div>
-          <div class="coming-text">منوی این رستورانت به‌زودی توسط فروشنده اضافه می‌شود. منتظر بمانید.</div>
+          <div class="coming-text">منوی این رستورانت به‌زودی توسط فروشنده اضافه می‌شود.</div>
           <div class="coming-badge">${r.name}</div>
         </div>
       </div>
@@ -847,7 +739,6 @@ function openMenuModal(id){
     return;
   }
 
-  // اگه منو داره → نمایش منو
   const cats = ['all', ...new Set(r.menu.map(m => m.cat))];
 
   document.getElementById('menuContent').innerHTML = `
@@ -878,15 +769,34 @@ function openMenuModal(id){
       </div>
 
       <div class="menu-list" id="menuList"></div>
+
+      <div class="menu-cart-footer" id="menuCartFooter" style="display:none">
+        <div class="cart-summary" onclick="sendToWhatsApp()">
+          <div class="cart-summary-icon">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <div class="cart-summary-count" id="menuCartCount">0</div>
+          </div>
+          <div class="cart-summary-info">
+            <div class="cart-summary-label">سفارش شما</div>
+            <div class="cart-summary-total" id="menuCartTotal">۰ افغانی</div>
+          </div>
+          <div class="cart-summary-btn">
+            <svg viewBox="0 0 24 24" fill="#25D366" stroke="none"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+            واتساپ
+          </div>
+        </div>
+      </div>
     </div>
   `;
 
   renderMenu();
+  updateMenuCart();
   document.getElementById('menuModal').classList.add('show');
 }
 
 function closeMenuModal(){
   document.getElementById('menuModal').classList.remove('show');
+  updateCartCount();
 }
 
 function renderMenu(){
@@ -901,8 +811,17 @@ function renderMenu(){
         <svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/></svg>
       </div>
       <div class="menu-item-info">
-        <div class="menu-item-name">${item.name}</div>
-        <div class="menu-item-price">${toPersianDigits(item.price)} <span>افغانی</span></div>
+        <div>
+          <div class="menu-item-name">${item.name}</div>
+          ${item.desc ? `<div class="menu-item-desc">${item.desc}</div>` : ''}
+        </div>
+        <div class="menu-item-bottom">
+          <div class="menu-item-price">${toPersianDigits(item.price)} <span>افغانی</span></div>
+          <button class="add-item-btn" onclick="addToCart(${item.id})">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            افزودن
+          </button>
+        </div>
       </div>
     </div>
   `).join('');
@@ -913,6 +832,117 @@ function selectMenuCat(cat, el){
   document.querySelectorAll('#menuTabs .menu-tab').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   renderMenu();
+}
+
+/* ==========================================
+   🛒 Add to Cart
+   ========================================== */
+function addToCart(menuItemId){
+  if(!currentRest) return;
+  const item = currentRest.menu.find(m => m.id === menuItemId);
+  if(!item) return;
+
+  const cart = getCart();
+  const key = 'rest_' + currentRest.id + '_' + menuItemId;
+
+  let existing = null;
+  for(let i = 0; i < cart.length; i++){
+    if(cart[i].key === key){ existing = cart[i]; break; }
+  }
+
+  if(existing){
+    existing.qty = (existing.qty || 1) + 1;
+  } else {
+    cart.push({
+      key: key,
+      id: menuItemId,
+      name: item.name,
+      price: item.price,
+      qty: 1,
+      restId: currentRest.id,
+      restName: currentRest.name,
+      restPhone: currentRest.phone,
+      restWhatsapp: currentRest.whatsapp || ('93' + currentRest.phone.replace(/^0/,''))
+    });
+  }
+
+  saveCart(cart);
+  updateMenuCart();
+  updateCartCount();
+  showToast('به سبد خرید اضافه شد', 'success');
+}
+
+function updateMenuCart(){
+  if(!currentRest) return;
+  const footer = document.getElementById('menuCartFooter');
+  const countEl = document.getElementById('menuCartCount');
+  const totalEl = document.getElementById('menuCartTotal');
+
+  if(!footer) return;
+
+  const cart = getCart();
+  let total = 0, count = 0, sum = 0;
+  for(let i = 0; i < cart.length; i++){
+    if(cart[i].restId === currentRest.id){
+      count += cart[i].qty || 1;
+      sum += (cart[i].price || 0) * (cart[i].qty || 1);
+    }
+  }
+
+  if(count > 0){
+    footer.style.display = 'block';
+    countEl.textContent = toPersianDigits(count);
+    totalEl.textContent = toPersianDigits(sum.toLocaleString('en-US')) + ' افغانی';
+  } else {
+    footer.style.display = 'none';
+  }
+}
+
+/* ==========================================
+   📱 WhatsApp Order
+   ========================================== */
+function sendToWhatsApp(){
+  if(!currentRest) return;
+  const cart = getCart();
+  const restItems = cart.filter(c => c.restId === currentRest.id);
+
+  if(restItems.length === 0){
+    showToast('سبد خرید خالی است', 'error');
+    return;
+  }
+
+  let total = 0;
+  let itemsText = '';
+  for(let i = 0; i < restItems.length; i++){
+    const it = restItems[i];
+    const sub = (it.price || 0) * (it.qty || 1);
+    total += sub;
+    itemsText += `\n• ${it.name} × ${it.qty} = ${sub.toLocaleString('en-US')} افغانی`;
+  }
+
+  let userName = 'کاربر بازارچه';
+  let userPhone = '';
+  try {
+    const session = JSON.parse(localStorage.getItem('bazaarcheh_session') || '{}');
+    if(session.name) userName = session.name;
+    if(session.phone) userPhone = session.phone;
+  } catch(e){}
+
+  const message =
+    `سلام 🌹\n` +
+    `از اپلیکیشن *بازارچه*\n\n` +
+    `👤 نام: ${userName}\n` +
+    (userPhone ? `📱 شماره: ${userPhone}\n` : '') +
+    `🏪 رستورانت: ${currentRest.name}\n` +
+    `📍 آدرس: ${currentRest.address}\n\n` +
+    `🛒 *سفارش شما:*${itemsText}\n\n` +
+    `💰 *جمع کل: ${total.toLocaleString('en-US')} افغانی*\n\n` +
+    `لطفاً سفارش من را تایید کنید.`;
+
+  const waNumber = currentRest.whatsapp || ('93' + currentRest.phone.replace(/^0/,''));
+  const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, '_blank');
 }
 
 /* ========== Actions ========== */
@@ -947,6 +977,7 @@ function onSearch(v){
 /* ========== Init ========== */
 if(checkAuth()){
   renderList();
+  updateCartCount();
 }
 </script>
 </body>
