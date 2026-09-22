@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a1929">
+<title>تنظیم فروشگاه | بازارچه</title>
+<style>
+:root{
+  --navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;
+  --gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);
+  --text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;
+  --border:rgba(212,175,55,0.22);
+  --danger:#e74c3c;--success:#2ecc71;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit}
+
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:radial-gradient(circle at 15% 15%,rgba(26,58,92,0.85) 0%,transparent 55%),radial-gradient(circle at 85% 85%,rgba(212,175,55,0.1) 0%,transparent 55%),linear-gradient(160deg,#0a1929 0%,#0d2137 50%,#050d17 100%)}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.5;animation:float 20s ease-in-out infinite}
+.orb.o1{width:280px;height:280px;background:radial-gradient(circle,rgba(212,175,55,0.55),transparent 70%);top:-90px;right:-90px}
+.orb.o2{width:240px;height:240px;background:radial-gradient(circle,rgba(26,90,150,0.65),transparent 70%);bottom:-80px;left:-80px;animation-delay:-8s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-25px) scale(1.1)}66%{transform:translate(-25px,35px) scale(0.95)}}
+
+.page{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column}
+.wrap{flex:1;padding:20px 22px 100px;max-width:520px;margin:0 auto;width:100%}
+
+.progress{display:flex;justify-content:center;gap:6px;margin-bottom:24px;padding-top:8px}
+.progress .dot{width:8px;height:8px;border-radius:50%;background:rgba(212,175,55,0.25);transition:all .3s}
+.progress .dot.active{background:var(--gold);width:24px;border-radius:4px}
+.progress .dot.done{background:var(--success)}
+
+.head{text-align:center;padding:0 0 22px}
+.head-title{font-size:22px;font-weight:800;color:var(--gold);margin-bottom:8px}
+.head-sub{font-size:13px;color:var(--text-dim);line-height:1.6}
+
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--text-dim);margin-bottom:7px}
+.form-label .req{color:var(--danger);margin-inline-start:3px}
+.input-wrap{position:relative}
+.input-wrap input,.input-wrap select,.input-wrap textarea{
+  width:100%;background:var(--card);
+  border:1.5px solid var(--border);border-radius:12px;
+  padding:14px 46px 14px 14px;
+  color:var(--text);font-size:14px;
+  outline:none;transition:all .2s;
+  -webkit-appearance:none;appearance:none;
+  font-family:inherit;resize:vertical;
+}
+html[dir="ltr"] .input-wrap input,html[dir="ltr"] .input-wrap select,html[dir="ltr"] .input-wrap textarea{padding:14px 14px 14px 46px}
+.input-wrap input:focus,.input-wrap select:focus,.input-wrap textarea:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+.input-wrap input::placeholder,.input-wrap textarea::placeholder{color:var(--text-dim);opacity:0.6}
+.input-wrap input.error,.input-wrap select.error{border-color:var(--danger)}
+.input-wrap .icon{
+  position:absolute;top:50%;right:14px;transform:translateY(-50%);
+  width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2;
+  pointer-events:none;
+}
+html[dir="ltr"] .input-wrap .icon{right:auto;left:14px}
+
+/* Logo upload */
+.logo-upload{display:flex;flex-direction:column;align-items:center;margin-bottom:22px}
+.logo-box{
+  width:110px;height:110px;border-radius:22px;
+  background:var(--card);border:2px dashed var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;overflow:hidden;position:relative;
+}
+.logo-box:active{transform:scale(0.95);border-color:var(--gold)}
+.logo-box img{width:100%;height:100%;object-fit:cover}
+.logo-box > svg{width:44px;height:44px;stroke:var(--gold);fill:none;stroke-width:1.5;opacity:0.7}
+.logo-box.has-img{border-style:solid;border-color:var(--gold)}
+.logo-hint{font-size:11.5px;color:var(--text-dim);margin-top:8px}
+input[type="file"]{display:none}
+
+/* Categories grid */
+.cat-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px;margin-bottom:16px;
+}
+.cat-opt{
+  padding:12px 6px;border-radius:12px;
+  background:var(--card);border:1.5px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:pointer;transition:all .2s;text-align:center;
+}
+.cat-opt:active{transform:scale(0.95)}
+.cat-opt.active{background:var(--gold-soft);border-color:var(--gold)}
+.cat-opt svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.8}
+.cat-opt .co-name{font-size:10.5px;font-weight:700;color:var(--text)}
+.cat-opt.active .co-name{color:var(--gold)}
+
+.error-msg{font-size:11px;color:var(--danger);margin-top:6px;display:none;padding-inline-start:4px}
+.error-msg.show{display:block}
+
+.btn-submit{
+  width:100%;height:54px;border-radius:14px;
+  background:linear-gradient(135deg,#f4d03f 0%,#d4af37 50%,#b8941f 100%);
+  color:var(--navy);font-size:15px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow:0 10px 25px rgba(212,175,55,0.35);
+  transition:all .2s;margin-top:8px;
+}
+.btn-submit:active{transform:scale(0.97)}
+.btn-submit svg{width:20px;height:20px;stroke:var(--navy);fill:none;stroke-width:2.5}
+
+.success-overlay{position:fixed;inset:0;z-index:200;background:rgba(10,25,41,0.95);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;pointer-events:none;transition:opacity .4s}
+.success-overlay.show{opacity:1;pointer-events:auto}
+.success-check{width:100px;height:100px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center;animation:pop .5s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 0 14px rgba(46,204,113,0.2)}
+.success-check svg{width:56px;height:56px;stroke:#fff;fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.success-title{font-size:22px;font-weight:800;color:var(--success)}
+.success-sub{font-size:13px;color:var(--text-dim);text-align:center;padding:0 30px}
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<div class="page">
+  <div class="wrap">
+
+    <div class="progress">
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot active"></div>
+    </div>
+
+    <div class="head">
+      <div class="head-title">فروشگاه خود را بسازید</div>
+      <div class="head-sub">اطلاعات فروشگاه شما در پروفایل نمایش داده می‌شود</div>
+    </div>
+
+    <!-- Logo -->
+    <div class="logo-upload">
+      <label class="logo-box" id="logoBox" for="logoInput">
+        <svg id="logoPlaceholder" viewBox="0 0 24 24"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>
+        <img id="logoPreview" style="display:none">
+      </label>
+      <input type="file" id="logoInput" accept="image/*">
+      <div class="logo-hint">لوگوی فروشگاه (اختیاری)</div>
+    </div>
+
+    <form id="setupForm" novalidate>
+
+      <div class="form-group">
+        <label class="form-label">نام فروشگاه<span class="req">*</span></label>
+        <div class="input-wrap">
+          <input type="text" id="shopName" placeholder="مثلاً: گل‌فروشی هرات">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>
+        </div>
+        <div class="error-msg" id="errShopName"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">دسته‌بندی فروشگاه<span class="req">*</span></label>
+        <div class="cat-grid" id="catGrid">
+          <div class="cat-opt" data-cat="clothes" onclick="selectCat('clothes')">
+            <svg viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+            <span class="co-name">لباس</span>
+          </div>
+          <div class="cat-opt" data-cat="cosmetics" onclick="selectCat('cosmetics')">
+            <svg viewBox="0 0 24 24"><path d="M9 2h6v4H9zM7 6h10l1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/></svg>
+            <span class="co-name">آرایشی</span>
+          </div>
+          <div class="cat-opt" data-cat="perfumes" onclick="selectCat('perfumes')">
+            <svg viewBox="0 0 24 24"><path d="M10 2h4v3h-4zM8 5h8l2 4v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9z"/></svg>
+            <span class="co-name">عطر</span>
+          </div>
+          <div class="cat-opt" data-cat="restaurant" onclick="selectCat('restaurant')">
+            <svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/></svg>
+            <span class="co-name">رستورانت</span>
+          </div>
+          <div class="cat-opt" data-cat="library" onclick="selectCat('library')">
+            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span class="co-name">کتاب</span>
+          </div>
+          <div class="cat-opt" data-cat="other" onclick="selectCat('other')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+            <span class="co-name">دیگر</span>
+          </div>
+        </div>
+        <div class="error-msg" id="errCat"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">توضیحات فروشگاه</label>
+        <div class="input-wrap">
+          <textarea id="shopDesc" rows="3" placeholder="مثلاً: فروش لباس‌های افغانی دست‌دوز با کیفیت عالی..." style="padding-inline-end:14px"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>تکمیل ثبت‌نام</span>
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+<div class="success-overlay" id="successOverlay">
+  <div class="success-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+  <div class="success-title">فروشگاه ساخته شد!</div>
+  <div class="success-sub">به بازارچه خوش آمدید 🎉</div>
+</div>
+
+<script>
+let selectedCat = null;
+let logoData = '';
+
+function selectCat(cat){
+  selectedCat = cat;
+  document.querySelectorAll('.cat-opt').forEach(c => {
+    c.classList.toggle('active', c.dataset.cat === cat);
+  });
+  document.getElementById('errCat').classList.remove('show');
+}
+
+document.getElementById('logoInput').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  if(file.size > 2*1024*1024){ alert('عکس باید کمتر از ۲ مگابایت باشد'); return; }
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    logoData = ev.target.result;
+    document.getElementById('logoPreview').src = logoData;
+    document.getElementById('logoPreview').style.display = 'block';
+    document.getElementById('logoPlaceholder').style.display = 'none';
+    document.getElementById('logoBox').classList.add('has-img');
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('setupForm').addEventListener('submit', function(e){
+  e.preventDefault();
+
+  const shopName = document.getElementById('shopName').value.trim();
+  const errName = document.getElementById('errShopName');
+  const errCat = document.getElementById('errCat');
+  errName.classList.remove('show');
+  errCat.classList.remove('show');
+
+  if(!shopName){ errName.textContent = 'نام فروشگاه الزامی است'; errName.classList.add('show'); return; }
+  if(shopName.length < 3){ errName.textContent = 'نام باید حداقل ۳ حرف باشد'; errName.classList.add('show'); return; }
+  if(!selectedCat){ errCat.textContent = 'دسته‌بندی را انتخاب کنید'; errCat.classList.add('show'); return; }
+
+  const pending = JSON.parse(localStorage.getItem('bazaarcheh_pending') || 'null');
+  if(!pending){ location.href = 'index.html'; return; }
+
+  const user = {
+    id: Date.now(),
+    name: pending.name || (pending.provider === 'google' ? 'کاربر گوگل' : 'کاربر فیسبوک'),
+    email: pending.email,
+    phone: pending.phone || '',
+    password: pending.password || ('social_' + Date.now()),
+    gender: 'female',
+    city: '',
+    avatar: null,
+    provider: pending.provider || null,
+    accountType: 'business',
+    businessName: shopName,
+    businessCategory: selectedCat,
+    businessDesc: document.getElementById('shopDesc').value.trim(),
+    businessLogo: logoData || null,
+    verified: true,
+    createdAt: new Date().toISOString()
+  };
+
+  const users = JSON.parse(localStorage.getItem('bazaarcheh_users') || '[]');
+  const filtered = users.filter(u => u.email !== user.email);
+  filtered.push(user);
+  localStorage.setItem('bazaarcheh_users', JSON.stringify(filtered));
+
+  const session = {
+    id: user.id, name: user.name, email: user.email, phone: user.phone,
+    avatar: user.avatar, city: user.city, gender: user.gender,
+    accountType: user.accountType, businessName: user.businessName,
+    businessCategory: user.businessCategory, businessLogo: user.businessLogo,
+    provider: user.provider,
+    loginAt: new Date().toISOString()
+  };
+  localStorage.setItem('bazaarcheh_session', JSON.stringify(session));
+  localStorage.setItem('bazaarcheh_wallet_' + user.id, JSON.stringify({ balance: 0, currency: 'AFN' }));
+  localStorage.removeItem('bazaarcheh_pending');
+
+  document.getElementById('successOverlay').classList.add('show');
+  setTimeout(() => { location.href = 'home.html'; }, 1800);
+});
+</script>
+</body>
+</html>

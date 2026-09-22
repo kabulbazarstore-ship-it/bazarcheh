@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a1929">
+<title>نوع حساب | بازارچه</title>
+<style>
+:root{
+  --navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;
+  --gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);
+  --text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;
+  --border:rgba(212,175,55,0.22);
+  --success:#2ecc71;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:radial-gradient(circle at 15% 15%,rgba(26,58,92,0.85) 0%,transparent 55%),radial-gradient(circle at 85% 85%,rgba(212,175,55,0.1) 0%,transparent 55%),linear-gradient(160deg,#0a1929 0%,#0d2137 50%,#050d17 100%)}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.5;animation:float 20s ease-in-out infinite}
+.orb.o1{width:280px;height:280px;background:radial-gradient(circle,rgba(212,175,55,0.55),transparent 70%);top:-90px;right:-90px}
+.orb.o2{width:240px;height:240px;background:radial-gradient(circle,rgba(26,90,150,0.65),transparent 70%);bottom:-80px;left:-80px;animation-delay:-8s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-25px) scale(1.1)}66%{transform:translate(-25px,35px) scale(0.95)}}
+
+.page{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column}
+.wrap{flex:1;padding:20px 22px;max-width:520px;margin:0 auto;width:100%;display:flex;flex-direction:column;justify-content:center}
+
+/* Progress */
+.progress{display:flex;justify-content:center;gap:6px;margin-bottom:24px}
+.progress .dot{width:8px;height:8px;border-radius:50%;background:rgba(212,175,55,0.25);transition:all .3s}
+.progress .dot.active{background:var(--gold);width:24px;border-radius:4px}
+.progress .dot.done{background:var(--success)}
+
+.head{text-align:center;padding:0 0 24px}
+.head-title{font-size:24px;font-weight:800;color:var(--gold);margin-bottom:8px}
+.head-sub{font-size:13.5px;color:var(--text-dim);line-height:1.7}
+
+/* Cards */
+.cards{display:flex;flex-direction:column;gap:14px;margin-bottom:22px}
+.type-card{
+  padding:22px;border-radius:18px;
+  background:linear-gradient(145deg,rgba(19,47,76,0.9),rgba(10,25,41,0.9));
+  border:2px solid var(--border);
+  cursor:pointer;transition:all .25s;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;gap:16px;
+}
+.type-card::before{
+  content:'';position:absolute;top:0;right:0;width:100px;height:100px;
+  background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);
+  opacity:0;transition:opacity .3s;
+}
+.type-card:active{transform:scale(0.98)}
+.type-card.selected{border-color:var(--gold);background:linear-gradient(145deg,rgba(212,175,55,0.15),rgba(212,175,55,0.03));box-shadow:0 8px 30px rgba(212,175,55,0.25)}
+.type-card.selected::before{opacity:1}
+.type-icon{
+  width:64px;height:64px;border-radius:16px;flex-shrink:0;
+  background:var(--gold-soft);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;
+}
+.type-card.selected .type-icon{background:linear-gradient(135deg,#f4d03f,#d4af37)}
+.type-icon svg{width:32px;height:32px;stroke:var(--gold);fill:none;stroke-width:1.8}
+.type-card.selected .type-icon svg{stroke:var(--navy)}
+.type-info{flex:1;min-width:0}
+.type-name{font-size:16px;font-weight:800;margin-bottom:5px;color:var(--text)}
+.type-card.selected .type-name{color:var(--gold)}
+.type-desc{font-size:12px;color:var(--text-dim);line-height:1.5}
+.type-features{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.type-feat{
+  font-size:10px;padding:3px 8px;border-radius:6px;
+  background:rgba(212,175,55,0.1);color:var(--gold);
+  border:1px solid rgba(212,175,55,0.2);
+  font-weight:600;
+}
+.check-mark{
+  position:absolute;top:14px;right:14px;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);
+  display:none;align-items:center;justify-content:center;
+}
+.type-card.selected .check-mark{display:flex;animation:pop .3s cubic-bezier(0.34,1.56,0.64,1)}
+.check-mark svg{width:14px;height:14px;stroke:var(--navy);fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+
+/* Info box */
+.info-box{
+  background:rgba(46,204,113,0.08);
+  border:1px solid rgba(46,204,113,0.25);
+  border-radius:12px;padding:12px 14px;
+  font-size:11.5px;color:var(--text-dim);line-height:1.7;
+  margin-bottom:18px;
+  display:flex;gap:10px;
+}
+.info-box svg{width:16px;height:16px;stroke:var(--success);fill:none;stroke-width:2;flex-shrink:0;margin-top:2px}
+.info-box b{color:var(--success)}
+
+/* Submit */
+.btn-next{
+  width:100%;height:54px;border-radius:14px;
+  background:linear-gradient(135deg,#f4d03f 0%,#d4af37 50%,#b8941f 100%);
+  color:var(--navy);font-size:15px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow:0 10px 25px rgba(212,175,55,0.35);
+  transition:all .2s;
+}
+.btn-next:active{transform:scale(0.97)}
+.btn-next:disabled{opacity:0.4;pointer-events:none}
+.btn-next svg{width:20px;height:20px;stroke:var(--navy);fill:none;stroke-width:2.5}
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<div class="page">
+  <div class="wrap">
+
+    <!-- Progress -->
+    <div class="progress">
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+    </div>
+
+    <div class="head">
+      <div class="head-title">نوع حساب را انتخاب کنید</div>
+      <div class="head-sub">بعداً هم می‌توانید این را تغییر دهید</div>
+    </div>
+
+    <div class="cards">
+
+      <!-- Personal -->
+      <div class="type-card" data-type="personal" onclick="selectType('personal')">
+        <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="type-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="type-info">
+          <div class="type-name">حساب شخصی</div>
+          <div class="type-desc">برای خرید، سفارش غذا، رزرو و استفاده شخصی</div>
+          <div class="type-features">
+            <span class="type-feat">خرید</span>
+            <span class="type-feat">چت</span>
+            <span class="type-feat">کیف پول</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Business -->
+      <div class="type-card" data-type="business" onclick="selectType('business')">
+        <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="type-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>
+        </div>
+        <div class="type-info">
+          <div class="type-name">حساب کسب‌وکار</div>
+          <div class="type-desc">برای فروش، افزودن محصول، مدیریت سفارشات</div>
+          <div class="type-features">
+            <span class="type-feat">افزودن محصول</span>
+            <span class="type-feat">گالری عکس</span>
+            <span class="type-feat">مدیریت سفارش</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="info-box">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <div>
+        <b>حساب کسب‌وکار</b> می‌تواند محصولات خود را با عکس، قیمت و توضیحات به فروش بگذارد. فروشندگان جدید <b>۶ ماه اول رایگان</b> هستند.
+      </div>
+    </div>
+
+    <button class="btn-next" id="nextBtn" onclick="next()" disabled>
+      <span>ادامه</span>
+      <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+
+  </div>
+</div>
+
+<script>
+let selectedType = null;
+
+function selectType(type){
+  selectedType = type;
+  document.querySelectorAll('.type-card').forEach(c => {
+    c.classList.toggle('selected', c.dataset.type === type);
+  });
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function next(){
+  if(!selectedType) return;
+
+  const pending = JSON.parse(localStorage.getItem('bazaarcheh_pending') || 'null');
+  if(!pending){
+    location.href = 'index.html';
+    return;
+  }
+
+  pending.accountType = selectedType;
+  localStorage.setItem('bazaarcheh_pending', JSON.stringify(pending));
+
+  if(selectedType === 'business'){
+    location.href = 'business-setup.html';
+  } else {
+    // Finalize personal account
+    finalizeAccount(pending);
+  }
+}
+
+function finalizeAccount(pending){
+  const user = {
+    id: Date.now(),
+    name: pending.name || (pending.provider === 'google' ? 'کاربر گوگل' : 'کاربر فیسبوک'),
+    email: pending.email,
+    phone: pending.phone || '',
+    password: pending.password || ('social_' + Date.now()),
+    gender: 'female',
+    city: '',
+    avatar: null,
+    provider: pending.provider || null,
+    accountType: pending.accountType,
+    businessName: null,
+    verified: true,
+    createdAt: new Date().toISOString()
+  };
+
+  const users = JSON.parse(localStorage.getItem('bazaarcheh_users') || '[]');
+  // Remove any existing user with same email
+  const filtered = users.filter(u => u.email !== user.email);
+  filtered.push(user);
+  localStorage.setItem('bazaarcheh_users', JSON.stringify(filtered));
+
+  // Create session
+  const session = {
+    id: user.id, name: user.name, email: user.email, phone: user.phone,
+    avatar: user.avatar, city: user.city, gender: user.gender,
+    accountType: user.accountType, businessName: user.businessName,
+    provider: user.provider,
+    loginAt: new Date().toISOString()
+  };
+  localStorage.setItem('bazaarcheh_session', JSON.stringify(session));
+  localStorage.setItem('bazaarcheh_wallet_' + user.id, JSON.stringify({ balance: 0, currency: 'AFN' }));
+
+  // Remove pending
+  localStorage.removeItem('bazaarcheh_pending');
+
+  location.href = 'home.html';
+}
+</script>
+</body>
+</html>

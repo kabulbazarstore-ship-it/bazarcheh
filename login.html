@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a1929">
+<title>ورود | بازارچه</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{
+  --navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;
+  --gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);
+  --text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;
+  --border:rgba(212,175,55,0.22);
+  --danger:#e74c3c;--success:#2ecc71;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+input{font-family:inherit}
+
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:radial-gradient(circle at 15% 15%,rgba(26,58,92,0.85) 0%,transparent 55%),radial-gradient(circle at 85% 85%,rgba(212,175,55,0.1) 0%,transparent 55%),linear-gradient(160deg,#0a1929 0%,#0d2137 50%,#050d17 100%)}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.5;animation:float 20s ease-in-out infinite}
+.orb.o1{width:280px;height:280px;background:radial-gradient(circle,rgba(212,175,55,0.55),transparent 70%);top:-90px;right:-90px}
+.orb.o2{width:240px;height:240px;background:radial-gradient(circle,rgba(26,90,150,0.65),transparent 70%);bottom:-80px;left:-80px;animation-delay:-8s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-25px) scale(1.1)}66%{transform:translate(-25px,35px) scale(0.95)}}
+
+.page{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column}
+.wrap{flex:1;padding:16px 22px 30px;max-width:460px;margin:0 auto;width:100%}
+
+.top-bar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,var(--navy) 0%,rgba(10,25,41,0.9) 100%);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);transition:all .2s;flex-shrink:0}
+.icon-btn:active{transform:scale(0.92);background:var(--gold-soft)}
+.icon-btn svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.page-title{flex:1;font-size:15px;font-weight:700;text-align:center;color:var(--gold)}
+
+.lang-row{display:flex;justify-content:flex-end;padding:12px 22px 0}
+.lang-pills{display:inline-flex;gap:4px;background:var(--card);padding:3px;border-radius:10px;border:1px solid var(--border)}
+.lang-pills button{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;color:var(--text-dim);transition:all .2s}
+.lang-pills button.active{background:var(--gold);color:var(--navy)}
+
+.head{text-align:center;padding:20px 0 22px}
+.head-logo{width:72px;height:72px;margin:0 auto 12px;border-radius:22px;background:linear-gradient(145deg,#1a3a5c 0%,#0a1929 100%);border:1.5px solid rgba(212,175,55,0.4);display:flex;align-items:center;justify-content:center;box-shadow:0 15px 40px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.08);position:relative}
+.head-logo::after{content:'';position:absolute;inset:-6px;border-radius:26px;border:2px dashed rgba(212,175,55,0.22);animation:spin 25s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.head-logo span{font-size:40px;font-weight:900;color:#f4d03f;text-shadow:0 0 15px rgba(244,208,63,0.6),0 3px 10px rgba(212,175,55,0.4)}
+.head-title{font-size:24px;font-weight:800;color:var(--gold);margin-bottom:4px}
+.head-sub{font-size:13px;color:var(--text-dim)}
+
+/* Warning */
+.warn-box{background:rgba(231,76,60,0.12);border:1.5px solid rgba(231,76,60,0.4);border-radius:12px;padding:14px;margin-bottom:16px;display:none;text-align:center}
+.warn-box.show{display:block;animation:shake .5s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.warn-box .w-title{font-size:13px;font-weight:700;color:var(--danger);display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:6px}
+.warn-box .w-title svg{width:16px;height:16px;stroke:var(--danger);fill:none;stroke-width:2}
+.warn-box .w-sub{font-size:12px;color:var(--text-dim);line-height:1.6}
+
+/* Social */
+.socials{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.social-btn{height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:13px;font-weight:700;transition:all .2s;position:relative;overflow:hidden}
+.social-btn:active{transform:scale(0.97)}
+.social-btn.google{background:#fff;color:#3c4043;border:1.5px solid #dadce0}
+.social-btn.facebook{background:linear-gradient(135deg,#1877F2,#0d5bca);border:1.5px solid #1877F2;color:#fff;box-shadow:0 6px 20px rgba(24,119,242,0.3)}
+.social-btn svg{width:22px;height:22px;flex-shrink:0}
+.social-btn .spinner{width:18px;height:18px;border:2.5px solid rgba(0,0,0,0.15);border-top-color:#333;border-radius:50%;animation:spinner 0.7s linear infinite;display:none}
+.social-btn.facebook .spinner{border-color:rgba(255,255,255,0.3);border-top-color:#fff}
+.social-btn.loading .spinner{display:block}
+.social-btn.loading svg{display:none}
+@keyframes spinner{to{transform:rotate(360deg)}}
+
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--text-dim);font-size:11px;font-weight:600}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--text-dim);margin-bottom:7px}
+.input-wrap{position:relative}
+.input-wrap input{width:100%;height:52px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:0 46px 0 14px;color:var(--text);font-size:14px;outline:none;transition:all .2s}
+html[dir="ltr"] .input-wrap input{padding:0 14px 0 46px}
+.input-wrap input:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+.input-wrap input::placeholder{color:var(--text-dim);opacity:0.6}
+.input-wrap input.error{border-color:var(--danger);box-shadow:0 0 0 4px rgba(231,76,60,0.1)}
+.input-wrap .icon{position:absolute;top:50%;right:14px;transform:translateY(-50%);width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2;pointer-events:none}
+html[dir="ltr"] .input-wrap .icon{right:auto;left:14px}
+.input-wrap .toggle-pass{position:absolute;top:50%;right:14px;transform:translateY(-50%);width:24px;height:24px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+html[dir="ltr"] .input-wrap .toggle-pass{right:auto;left:14px}
+.input-wrap .toggle-pass svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2}
+
+.error-msg{font-size:11px;color:var(--danger);margin-top:6px;padding-inline-start:4px;display:none}
+.error-msg.show{display:block}
+
+.row-between{display:flex;align-items:center;justify-content:space-between;margin:6px 0 18px;font-size:12px}
+.remember{display:flex;align-items:center;gap:8px;color:var(--text-dim);cursor:pointer}
+.remember input[type="checkbox"]{width:18px;height:18px;accent-color:var(--gold);cursor:pointer}
+.forgot{color:var(--gold);font-weight:600}
+
+.btn-submit{width:100%;height:54px;border-radius:14px;background:linear-gradient(135deg,#f4d03f 0%,#d4af37 50%,#b8941f 100%);color:var(--navy);font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 10px 25px rgba(212,175,55,0.35);transition:all .2s;margin-bottom:16px}
+.btn-submit:active{transform:scale(0.97)}
+.btn-submit:disabled{opacity:0.5;pointer-events:none}
+.btn-submit svg{width:20px;height:20px;stroke:var(--navy);fill:none;stroke-width:2.5}
+
+.footer-link{text-align:center;font-size:13px;color:var(--text-dim);padding-top:8px}
+.footer-link a{color:var(--gold);font-weight:700;cursor:pointer}
+
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:700;z-index:100;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,0.4);white-space:nowrap;max-width:90%}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{background:var(--danger);color:#fff}
+.toast.success{background:var(--success);color:#fff}
+
+.success-overlay{position:fixed;inset:0;z-index:200;background:rgba(10,25,41,0.95);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;pointer-events:none;transition:opacity .4s}
+.success-overlay.show{opacity:1;pointer-events:auto}
+.success-check{width:90px;height:90px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;animation:pop .5s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 0 12px var(--gold-soft)}
+.success-check svg{width:48px;height:48px;stroke:var(--navy);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.success-title{font-size:22px;font-weight:800;color:var(--gold)}
+.success-sub{font-size:13px;color:var(--text-dim);text-align:center;padding:0 30px}
+
+/* Must signup overlay */
+.must-signup{position:fixed;inset:0;z-index:180;background:rgba(10,25,41,0.92);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:30px;opacity:0;pointer-events:none;transition:opacity .3s}
+.must-signup.show{opacity:1;pointer-events:auto}
+.must-card{background:linear-gradient(180deg,#132f4c 0%,#0a1929 100%);border:1.5px solid rgba(231,76,60,0.4);border-radius:20px;padding:28px 24px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.must-icon{width:70px;height:70px;margin:0 auto 16px;border-radius:50%;background:rgba(231,76,60,0.15);display:flex;align-items:center;justify-content:center}
+.must-icon svg{width:36px;height:36px;stroke:var(--danger);fill:none;stroke-width:2}
+.must-title{font-size:18px;font-weight:800;color:var(--danger);margin-bottom:8px}
+.must-text{font-size:13px;color:var(--text-dim);line-height:1.7;margin-bottom:20px}
+.must-btn{width:100%;height:50px;border-radius:12px;background:linear-gradient(135deg,#f4d03f,#d4af37);color:var(--navy);font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
+.must-btn:active{transform:scale(0.97)}
+.must-btn svg{width:18px;height:18px;stroke:var(--navy);fill:none;stroke-width:2.5}
+.must-cancel{width:100%;height:44px;border-radius:12px;color:var(--text-dim);font-size:13px;font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<div class="page">
+
+  <header class="top-bar">
+    <button class="icon-btn" onclick="location.href='index.html'">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="page-title" data-i18n="pageTitle">ورود</div>
+    <button class="icon-btn" style="visibility:hidden"><svg viewBox="0 0 24 24"></svg></button>
+  </header>
+
+  <div class="lang-row">
+    <div class="lang-pills">
+      <button data-lang="fa" onclick="setLang('fa')">دری</button>
+      <button data-lang="ps" onclick="setLang('ps')">پښتو</button>
+      <button data-lang="en" onclick="setLang('en')">English</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="head">
+      <div class="head-logo"><span>B</span></div>
+      <div class="head-title" data-i18n="headTitle">خوش آمدید</div>
+      <div class="head-sub" data-i18n="headSub">به حساب بازارچه خود وارد شوید</div>
+    </div>
+
+    <!-- Warning -->
+    <div class="warn-box" id="warnBox">
+      <div class="w-title">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span data-i18n="warnTitle">هنوز ثبت‌نام نکرده‌اید!</span>
+      </div>
+      <div class="w-sub" data-i18n="warnSub">لطفاً ابتدا از طریق دکمه ثبت‌نام در صفحه قبل، حساب بسازید</div>
+    </div>
+
+    <!-- Social -->
+    <div class="socials">
+      <button class="social-btn google" id="btnGoogle" onclick="socialLogin('google')">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <div class="spinner"></div>
+        <span>Google</span>
+      </button>
+      <button class="social-btn facebook" id="btnFacebook" onclick="socialLogin('facebook')">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+        <div class="spinner"></div>
+        <span>Facebook</span>
+      </button>
+    </div>
+
+    <div class="divider"><span data-i18n="orText">یا با ایمیل / شماره</span></div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label class="form-label" data-i18n="labelIdentifier">ایمیل یا شماره تماس</label>
+        <div class="input-wrap">
+          <input type="text" id="identifier" data-i18n-ph="phIdentifier" placeholder="example@gmail.com یا 701234567" autocomplete="username" dir="ltr">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+        </div>
+        <div class="error-msg" id="errIdentifier"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="labelPass">رمز عبور</label>
+        <div class="input-wrap">
+          <input type="password" id="password" data-i18n-ph="phPass" placeholder="رمز عبور خود را وارد کنید" autocomplete="current-password">
+          <svg class="toggle-pass" onclick="togglePass('password',this)" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="error-msg" id="errPass"></div>
+      </div>
+
+      <div class="row-between">
+        <label class="remember">
+          <input type="checkbox" id="remember" checked>
+          <span data-i18n="remember">مرا به خاطر بسپار</span>
+        </label>
+        <a class="forgot" onclick="forgotPass()" data-i18n="forgot">فراموشی رمز؟</a>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">
+        <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        <span data-i18n="btnLogin">ورود</span>
+      </button>
+    </form>
+
+    <div class="footer-link">
+      <span data-i18n="noAccount">حساب نداری؟</span>
+      <a onclick="location.href='index.html'" data-i18n="signupLink">ثبت‌نام کن</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Must Signup Overlay -->
+<div class="must-signup" id="mustSignup">
+  <div class="must-card">
+    <div class="must-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    </div>
+    <div class="must-title" data-i18n="mustTitle">اول ثبت‌نام کنید!</div>
+    <div class="must-text" data-i18n="mustText">برای ورود به بازارچه، ابتدا باید حساب بسازید و ایمیل خود را تایید کنید.</div>
+    <a onclick="location.href='index.html'" class="must-btn">
+      <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+      <span data-i18n="mustBtn">ثبت‌نام کنید</span>
+    </a>
+    <button class="must-cancel" onclick="closeMustSignup()" data-i18n="mustCancel">انصراف</button>
+  </div>
+</div>
+
+<div class="success-overlay" id="successOverlay">
+  <div class="success-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+  <div class="success-title" data-i18n="successTitle">خوش آمدید!</div>
+  <div class="success-sub" data-i18n="successSub">در حال ورود به حساب...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ========== Translations ========== */
+const T = {
+  fa:{
+    pageTitle:'ورود',headTitle:'خوش آمدید',headSub:'به حساب بازارچه خود وارد شوید',
+    orText:'یا با ایمیل / شماره',
+    labelIdentifier:'ایمیل یا شماره تماس',
+    phIdentifier:'example@gmail.com یا 701234567',
+    labelPass:'رمز عبور',phPass:'رمز عبور خود را وارد کنید',
+    remember:'مرا به خاطر بسپار',forgot:'فراموشی رمز؟',
+    btnLogin:'ورود',
+    noAccount:'حساب نداری؟',signupLink:'ثبت‌نام کن',
+    warnTitle:'هنوز ثبت‌نام نکرده‌اید!',
+    warnSub:'لطفاً ابتدا از طریق دکمه ثبت‌نام در صفحه قبل، حساب بسازید',
+    mustTitle:'اول ثبت‌نام کنید!',
+    mustText:'برای ورود به بازارچه، ابتدا باید حساب بسازید و ایمیل خود را تایید کنید.',
+    mustBtn:'ثبت‌نام کنید',
+    mustCancel:'انصراف',
+    successTitle:'خوش آمدید!',successSub:'در حال ورود به حساب...',
+    errIdReq:'ایمیل یا شماره تماس را وارد کنید',
+    errIdInvalid:'فرمت ایمیل یا شماره تماس صحیح نیست',
+    errPassReq:'رمز عبور را وارد کنید',
+    errWrongPass:'رمز عبور اشتباه است',
+    errNoUser:'حسابی با این ایمیل/شماره یافت نشد',
+    errNotVerified:'حساب شما تایید نشده. لطفاً دوباره ثبت‌نام کنید.',
+    errProvider:'این حساب با {p} ساخته شده. با همان روش وارد شوید.',
+    socialNoUser:'هیچ حساب {p} یافت نشد. اول ثبت‌نام کنید.',
+    socialLoggingIn:'در حال اتصال به {p}...',
+    socialWelcome:'خوش آمدید! ورود موفق',
+    forgotToast:'به‌زودی فعال می‌شود'
+  },
+  ps:{
+    pageTitle:'ننوتل',headTitle:'ښه راغلاست',headSub:'خپل د بازارچه حساب ته ننوځه',
+    orText:'یا د ایمیل / شمېرې سره',
+    labelIdentifier:'ایمیل یا د اړیکې شمېره',
+    phIdentifier:'example@gmail.com یا 701234567',
+    labelPass:'پټ نوم',phPass:'خپل پټ نوم ولیکه',
+    remember:'ما په یاد وساته',forgot:'پټ نوم هېر شو؟',
+    btnLogin:'ننوتل',
+    noAccount:'حساب نلرې؟',signupLink:'نوم لیکنه وکړه',
+    warnTitle:'تر اوسه نوم لیکنه نه ده شوې!',
+    warnSub:'مهرباني وکړه لومړی د نوم لیکنې تڼۍ وکاروه',
+    mustTitle:'لومړی نوم لیکنه وکړه!',
+    mustText:'بازارچه ته د ننوتلو لپاره باید لومړی حساب جوړ کړې او ایمیل تایید کړې.',
+    mustBtn:'نوم لیکنه وکړه',
+    mustCancel:'لغوه',
+    successTitle:'ښه راغلاست!',successSub:'حساب ته ننوځو...',
+    errIdReq:'ایمیل یا شمېره ولیکه',
+    errIdInvalid:'د ایمیل یا شمېرې بڼه سمه نه ده',
+    errPassReq:'پټ نوم ولیکه',
+    errWrongPass:'پټ نوم غلط دی',
+    errNoUser:'د دې ایمیل/شمېرې سره حساب ونه موندل شو',
+    errNotVerified:'ستاسو حساب تایید شوی نه دی. مهرباني وکړه بیا نوم لیکنه وکړه.',
+    errProvider:'دا حساب د {p} سره جوړ شوی. د هغې لارې سره ننوځه.',
+    socialNoUser:'د {p} حساب ونه موندل شو. لومړی نوم لیکنه وکړه.',
+    socialLoggingIn:'د {p} سره نښلو...',
+    socialWelcome:'ښه راغلاست! بریالی ننوتل',
+    forgotToast:'ژر فعاله کیږي'
+  },
+  en:{
+    pageTitle:'Login',headTitle:'Welcome Back',headSub:'Sign in to your Bazaarcheh account',
+    orText:'or with email / phone',
+    labelIdentifier:'Email or Phone',
+    phIdentifier:'example@gmail.com or 701234567',
+    labelPass:'Password',phPass:'Enter your password',
+    remember:'Remember me',forgot:'Forgot password?',
+    btnLogin:'Login',
+    noAccount:"Don't have an account?",signupLink:'Sign Up',
+    warnTitle:'You have not signed up yet!',
+    warnSub:'Please first create an account using the signup button',
+    mustTitle:'Sign up first!',
+    mustText:'To enter Bazaarcheh, you need to create an account and verify your email first.',
+    mustBtn:'Sign Up',
+    mustCancel:'Cancel',
+    successTitle:'Welcome!',successSub:'Logging in...',
+    errIdReq:'Enter email or phone',
+    errIdInvalid:'Invalid email or phone format',
+    errPassReq:'Enter password',
+    errWrongPass:'Incorrect password',
+    errNoUser:'No account found with this email/phone',
+    errNotVerified:'Your account is not verified. Please sign up again.',
+    errProvider:'This account was created with {p}. Please login with {p}.',
+    socialNoUser:'No {p} account found. Please sign up first.',
+    socialLoggingIn:'Connecting to {p}...',
+    socialWelcome:'Welcome! Login successful',
+    forgotToast:'Coming soon'
+  }
+};
+
+let currentLang = localStorage.getItem('bazaarcheh_lang') || 'fa';
+
+/* ========== Helpers ========== */
+function t(k){ return T[currentLang][k] || T.fa[k]; }
+function tReplace(k, vars){
+  let s = t(k);
+  Object.keys(vars).forEach(key => { s = s.replace('{' + key + '}', vars[key]); });
+  return s;
+}
+function showToast(msg, type){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.className = 'toast', 2400);
+}
+function showError(id, msg){
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(msg){
+    el.textContent = msg; el.classList.add('show');
+    const wrap = el.previousElementSibling;
+    if(wrap){ const inp = wrap.querySelector('input'); if(inp) inp.classList.add('error'); }
+  } else {
+    el.classList.remove('show'); el.textContent = '';
+    const wrap = el.previousElementSibling;
+    if(wrap){ const inp = wrap.querySelector('input'); if(inp) inp.classList.remove('error'); }
+  }
+}
+function togglePass(id, el){
+  const inp = document.getElementById(id);
+  if(inp.type==='password'){
+    inp.type='text';
+    el.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  } else {
+    inp.type='password';
+    el.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+}
+function normalizePhone(v){
+  v = v.replace(/[\s-]/g,'').replace(/^(\+93|0093|93|0)/,'');
+  return '+93' + v;
+}
+function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
+function isPhone(v){
+  v = v.replace(/[\s-]/g,'').replace(/^(\+93|0093|93|0)/,'');
+  return /^\d{9}$/.test(v);
+}
+function closeMustSignup(){
+  document.getElementById('mustSignup').classList.remove('show');
+}
+function forgotPass(){
+  showToast(t('forgotToast'));
+}
+
+/* ========== Check if any user exists ========== */
+function checkUsers(){
+  const users = JSON.parse(localStorage.getItem('bazaarcheh_users') || '[]');
+  const verifiedUsers = users.filter(u => u.verified);
+  const warnBox = document.getElementById('warnBox');
+  if(verifiedUsers.length === 0){
+    warnBox.classList.add('show');
+  } else {
+    warnBox.classList.remove('show');
+  }
+}
+
+/* ========== Social Login (only existing users) ========== */
+async function socialLogin(provider){
+  const btn = provider === 'google' ? document.getElementById('btnGoogle') : document.getElementById('btnFacebook');
+  btn.classList.add('loading');
+
+  const providerName = provider === 'google' ? 'Google' : 'Facebook';
+  showToast(tReplace('socialLoggingIn', { p: providerName }));
+
+  await new Promise(r => setTimeout(r, 1200));
+
+  const users = JSON.parse(localStorage.getItem('bazaarcheh_users') || '[]');
+  const providerUsers = users.filter(u => u.provider === provider && u.verified);
+
+  if(providerUsers.length === 0){
+    btn.classList.remove('loading');
+    showToast(tReplace('socialNoUser', { p: providerName }), 'error');
+    document.getElementById('mustSignup').classList.add('show');
+    return;
+  }
+
+  // Latest user with this provider
+  const user = providerUsers[providerUsers.length - 1];
+
+  // Create session
+  const session = {
+    id: user.id, name: user.name, email: user.email, phone: user.phone,
+    avatar: user.avatar, city: user.city, gender: user.gender,
+    accountType: user.accountType, businessName: user.businessName,
+    businessCategory: user.businessCategory, businessLogo: user.businessLogo,
+    provider: user.provider,
+    loginAt: new Date().toISOString()
+  };
+  localStorage.setItem('bazaarcheh_session', JSON.stringify(session));
+
+  showToast(t('socialWelcome'), 'success');
+  document.getElementById('successOverlay').classList.add('show');
+  setTimeout(() => { location.href = 'home.html'; }, 1300);
+}
+
+/* ========== Form Submit ========== */
+document.getElementById('loginForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  showError('errIdentifier','');
+  showError('errPass','');
+
+  const identifier = document.getElementById('identifier').value.trim();
+  const password = document.getElementById('password').value;
+
+  if(!identifier){ showError('errIdentifier', t('errIdReq')); return; }
+  if(!password){ showError('errPass', t('errPassReq')); return; }
+
+  if(!isEmail(identifier) && !isPhone(identifier)){
+    showError('errIdentifier', t('errIdInvalid')); return;
+  }
+
+  const users = JSON.parse(localStorage.getItem('bazaarcheh_users') || '[]');
+
+  if(users.length === 0){
+    document.getElementById('mustSignup').classList.add('show');
+    return;
+  }
+
+  const normPhone = isPhone(identifier) ? normalizePhone(identifier) : null;
+  const normEmail = isEmail(identifier) ? identifier.toLowerCase() : null;
+
+  const user = users.find(u => {
+    if(normEmail && u.email === normEmail) return true;
+    if(normPhone && u.phone === normPhone) return true;
+    return false;
+  });
+
+  if(!user){
+    showError('errIdentifier', t('errNoUser'));
+    document.getElementById('mustSignup').classList.add('show');
+    return;
+  }
+
+  // چک تایید
+  if(!user.verified){
+    showError('errPass', t('errNotVerified'));
+    return;
+  }
+
+  // چک provider (Google/Facebook users can't login with password)
+  if(user.provider){
+    const pName = user.provider === 'google' ? 'Google' : 'Facebook';
+    showError('errPass', tReplace('errProvider', { p: pName }));
+    return;
+  }
+
+  if(user.password !== password){
+    showError('errPass', t('errWrongPass'));
+    return;
+  }
+
+  // Success
+  const remember = document.getElementById('remember').checked;
+  const session = {
+    id: user.id, name: user.name, email: user.email, phone: user.phone,
+    avatar: user.avatar, city: user.city, gender: user.gender,
+    accountType: user.accountType || 'personal',
+    businessName: user.businessName || null,
+    businessCategory: user.businessCategory || null,
+    businessLogo: user.businessLogo || null,
+    loginAt: new Date().toISOString()
+  };
+  if(remember){
+    localStorage.setItem('bazaarcheh_session', JSON.stringify(session));
+  } else {
+    sessionStorage.setItem('bazaarcheh_session', JSON.stringify(session));
+  }
+
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('successOverlay').classList.add('show');
+  setTimeout(()=>{ location.href = 'home.html'; }, 1400);
+});
+
+/* ========== Language ========== */
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem('bazaarcheh_lang', lang);
+  const html = document.documentElement;
+  html.lang = lang==='en'?'en':'fa';
+  html.dir = lang==='en'?'ltr':'rtl';
+  document.querySelectorAll('.lang-pills button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.lang===lang);
+  });
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.dataset.i18n;
+    if(T[lang][key] !== undefined) el.textContent = T[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const key = el.dataset.i18nPh;
+    if(T[lang][key] !== undefined) el.placeholder = T[lang][key];
+  });
+  document.title = T[lang].pageTitle + ' | Bazaarcheh';
+}
+
+/* ========== Init ========== */
+setLang(currentLang);
+checkUsers();
+</script>
+</body>
+</html>

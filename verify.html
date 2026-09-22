@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a1929">
+<title>تایید کد | بازارچه</title>
+<style>
+:root{
+  --navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;
+  --gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);
+  --text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;
+  --border:rgba(212,175,55,0.22);
+  --danger:#e74c3c;--success:#2ecc71;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input{font-family:inherit}
+
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:radial-gradient(circle at 15% 15%,rgba(26,58,92,0.85) 0%,transparent 55%),radial-gradient(circle at 85% 85%,rgba(212,175,55,0.1) 0%,transparent 55%),linear-gradient(160deg,#0a1929 0%,#0d2137 50%,#050d17 100%)}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.5;animation:float 20s ease-in-out infinite}
+.orb.o1{width:280px;height:280px;background:radial-gradient(circle,rgba(212,175,55,0.55),transparent 70%);top:-90px;right:-90px}
+.orb.o2{width:240px;height:240px;background:radial-gradient(circle,rgba(26,90,150,0.65),transparent 70%);bottom:-80px;left:-80px;animation-delay:-8s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-25px) scale(1.1)}66%{transform:translate(-25px,35px) scale(0.95)}}
+
+.page{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column}
+.wrap{flex:1;padding:20px 24px;max-width:480px;margin:0 auto;width:100%;display:flex;flex-direction:column;justify-content:center}
+
+.top-bar{padding:12px 0 0;display:flex;align-items:center;gap:12px}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);transition:all .2s}
+.icon-btn:active{transform:scale(0.92)}
+.icon-btn svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.head{text-align:center;padding:20px 0 24px}
+.icon-wrap{
+  width:90px;height:90px;margin:0 auto 16px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(212,175,55,0.2),rgba(212,175,55,0.05));
+  border:2px solid rgba(212,175,55,0.4);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;animation:icon-pulse 2s ease-in-out infinite;
+}
+@keyframes icon-pulse{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0.4)}50%{box-shadow:0 0 0 20px rgba(212,175,55,0)}}
+.icon-wrap svg{width:42px;height:42px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.head-title{font-size:22px;font-weight:800;color:var(--gold);margin-bottom:8px}
+.head-sub{font-size:13.5px;color:var(--text-dim);line-height:1.7;padding:0 20px}
+.head-sub b{color:var(--gold);font-weight:700;direction:ltr;display:inline-block}
+
+/* Demo banner */
+.demo-banner{
+  background:rgba(46,204,113,0.12);
+  border:1.5px dashed rgba(46,204,113,0.5);
+  border-radius:12px;padding:12px 14px;
+  margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.demo-banner svg{width:20px;height:20px;stroke:var(--success);fill:none;stroke-width:2;flex-shrink:0}
+.demo-banner .db-text{font-size:11.5px;color:var(--text-dim);line-height:1.5;flex:1}
+.demo-banner .db-code{
+  font-family:monospace;font-size:18px;font-weight:900;
+  color:var(--success);letter-spacing:4px;
+  padding:4px 10px;background:rgba(46,204,113,0.15);
+  border-radius:8px;
+}
+
+/* Code inputs */
+.code-row{display:flex;gap:8px;justify-content:center;direction:ltr;margin-bottom:24px}
+.code-input{
+  width:48px;height:58px;text-align:center;
+  background:var(--card);
+  border:2px solid var(--border);
+  border-radius:12px;
+  color:var(--gold);font-size:24px;font-weight:900;
+  outline:none;transition:all .2s;
+  font-family:monospace;
+}
+.code-input:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-soft);transform:scale(1.05)}
+.code-input.filled{border-color:var(--gold);background:var(--gold-soft)}
+.code-input.error{border-color:var(--danger);animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+.error-msg{
+  text-align:center;color:var(--danger);font-size:12.5px;font-weight:600;
+  margin-bottom:16px;min-height:20px;
+}
+.error-msg.show{animation:shake .4s}
+
+/* Resend */
+.resend{
+  text-align:center;font-size:12.5px;color:var(--text-dim);
+  margin-bottom:22px;
+}
+.resend b{color:var(--gold);font-weight:800;cursor:pointer}
+.resend .timer{color:var(--gold);font-weight:800;font-family:monospace}
+
+/* Submit */
+.btn-submit{
+  width:100%;height:54px;border-radius:14px;
+  background:linear-gradient(135deg,#f4d03f 0%,#d4af37 50%,#b8941f 100%);
+  color:var(--navy);font-size:15px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow:0 10px 25px rgba(212,175,55,0.35);
+  transition:all .2s;margin-bottom:14px;
+}
+.btn-submit:active{transform:scale(0.97)}
+.btn-submit:disabled{opacity:0.4;pointer-events:none}
+.btn-submit svg{width:20px;height:20px;stroke:var(--navy);fill:none;stroke-width:2.5}
+
+.back-link{
+  text-align:center;font-size:12.5px;color:var(--text-dim);
+}
+.back-link a{color:var(--gold);font-weight:700;cursor:pointer}
+
+/* Success overlay */
+.success-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(10,25,41,0.95);backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:20px;opacity:0;pointer-events:none;transition:opacity .4s;
+}
+.success-overlay.show{opacity:1;pointer-events:auto}
+.success-check{
+  width:100px;height:100px;border-radius:50%;background:var(--success);
+  display:flex;align-items:center;justify-content:center;
+  animation:pop .5s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 0 0 14px rgba(46,204,113,0.2);
+}
+.success-check svg{width:56px;height:56px;stroke:#fff;fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.success-title{font-size:22px;font-weight:800;color:var(--success)}
+.success-sub{font-size:13px;color:var(--text-dim);text-align:center;padding:0 30px}
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<div class="page">
+  <div class="top-bar">
+    <button class="icon-btn" onclick="location.href='index.html'">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+  </div>
+
+  <div class="wrap">
+
+    <div class="head">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></svg>
+      </div>
+      <div class="head-title">کد تایید را وارد کنید</div>
+      <div class="head-sub">کد ۶ رقمی به ایمیل <b id="emailShow">example@gmail.com</b> ارسال شد</div>
+    </div>
+
+    <!-- Demo banner (چون ایمیل واقعی نداریم) -->
+    <div class="demo-banner" id="demoBanner">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+      <div class="db-text">
+        <b style="color:var(--success)">حالت تست:</b> کد ارسال شده به ایمیل
+      </div>
+      <div class="db-code" id="demoCode">------</div>
+    </div>
+
+    <!-- Code inputs -->
+    <div class="code-row" id="codeRow">
+      <input class="code-input" type="tel" maxlength="1" inputmode="numeric" data-idx="0">
+      <input class="code-input" type="tel" maxlength="1" inputmode="numeric" data-idx="1">
+      <input class="code-input" type="tel" maxlength="1" inputmode="numeric" data-idx="2">
+      <input class="code-input" type="tel" maxlength="1" inputmode="numeric" data-idx="3">
+      <input class="code-input" type="tel" maxlength="1" inputmode="numeric" data-idx="4">
+      <input class="code-input" type="tel" maxlength="1" inputmode="numeric" data-idx="5">
+    </div>
+
+    <div class="error-msg" id="errorMsg"></div>
+
+    <div class="resend">
+      کد را دریافت نکردید؟ <b id="resendBtn">ارسال مجدد</b>
+      <span id="timerWrap" style="display:none"> در <span class="timer" id="timer">۶۰</span> ثانیه</span>
+    </div>
+
+    <button class="btn-submit" id="verifyBtn" onclick="verifyCode()" disabled>
+      <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <span>تایید کد</span>
+    </button>
+
+    <div class="back-link">
+      ایمیل اشتباه است؟ <a onclick="location.href='index.html'">برگردید</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Success -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+  <div class="success-title">تایید شد!</div>
+  <div class="success-sub">در حال انتقال به انتخاب نوع حساب...</div>
+</div>
+
+<script>
+/* ========== Helpers ========== */
+function toPersianDigits(n){
+  const p = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+  return String(n).replace(/\d/g,d=>p[d]);
+}
+function getPending(){
+  try { return JSON.parse(localStorage.getItem('bazaarcheh_pending') || 'null'); } catch(e){ return null; }
+}
+
+/* ========== Init ========== */
+const pending = getPending();
+if(!pending){
+  location.href = 'index.html';
+}
+
+// Show email
+if(pending){
+  document.getElementById('emailShow').textContent = pending.email;
+}
+
+// Generate code on load if not exists
+if(pending && !pending.code){
+  pending.code = String(Math.floor(100000 + Math.random() * 900000));
+  localStorage.setItem('bazaarcheh_pending', JSON.stringify(pending));
+}
+
+// Show demo code
+if(pending && pending.code){
+  document.getElementById('demoCode').textContent = pending.code;
+}
+
+/* ========== Code Inputs ========== */
+const inputs = document.querySelectorAll('.code-input');
+const verifyBtn = document.getElementById('verifyBtn');
+
+inputs.forEach((inp, i) => {
+  inp.addEventListener('input', (e) => {
+    const v = e.target.value.replace(/\D/g,'');
+    e.target.value = v;
+    if(v){
+      e.target.classList.add('filled');
+      if(i < 5) inputs[i+1].focus();
+    } else {
+      e.target.classList.remove('filled');
+    }
+    updateBtn();
+  });
+
+  inp.addEventListener('keydown', (e) => {
+    if(e.key === 'Backspace' && !e.target.value && i > 0){
+      inputs[i-1].focus();
+    }
+  });
+
+  inp.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g,'');
+    if(text.length === 6){
+      inputs.forEach((x, idx) => {
+        x.value = text[idx];
+        x.classList.add('filled');
+      });
+      inputs[5].focus();
+      updateBtn();
+    }
+  });
+});
+
+function updateBtn(){
+  const allFilled = [...inputs].every(i => i.value.length === 1);
+  verifyBtn.disabled = !allFilled;
+}
+
+/* ========== Verify ========== */
+function verifyCode(){
+  const entered = [...inputs].map(i => i.value).join('');
+  const errMsg = document.getElementById('errorMsg');
+
+  if(entered !== pending.code){
+    errMsg.textContent = 'کد وارد شده اشتباه است. دوباره تلاش کنید.';
+    errMsg.classList.add('show');
+    inputs.forEach(i => i.classList.add('error'));
+    setTimeout(() => inputs.forEach(i => i.classList.remove('error')), 500);
+    return;
+  }
+
+  // Success
+  errMsg.classList.remove('show');
+  pending.verified = true;
+  localStorage.setItem('bazaarcheh_pending', JSON.stringify(pending));
+
+  document.getElementById('successOverlay').classList.add('show');
+  setTimeout(() => {
+    location.href = 'account-type.html';
+  }, 1500);
+}
+
+/* ========== Resend ========== */
+const resendBtn = document.getElementById('resendBtn');
+const timerWrap = document.getElementById('timerWrap');
+const timerEl = document.getElementById('timer');
+let countdownInterval = null;
+let secondsLeft = 60;
+
+function startCountdown(){
+  secondsLeft = 60;
+  timerWrap.style.display = 'inline';
+  resendBtn.style.pointerEvents = 'none';
+  resendBtn.style.opacity = '0.4';
+  timerEl.textContent = toPersianDigits(secondsLeft);
+
+  clearInterval(countdownInterval);
+  countdownInterval = setInterval(() => {
+    secondsLeft--;
+    timerEl.textContent = toPersianDigits(secondsLeft);
+    if(secondsLeft <= 0){
+      clearInterval(countdownInterval);
+      timerWrap.style.display = 'none';
+      resendBtn.style.pointerEvents = 'auto';
+      resendBtn.style.opacity = '1';
+    }
+  }, 1000);
+}
+
+resendBtn.addEventListener('click', () => {
+  // Generate new code
+  pending.code = String(Math.floor(100000 + Math.random() * 900000));
+  localStorage.setItem('bazaarcheh_pending', JSON.stringify(pending));
+  document.getElementById('demoCode').textContent = pending.code;
+  document.getElementById('errorMsg').textContent = 'کد جدید ارسال شد ✓';
+  document.getElementById('errorMsg').style.color = 'var(--success)';
+  document.getElementById('errorMsg').classList.add('show');
+  inputs.forEach(i => { i.value = ''; i.classList.remove('filled'); });
+  inputs[0].focus();
+  updateBtn();
+  startCountdown();
+
+  setTimeout(() => {
+    document.getElementById('errorMsg').style.color = 'var(--danger)';
+  }, 2500);
+});
+
+// Focus first input on load
+window.addEventListener('load', () => {
+  setTimeout(() => inputs[0].focus(), 300);
+});
+</script>
+</body>
+</html>

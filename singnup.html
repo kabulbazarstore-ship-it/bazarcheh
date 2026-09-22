@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a1929">
+<title>ثبت‌نام | بازارچه</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{
+  --navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;
+  --gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);
+  --text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;
+  --border:rgba(212,175,55,0.22);
+  --danger:#e74c3c;--success:#2ecc71;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+input,select{font-family:inherit}
+
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:radial-gradient(circle at 15% 15%,rgba(26,58,92,0.85) 0%,transparent 55%),radial-gradient(circle at 85% 85%,rgba(212,175,55,0.1) 0%,transparent 55%),linear-gradient(160deg,#0a1929 0%,#0d2137 50%,#050d17 100%)}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.5;animation:float 20s ease-in-out infinite}
+.orb.o1{width:260px;height:260px;background:radial-gradient(circle,rgba(212,175,55,0.5),transparent 70%);top:-80px;right:-80px}
+.orb.o2{width:220px;height:220px;background:radial-gradient(circle,rgba(26,90,150,0.6),transparent 70%);bottom:-70px;left:-70px;animation-delay:-8s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-25px) scale(1.1)}66%{transform:translate(-25px,35px) scale(0.95)}}
+
+.page{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column}
+.wrap{flex:1;padding:16px 22px 100px;max-width:520px;margin:0 auto;width:100%}
+
+.top-bar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,var(--navy) 0%,rgba(10,25,41,0.9) 100%);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);transition:all .2s;flex-shrink:0}
+.icon-btn:active{transform:scale(0.92);background:var(--gold-soft)}
+.icon-btn svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.page-title{flex:1;font-size:15px;font-weight:700;text-align:center;color:var(--gold)}
+
+.lang-row{display:flex;justify-content:flex-end;padding:12px 22px 0}
+.lang-pills{display:inline-flex;gap:4px;background:var(--card);padding:3px;border-radius:10px;border:1px solid var(--border)}
+.lang-pills button{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;color:var(--text-dim);transition:all .2s}
+.lang-pills button.active{background:var(--gold);color:var(--navy)}
+
+.head{text-align:center;padding:16px 0 18px}
+.head-logo{width:68px;height:68px;margin:0 auto 10px;border-radius:20px;background:linear-gradient(145deg,#1a3a5c 0%,#0a1929 100%);border:1.5px solid rgba(212,175,55,0.4);display:flex;align-items:center;justify-content:center;box-shadow:0 15px 40px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.08);position:relative}
+.head-logo::after{content:'';position:absolute;inset:-6px;border-radius:24px;border:2px dashed rgba(212,175,55,0.22);animation:spin 25s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.head-logo span{font-size:38px;font-weight:900;color:#f4d03f;text-shadow:0 0 15px rgba(244,208,63,0.6),0 3px 10px rgba(212,175,55,0.4)}
+.head-title{font-size:22px;font-weight:800;color:var(--gold);margin-bottom:4px}
+.head-sub{font-size:12.5px;color:var(--text-dim)}
+
+/* Progress */
+.progress{display:flex;justify-content:center;gap:6px;margin-bottom:20px}
+.progress .dot{width:8px;height:8px;border-radius:50%;background:rgba(212,175,55,0.25);transition:all .3s}
+.progress .dot.active{background:var(--gold);width:24px;border-radius:4px}
+.progress .dot.done{background:var(--success)}
+
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--text-dim);margin-bottom:7px}
+.form-label .req{color:var(--danger);font-size:14px;margin-inline-start:3px}
+.input-wrap{position:relative}
+.input-wrap input,.input-wrap select{width:100%;height:52px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:0 46px 0 14px;color:var(--text);font-size:14px;outline:none;transition:all .2s;-webkit-appearance:none;appearance:none}
+html[dir="ltr"] .input-wrap input,html[dir="ltr"] .input-wrap select{padding:0 14px 0 46px}
+.input-wrap input:focus,.input-wrap select:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+.input-wrap input::placeholder{color:var(--text-dim);opacity:0.6}
+.input-wrap input.error,.input-wrap select.error{border-color:var(--danger);box-shadow:0 0 0 4px rgba(231,76,60,0.1)}
+.input-wrap .icon{position:absolute;top:50%;right:14px;transform:translateY(-50%);width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2;pointer-events:none}
+html[dir="ltr"] .input-wrap .icon{right:auto;left:14px}
+.input-wrap .toggle-pass{position:absolute;top:50%;right:14px;transform:translateY(-50%);width:24px;height:24px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+html[dir="ltr"] .input-wrap .toggle-pass{right:auto;left:14px}
+.input-wrap .toggle-pass svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2}
+
+.phone-wrap{position:relative}
+.phone-prefix{position:absolute;top:50%;right:14px;transform:translateY(-50%);font-size:14px;font-weight:800;color:#25D366;padding-right:12px;border-right:1px solid var(--border);pointer-events:none}
+html[dir="ltr"] .phone-prefix{right:auto;left:14px;padding-right:0;padding-left:12px;border-right:none;border-left:1px solid var(--border)}
+.phone-wrap input{padding-right:72px !important}
+html[dir="ltr"] .phone-wrap input{padding-right:14px !important;padding-left:72px !important}
+.whatsapp-group .input-wrap input:focus{border-color:#25D366;box-shadow:0 0 0 4px rgba(37,211,102,0.15)}
+
+.error-msg{font-size:11px;color:var(--danger);margin-top:6px;padding-inline-start:4px;display:none}
+.error-msg.show{display:block}
+
+.terms{display:flex;align-items:flex-start;gap:10px;margin:18px 0;font-size:12px;color:var(--text-dim);line-height:1.5}
+.terms input[type="checkbox"]{width:20px;height:20px;accent-color:var(--gold);margin-top:1px;flex-shrink:0;cursor:pointer}
+.terms a{color:var(--gold);text-decoration:underline;cursor:pointer}
+
+.btn-submit{width:100%;height:54px;border-radius:14px;background:linear-gradient(135deg,#f4d03f 0%,#d4af37 50%,#b8941f 100%);color:var(--navy);font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 10px 25px rgba(212,175,55,0.35);transition:all .2s;margin-bottom:16px}
+.btn-submit:active{transform:scale(0.97)}
+.btn-submit:disabled{opacity:0.5;pointer-events:none}
+.btn-submit svg{width:20px;height:20px;stroke:var(--navy);fill:none;stroke-width:2.5}
+
+.footer-link{text-align:center;font-size:13px;color:var(--text-dim);padding-bottom:20px}
+.footer-link a{color:var(--gold);font-weight:700;cursor:pointer}
+
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:700;z-index:100;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,0.4);white-space:nowrap;max-width:90%}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{background:var(--danger);color:#fff}
+.toast.success{background:var(--success);color:#fff}
+
+.success-overlay{position:fixed;inset:0;z-index:200;background:rgba(10,25,41,0.95);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;pointer-events:none;transition:opacity .4s}
+.success-overlay.show{opacity:1;pointer-events:auto}
+.success-check{width:90px;height:90px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;animation:pop .5s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 0 12px var(--gold-soft)}
+.success-check svg{width:48px;height:48px;stroke:var(--navy);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.success-title{font-size:22px;font-weight:800;color:var(--gold)}
+.success-sub{font-size:13px;color:var(--text-dim);text-align:center;padding:0 30px}
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<div class="page">
+
+  <header class="top-bar">
+    <button class="icon-btn" onclick="location.href='index.html'">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="page-title" data-i18n="pageTitle">ثبت‌نام</div>
+    <button class="icon-btn" style="visibility:hidden"><svg viewBox="0 0 24 24"></svg></button>
+  </header>
+
+  <div class="lang-row">
+    <div class="lang-pills">
+      <button data-lang="fa" onclick="setLang('fa')">دری</button>
+      <button data-lang="ps" onclick="setLang('ps')">پښتو</button>
+      <button data-lang="en" onclick="setLang('en')">English</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="head">
+      <div class="head-logo"><span>B</span></div>
+      <div class="head-title" data-i18n="headTitle">حساب جدید بساز</div>
+      <div class="head-sub" data-i18n="headSub">به بازارچه خوش آمدید</div>
+    </div>
+
+    <div class="progress">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+    <form id="signupForm" novalidate>
+
+      <div class="form-group">
+        <label class="form-label"><span data-i18n="labelName">نام و تخلص</span><span class="req">*</span></label>
+        <div class="input-wrap">
+          <input type="text" id="fullName" data-i18n-ph="phName" placeholder="مثلاً: فاطمه احمدی" autocomplete="name">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="error-msg" id="errName"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label"><span data-i18n="labelEmail">ایمیل</span><span class="req">*</span></label>
+        <div class="input-wrap">
+          <input type="email" id="email" data-i18n-ph="phEmail" placeholder="example@gmail.com" autocomplete="email" dir="ltr">
+          <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        </div>
+        <div class="error-msg" id="errEmail"></div>
+      </div>
+
+      <div class="form-group whatsapp-group">
+        <label class="form-label"><span data-i18n="labelPhone">شماره واتساپ</span><span class="req">*</span></label>
+        <div class="input-wrap phone-wrap">
+          <input type="tel" id="phone" data-i18n-ph="phPhone" placeholder="70 123 4567" maxlength="15" autocomplete="tel" dir="ltr">
+          <span class="phone-prefix">+93</span>
+        </div>
+        <div class="error-msg" id="errPhone"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label"><span data-i18n="labelPass">رمز عبور</span><span class="req">*</span></label>
+        <div class="input-wrap">
+          <input type="password" id="password" data-i18n-ph="phPass" placeholder="حداقل ۶ حرف" autocomplete="new-password">
+          <svg class="toggle-pass" onclick="togglePass('password',this)" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="error-msg" id="errPass"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label"><span data-i18n="labelPass2">تکرار رمز عبور</span><span class="req">*</span></label>
+        <div class="input-wrap">
+          <input type="password" id="password2" data-i18n-ph="phPass2" placeholder="دوباره رمز را بنویسید" autocomplete="new-password">
+          <svg class="toggle-pass" onclick="togglePass('password2',this)" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="error-msg" id="errPass2"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label"><span data-i18n="labelCity">شهر</span><span class="req">*</span></label>
+        <div class="input-wrap">
+          <select id="city"><option value="">انتخاب شهر...</option></select>
+          <svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="error-msg" id="errCity"></div>
+      </div>
+
+      <label class="terms">
+        <input type="checkbox" id="terms">
+        <span>
+          <span data-i18n="termsAgree">موافقم با</span>
+          <a onclick="event.preventDefault();showToast('قوانین')" data-i18n="termsLink">قوانین و شرایط</a>
+          <span data-i18n="termsAnd">و</span>
+          <a onclick="event.preventDefault();showToast('حریم خصوصی')" data-i18n="privacyLink">حریم خصوصی</a>
+          <span data-i18n="termsOf">بازارچه</span>
+        </span>
+      </label>
+      <div class="error-msg" id="errTerms" style="margin-top:-12px;margin-bottom:16px"></div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">
+        <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        <span data-i18n="btnSignup">ادامه</span>
+      </button>
+
+    </form>
+
+    <div class="footer-link">
+      <span data-i18n="haveAccount">قبلاً حساب داری؟</span>
+      <a onclick="location.href='login.html'" data-i18n="loginLink">وارد شو</a>
+    </div>
+
+  </div>
+</div>
+
+<div class="success-overlay" id="successOverlay">
+  <div class="success-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+  <div class="success-title" data-i18n="successTitle">کد ارسال شد!</div>
+  <div class="success-sub" data-i18n="successSub">در حال انتقال به صفحه تایید...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const T = {
+  fa:{
+    pageTitle:'ثبت‌نام',headTitle:'حساب جدید بساز',headSub:'به بازارچه خوش آمدید',
+    labelName:'نام و تخلص',labelEmail:'ایمیل',labelPhone:'شماره واتساپ',
+    labelPass:'رمز عبور',labelPass2:'تکرار رمز عبور',labelCity:'شهر',
+    phName:'مثلاً: فاطمه احمدی',phEmail:'example@gmail.com',
+    phPhone:'70 123 4567',phPass:'حداقل ۶ حرف',phPass2:'دوباره رمز را بنویسید',
+    cityPlaceholder:'انتخاب شهر...',
+    termsAgree:'موافقم با',termsLink:'قوانین و شرایط',termsAnd:'و',
+    privacyLink:'حریم خصوصی',termsOf:'بازارچه',
+    btnSignup:'ادامه',haveAccount:'قبلاً حساب داری؟',loginLink:'وارد شو',
+    successTitle:'کد ارسال شد!',successSub:'در حال انتقال به صفحه تایید...',
+    errNameReq:'نام الزامی است',errNameShort:'نام باید حداقل ۳ حرف باشد',
+    errEmailReq:'ایمیل الزامی است',errEmailInvalid:'ایمیل صحیح نیست',
+    errEmailTaken:'این ایمیل قبلاً ثبت شده',
+    errPhoneReq:'شماره واتساپ الزامی است',
+    errPhoneInvalid:'شماره باید ۹ رقم باشد (مثلاً 701234567)',
+    errPhoneTaken:'این شماره قبلاً ثبت شده',
+    errPassReq:'رمز عبور الزامی است',errPassShort:'رمز باید حداقل ۶ حرف باشد',
+    errPass2Req:'تکرار رمز الزامی است',errPass2Match:'رمزها یکسان نیستند',
+    errCityReq:'لطفاً شهر را انتخاب کنید',errTermsReq:'لطفاً قوانین را بپذیرید',
+    cities:['کابل','هرات','مزار شریف','قندهار','جلال آباد','کندز','غزنی','بامیان','فاریاب','ننگرهار','پکتیا','هلمند','بلخ','بدخشان','تخار','سایر']
+  },
+  ps:{
+    pageTitle:'نوم لیکنه',headTitle:'نوی حساب جوړ کړه',headSub:'بازارچه ته ښه راغلاست',
+    labelName:'نوم او تخلص',labelEmail:'ایمیل',labelPhone:'د واټساپ شمېره',
+    labelPass:'پټ نوم',labelPass2:'پټ نوم بیا ولیکه',labelCity:'ښار',
+    phName:'لکه: فاطمه احمدي',phEmail:'example@gmail.com',
+    phPhone:'70 123 4567',phPass:'لږترلږه ۶ توري',phPass2:'پټ نوم بیا ولیکه',
+    cityPlaceholder:'ښار غوره کړه...',
+    termsAgree:'موافق یم',termsLink:'قوانین او شرایط',termsAnd:'او',
+    privacyLink:'محرمیت',termsOf:'بازارچه',
+    btnSignup:'دوام',haveAccount:'دمخه حساب لرې؟',loginLink:'ننوځه',
+    successTitle:'کوډ ولېږل شو!',successSub:'د تایید پاڼې ته ځو...',
+    errNameReq:'نوم اړین دی',errNameShort:'نوم باید لږترلږه ۳ توري وي',
+    errEmailReq:'ایمیل اړین دی',errEmailInvalid:'ایمیل سم نه دی',
+    errEmailTaken:'دا ایمیل دمخه ثبت شوی',
+    errPhoneReq:'د واټساپ شمېره اړینه ده',
+    errPhoneInvalid:'شمېره باید ۹ عدد وي (لکه 701234567)',
+    errPhoneTaken:'دا شمېره دمخه ثبت شوې',
+    errPassReq:'پټ نوم اړین دی',errPassShort:'پټ نوم باید لږترلږه ۶ توري وي',
+    errPass2Req:'د پټ نوم تکرار اړین دی',errPass2Match:'پټ نومونه سره یو شان نه دي',
+    errCityReq:'مهرباني وکړه ښار غوره کړه',errTermsReq:'مهرباني وکړه قوانین ومنه',
+    cities:['کابل','هرات','مزار شریف','قندهار','جلال آباد','کندز','غزني','بامیان','فاریاب','ننګرهار','پکتیا','هلمند','بلخ','بدخشان','تخار','نور']
+  },
+  en:{
+    pageTitle:'Sign Up',headTitle:'Create New Account',headSub:'Welcome to Bazaarcheh',
+    labelName:'Full Name',labelEmail:'Email',labelPhone:'WhatsApp Number',
+    labelPass:'Password',labelPass2:'Confirm Password',labelCity:'City',
+    phName:'e.g. Fatima Ahmadi',phEmail:'example@gmail.com',
+    phPhone:'70 123 4567',phPass:'At least 6 characters',phPass2:'Re-enter password',
+    cityPlaceholder:'Select city...',
+    termsAgree:'I agree to the',termsLink:'Terms & Conditions',termsAnd:'and',
+    privacyLink:'Privacy Policy',termsOf:'of Bazaarcheh',
+    btnSignup:'Continue',haveAccount:'Already have an account?',loginLink:'Login',
+    successTitle:'Code Sent!',successSub:'Redirecting to verification...',
+    errNameReq:'Name is required',errNameShort:'Name must be at least 3 characters',
+    errEmailReq:'Email is required',errEmailInvalid:'Invalid email address',
+    errEmailTaken:'This email is already registered',
+    errPhoneReq:'WhatsApp number is required',
+    errPhoneInvalid:'Number must be 9 digits (e.g. 701234567)',
+    errPhoneTaken:'This number is already registered',
+    errPassReq:'Password is required',errPassShort:'Password must be at least 6 characters',
+    errPass2Req:'Confirm password is required',errPass2Match:'Passwords do not match',
+    errCityReq:'Please select your city',errTermsReq:'Please accept the terms',
+    cities:['Kabul','Herat','Mazar-i-Sharif','Kandahar','Jalalabad','Kunduz','Ghazni','Bamyan','Faryab','Nangarhar','Paktia','Helmand','Balkh','Badakhshan','Takhar','Other']
+  }
+};
+
+let currentLang = localStorage.getItem('bazaarcheh_lang') || 'fa';
+
+/* ========== Helpers ========== */
+function t(k){ return T[currentLang][k] || T.fa[k]; }
+function showToast(msg, type){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.className = 'toast', 2400);
+}
+function showError(id, msg){
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(msg){
+    el.textContent = msg; el.classList.add('show');
+    const wrap = el.previousElementSibling;
+    if(wrap){ const inp = wrap.querySelector('input,select'); if(inp) inp.classList.add('error'); }
+  } else {
+    el.classList.remove('show'); el.textContent = '';
+    const wrap = el.previousElementSibling;
+    if(wrap){ const inp = wrap.querySelector('input,select'); if(inp) inp.classList.remove('error'); }
+  }
+}
+function clearAllErrors(){
+  ['errName','errEmail','errPhone','errPass','errPass2','errCity','errTerms'].forEach(id=>showError(id,''));
+  document.querySelectorAll('.error').forEach(el=>el.classList.remove('error'));
+}
+function togglePass(id, el){
+  const inp = document.getElementById(id);
+  if(inp.type==='password'){
+    inp.type='text';
+    el.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  } else {
+    inp.type='password';
+    el.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+}
+function renderCities(){
+  const sel = document.getElementById('city');
+  const current = sel.value;
+  sel.innerHTML = '<option value="">' + t('cityPlaceholder') + '</option>' +
+    T[currentLang].cities.map(c => `<option value="${c}">${c}</option>`).join('');
+  if(current) sel.value = current;
+}
+function validateEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
+function validatePhone(v){
+  v = v.replace(/[\s-]/g,'').replace(/^(\+93|0093|93|0)/,'');
+  return /^\d{9}$/.test(v);
+}
+function normalizePhone(v){
+  v = v.replace(/[\s-]/g,'').replace(/^(\+93|0093|93|0)/,'');
+  return '+93' + v;
+}
+function validateForm(){
+  clearAllErrors();
+  let isValid = true;
+
+  const name = document.getElementById('fullName').value.trim();
+  if(!name){ showError('errName', t('errNameReq')); isValid=false; }
+  else if(name.length < 3){ showError('errName', t('errNameShort')); isValid=false; }
+
+  const email = document.getElementById('email').value.trim().toLowerCase();
+  if(!email){ showError('errEmail', t('errEmailReq')); isValid=false; }
+  else if(!validateEmail(email)){ showError('errEmail', t('errEmailInvalid')); isValid=false; }
+  else {
+    const users = JSON.parse(localStorage.getItem('bazaarcheh_users') || '[]');
+    if(users.find(u => u.email === email)){ showError('errEmail', t('errEmailTaken')); isValid=false; }
+  }
+
+  const phone = document.getElementById('phone').value.trim();
+  if(!phone){ showError('errPhone', t('errPhoneReq')); isValid=false; }
+  else if(!validatePhone(phone)){ showError('errPhone', t('errPhoneInvalid')); isValid=false; }
+  else {
+    const norm = normalizePhone(phone);
+    const users = JSON.parse(localStorage.getItem('bazaarcheh_users') || '[]');
+    if(users.find(u => u.phone === norm)){ showError('errPhone', t('errPhoneTaken')); isValid=false; }
+  }
+
+  const pass = document.getElementById('password').value;
+  if(!pass){ showError('errPass', t('errPassReq')); isValid=false; }
+  else if(pass.length < 6){ showError('errPass', t('errPassShort')); isValid=false; }
+
+  const pass2 = document.getElementById('password2').value;
+  if(!pass2){ showError('errPass2', t('errPass2Req')); isValid=false; }
+  else if(pass !== pass2){ showError('errPass2', t('errPass2Match')); isValid=false; }
+
+  if(!document.getElementById('city').value){ showError('errCity', t('errCityReq')); isValid=false; }
+  if(!document.getElementById('terms').checked){ showError('errTerms', t('errTermsReq')); isValid=false; }
+
+  return isValid;
+}
+
+/* ========== Submit ========== */
+document.getElementById('signupForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  if(!validateForm()){
+    const firstError = document.querySelector('.error-msg.show');
+    if(firstError) firstError.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
+  document.getElementById('submitBtn').disabled = true;
+
+  const user = {
+    id: Date.now(),
+    name: document.getElementById('fullName').value.trim(),
+    email: document.getElementById('email').value.trim().toLowerCase(),
+    phone: normalizePhone(document.getElementById('phone').value),
+    password: document.getElementById('password').value,
+    gender: 'female',
+    city: document.getElementById('city').value,
+    avatar: null,
+    provider: null,
+    accountType: null,
+    businessName: null,
+    verified: false,
+    lang: currentLang,
+    createdAt: new Date().toISOString()
+  };
+
+  // ذخیره در لیست کاربران (verify=false)
+  const users = JSON.parse(localStorage.getItem('bazaarcheh_users') || '[]');
+  const filtered = users.filter(u => u.email !== user.email);
+  filtered.push(user);
+  localStorage.setItem('bazaarcheh_users', JSON.stringify(filtered));
+
+  // ذخیره کاربر معلق — منتظر تایید کد
+  const pending = {
+    email: user.email,
+    name: user.name,
+    phone: user.phone,
+    password: user.password,
+    city: user.city,
+    provider: null,
+    code: String(Math.floor(100000 + Math.random() * 900000)),
+    verified: false,
+    accountType: null,
+    createdAt: new Date().toISOString()
+  };
+  localStorage.setItem('bazaarcheh_pending', JSON.stringify(pending));
+
+  document.getElementById('successOverlay').classList.add('show');
+  setTimeout(() => { location.href = 'verify.html'; }, 1500);
+});
+
+/* ========== Language ========== */
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem('bazaarcheh_lang', lang);
+  const html = document.documentElement;
+  html.lang = lang==='en'?'en':'fa';
+  html.dir = lang==='en'?'ltr':'rtl';
+  document.querySelectorAll('.lang-pills button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.lang===lang);
+  });
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.dataset.i18n;
+    if(T[lang][key] !== undefined) el.textContent = T[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const key = el.dataset.i18nPh;
+    if(T[lang][key] !== undefined) el.placeholder = T[lang][key];
+  });
+  document.title = T[lang].pageTitle + ' | Bazaarcheh';
+  renderCities();
+}
+
+/* ========== Init ========== */
+setLang(currentLang);
+renderCities();
+clearAllErrors();
+</script>
+</body>
+</html>

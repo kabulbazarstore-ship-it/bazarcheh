@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a1929">
+<title>ورود | بازارچه</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{
+  --navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;
+  --gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);
+  --text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;
+  --border:rgba(212,175,55,0.22);
+  --danger:#e74c3c;--success:#2ecc71;
+  --whatsapp:#25D366;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+input{font-family:inherit}
+
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:radial-gradient(circle at 15% 15%,rgba(26,58,92,0.85) 0%,transparent 55%),radial-gradient(circle at 85% 85%,rgba(212,175,55,0.1) 0%,transparent 55%),linear-gradient(160deg,#0a1929 0%,#0d2137 50%,#050d17 100%)}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.5;animation:float 20s ease-in-out infinite}
+.orb.o1{width:280px;height:280px;background:radial-gradient(circle,rgba(212,175,55,0.55),transparent 70%);top:-90px;right:-90px}
+.orb.o2{width:240px;height:240px;background:radial-gradient(circle,rgba(26,90,150,0.65),transparent 70%);bottom:-80px;left:-80px;animation-delay:-8s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-25px) scale(1.1)}66%{transform:translate(-25px,35px) scale(0.95)}}
+
+.page{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column}
+.wrap{flex:1;padding:16px 22px 30px;max-width:460px;margin:0 auto;width:100%;display:flex;flex-direction:column;justify-content:center}
+
+.top-bar{position:absolute;top:0;left:0;right:0;padding:12px 16px;display:flex;align-items:center;gap:12px;z-index:10}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);transition:all .2s}
+.icon-btn:active{transform:scale(0.92);background:var(--gold-soft)}
+.icon-btn svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.lang-row{display:flex;justify-content:flex-end;padding:60px 0 0}
+.lang-pills{display:inline-flex;gap:4px;background:var(--card);padding:3px;border-radius:10px;border:1px solid var(--border)}
+.lang-pills button{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;color:var(--text-dim);transition:all .2s}
+.lang-pills button.active{background:var(--gold);color:var(--navy)}
+
+.head{text-align:center;padding:24px 0 26px}
+.head-logo{width:90px;height:90px;margin:0 auto 16px;border-radius:26px;background:linear-gradient(145deg,#1a3a5c 0%,#0a1929 100%);border:1.5px solid rgba(212,175,55,0.4);display:flex;align-items:center;justify-content:center;box-shadow:0 15px 40px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.08);position:relative}
+.head-logo::after{content:'';position:absolute;inset:-6px;border-radius:30px;border:2px dashed rgba(212,175,55,0.22);animation:spin 25s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.head-logo span{font-size:48px;font-weight:900;color:#f4d03f;text-shadow:0 0 18px rgba(244,208,63,0.6),0 3px 10px rgba(212,175,55,0.4)}
+.head-title{font-size:24px;font-weight:800;color:var(--gold);margin-bottom:6px}
+.head-sub{font-size:13px;color:var(--text-dim);line-height:1.6;padding:0 20px}
+
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12.5px;font-weight:600;color:var(--text-dim);margin-bottom:8px}
+.form-label .req{color:var(--danger);margin-inline-start:3px}
+.input-wrap{position:relative}
+.input-wrap input{width:100%;height:56px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:0 50px 0 16px;color:var(--text);font-size:15px;outline:none;transition:all .2s}
+html[dir="ltr"] .input-wrap input{padding:0 16px 0 50px}
+.input-wrap input:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+.input-wrap input::placeholder{color:var(--text-dim);opacity:0.6}
+.input-wrap input.error{border-color:var(--danger);box-shadow:0 0 0 4px rgba(231,76,60,0.1)}
+.input-wrap .icon{position:absolute;top:50%;right:16px;transform:translateY(-50%);width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2;pointer-events:none}
+html[dir="ltr"] .input-wrap .icon{right:auto;left:16px}
+
+/* ===== Phone with Country ===== */
+.phone-row{
+  display:flex;gap:8px;align-items:stretch;
+}
+.country-btn{
+  flex-shrink:0;
+  min-width:100px;
+  height:56px;
+  background:var(--card);
+  border:1.5px solid rgba(37,211,102,0.35);
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  gap:6px;padding:0 12px;
+  transition:all .2s;
+  color:var(--text);
+}
+.country-btn:active{transform:scale(0.97);background:var(--gold-soft)}
+.country-btn .flag-badge{
+  width:28px;height:22px;border-radius:5px;
+  background:linear-gradient(135deg,#1a3a5c,#0a1929);
+  border:1px solid rgba(212,175,55,0.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:900;color:var(--gold);
+  letter-spacing:0.3px;
+  flex-shrink:0;
+}
+.country-btn .country-dial{
+  font-size:13px;font-weight:800;color:var(--whatsapp);
+  direction:ltr;
+}
+.country-btn .chev{
+  width:12px;height:12px;stroke:var(--text-dim);fill:none;stroke-width:2.5;
+  flex-shrink:0;
+}
+
+.phone-input-wrap{flex:1;position:relative}
+.phone-input-wrap input{
+  width:100%;height:56px;
+  background:var(--card);
+  border:1.5px solid rgba(37,211,102,0.35);
+  border-radius:14px;
+  padding:0 16px;
+  color:var(--text);font-size:15px;
+  outline:none;transition:all .2s;
+  direction:ltr;text-align:right;
+  letter-spacing:1px;
+}
+html[dir="ltr"] .phone-input-wrap input{text-align:left}
+.phone-input-wrap input:focus{
+  border-color:var(--whatsapp);
+  box-shadow:0 0 0 4px rgba(37,211,102,0.15);
+}
+.phone-input-wrap input.error{
+  border-color:var(--danger);
+  box-shadow:0 0 0 4px rgba(231,76,60,0.1);
+}
+.phone-input-wrap input::placeholder{color:var(--text-dim);opacity:0.5;letter-spacing:0}
+
+.whatsapp-hint{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--whatsapp);margin-top:7px;padding-inline-start:4px}
+.whatsapp-hint svg{width:14px;height:14px;stroke:var(--whatsapp);fill:none;stroke-width:2;flex-shrink:0}
+
+.error-msg{font-size:11.5px;color:var(--danger);margin-top:7px;padding-inline-start:4px;display:none}
+.error-msg.show{display:block}
+
+.info-box{background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);border-radius:12px;padding:12px 14px;margin-bottom:20px;display:flex;gap:10px;font-size:11.5px;color:var(--text-dim);line-height:1.7}
+.info-box svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;flex-shrink:0;margin-top:2px}
+.info-box b{color:var(--gold)}
+
+.btn-submit{width:100%;height:58px;border-radius:14px;background:linear-gradient(135deg,#f4d03f 0%,#d4af37 50%,#b8941f 100%);color:var(--navy);font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 12px 30px rgba(212,175,55,0.4);transition:all .2s;margin-top:6px}
+.btn-submit:active{transform:scale(0.97)}
+.btn-submit:disabled{opacity:0.5;pointer-events:none}
+.btn-submit svg{width:22px;height:22px;stroke:var(--navy);fill:none;stroke-width:2.5}
+
+.footer-note{text-align:center;font-size:11px;color:var(--text-dim);padding-top:18px;line-height:1.6}
+.footer-note a{color:var(--gold);font-weight:700;cursor:pointer}
+
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:700;z-index:400;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,0.4);white-space:nowrap;max-width:90%}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{background:var(--danger);color:#fff}
+.toast.success{background:var(--success);color:#fff}
+
+.loading-overlay{position:fixed;inset:0;z-index:200;background:rgba(10,25,41,0.95);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;pointer-events:none;transition:opacity .3s}
+.loading-overlay.show{opacity:1;pointer-events:auto}
+.loading-spinner{width:60px;height:60px;border:4px solid rgba(212,175,55,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin2 .8s linear infinite}
+@keyframes spin2{to{transform:rotate(360deg)}}
+.loading-text{font-size:14px;color:var(--gold);font-weight:600}
+
+.success-icon{width:80px;height:80px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center;animation:pop .5s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 0 12px rgba(46,204,113,0.2)}
+.success-icon svg{width:44px;height:44px;stroke:#fff;fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+
+/* ===== Country Picker Sheet ===== */
+.picker-overlay{position:fixed;inset:0;z-index:300;background:rgba(10,25,41,0.75);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.picker-overlay.show{opacity:1;pointer-events:auto}
+.picker-sheet{
+  width:100%;max-width:520px;height:80vh;
+  background:linear-gradient(180deg,#132f4c 0%,#0a1929 100%);
+  border-radius:24px 24px 0 0;
+  border-top:1px solid var(--border);
+  display:flex;flex-direction:column;
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 -20px 60px rgba(0,0,0,0.5);
+}
+.picker-overlay.show .picker-sheet{transform:translateY(0)}
+.picker-handle{width:44px;height:4px;border-radius:2px;background:rgba(212,175,55,0.4);margin:12px auto 12px;flex-shrink:0}
+.picker-title{text-align:center;font-size:15px;font-weight:800;color:var(--gold);margin-bottom:14px;flex-shrink:0}
+.picker-search{
+  margin:0 20px 12px;
+  position:relative;flex-shrink:0;
+}
+.picker-search input{
+  width:100%;height:44px;
+  background:var(--navy);
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  padding:0 44px 0 14px;
+  color:var(--text);font-size:13px;
+  outline:none;
+}
+html[dir="ltr"] .picker-search input{padding:0 14px 0 44px}
+.picker-search input:focus{border-color:var(--gold)}
+.picker-search input::placeholder{color:var(--text-dim)}
+.picker-search svg{
+  position:absolute;top:50%;right:14px;transform:translateY(-50%);
+  width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;
+  pointer-events:none;
+}
+html[dir="ltr"] .picker-search svg{right:auto;left:14px}
+
+.picker-list{
+  flex:1;overflow-y:auto;
+  padding:0 12px calc(20px + env(safe-area-inset-bottom));
+}
+.picker-list::-webkit-scrollbar{width:4px}
+.picker-list::-webkit-scrollbar-track{background:transparent}
+.picker-list::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.3);border-radius:2px}
+
+.country-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  transition:all .15s;
+  margin-bottom:2px;
+}
+.country-item:active{background:var(--gold-soft)}
+.country-item.selected{background:rgba(212,175,55,0.15)}
+.country-item.selected .ci-dial{color:var(--gold)}
+.country-item .ci-flag{
+  width:36px;height:28px;border-radius:6px;
+  background:linear-gradient(135deg,#1a3a5c,#0a1929);
+  border:1px solid rgba(212,175,55,0.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;color:var(--gold);
+  letter-spacing:0.5px;flex-shrink:0;
+}
+.country-item .ci-name{
+  flex:1;font-size:14px;font-weight:600;color:var(--text);
+}
+.country-item .ci-dial{
+  font-size:13px;font-weight:800;color:var(--text-dim);
+  direction:ltr;font-family:monospace;
+}
+.country-item .ci-check{
+  width:18px;height:18px;stroke:var(--gold);fill:none;
+  stroke-width:3;stroke-linecap:round;stroke-linejoin:round;
+  display:none;flex-shrink:0;
+}
+.country-item.selected .ci-check{display:block}
+
+.no-country{
+  text-align:center;padding:40px 20px;
+  color:var(--text-dim);font-size:13px;
+}
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<div class="page">
+
+  <div class="top-bar">
+    <button class="icon-btn" onclick="location.href='index.html'">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+  </div>
+
+  <div class="wrap">
+
+    <div class="lang-row">
+      <div class="lang-pills">
+        <button data-lang="fa" onclick="setLang('fa')">دری</button>
+        <button data-lang="ps" onclick="setLang('ps')">پښتو</button>
+        <button data-lang="en" onclick="setLang('en')">English</button>
+      </div>
+    </div>
+
+    <div class="head">
+      <div class="head-logo"><span>B</span></div>
+      <div class="head-title" data-i18n="headTitle">خوش آمدید</div>
+      <div class="head-sub" data-i18n="headSub">برای ورود، نام و شماره واتساپ خود را وارد کنید</div>
+    </div>
+
+    <form id="enterForm" novalidate>
+
+      <!-- Name -->
+      <div class="form-group">
+        <label class="form-label">
+          <span data-i18n="labelName">نام شما</span>
+          <span class="req">*</span>
+        </label>
+        <div class="input-wrap">
+          <input type="text" id="fullName" data-i18n-ph="phName" placeholder="مثلاً: فاطمه" autocomplete="name">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="error-msg" id="errName"></div>
+      </div>
+
+      <!-- Phone with Country -->
+      <div class="form-group">
+        <label class="form-label">
+          <span data-i18n="labelPhone">شماره واتساپ</span>
+          <span class="req">*</span>
+        </label>
+
+        <div class="phone-row">
+          <button type="button" class="country-btn" onclick="openCountryPicker()">
+            <span class="flag-badge" id="currentFlag">AF</span>
+            <span class="country-dial" id="currentDial">+93</span>
+            <svg class="chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="phone-input-wrap">
+            <input type="tel" id="phone" data-i18n-ph="phPhone" placeholder="70 123 4567" maxlength="15" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="whatsapp-hint">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+          <span data-i18n="whatsappHint">شماره واتساپ شما برای ارتباط با فروشندگان استفاده می‌شود</span>
+        </div>
+        <div class="error-msg" id="errPhone"></div>
+      </div>
+
+      <div class="info-box">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div data-i18n="infoText">
+          اگر شماره شما قبلاً ثبت شده باشد، مستقیماً وارد می‌شوید. اگر نه، حساب جدید ساخته می‌شود.
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">
+        <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        <span data-i18n="btnEnter">ورود به بازارچه</span>
+      </button>
+
+    </form>
+
+    <div class="footer-note">
+      <span data-i18n="termsNote">با ورود، شما</span>
+      <a onclick="showToast(currentLang==='en'?'Coming soon':'به‌زودی')" data-i18n="termsLink">قوانین و شرایط</a>
+      <span data-i18n="termsNote2">بازارچه را می‌پذیرید</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- Loading -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner" id="loadingSpinner"></div>
+  <div class="success-icon" id="successIcon" style="display:none">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <div class="loading-text" id="loadingText">در حال ورود...</div>
+</div>
+
+<!-- Country Picker Sheet -->
+<div class="picker-overlay" id="pickerOverlay" onclick="if(event.target===this)closeCountryPicker()">
+  <div class="picker-sheet">
+    <div class="picker-handle"></div>
+    <div class="picker-title" data-i18n="pickerTitle">انتخاب کشور</div>
+    <div class="picker-search">
+      <input type="text" id="countrySearch" data-i18n-ph="pickerSearch" placeholder="جستجوی کشور..." oninput="filterCountries()">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </div>
+    <div class="picker-list" id="countryList"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==========================================
+   📋 Countries List
+   ========================================== */
+const COUNTRIES = [
+  {code:'AF', dial:'93',  fa:'افغانستان',   ps:'افغانستان',   en:'Afghanistan'},
+  {code:'IR', dial:'98',  fa:'ایران',       ps:'ایران',       en:'Iran'},
+  {code:'PK', dial:'92',  fa:'پاکستان',     ps:'پاکستان',     en:'Pakistan'},
+  {code:'TJ', dial:'992', fa:'تاجکستان',    ps:'تاجکستان',    en:'Tajikistan'},
+  {code:'UZ', dial:'998', fa:'ازبکستان',    ps:'ازبکستان',    en:'Uzbekistan'},
+  {code:'TM', dial:'993', fa:'ترکمنستان',   ps:'ترکمنستان',   en:'Turkmenistan'},
+  {code:'IN', dial:'91',  fa:'هند',         ps:'هند',         en:'India'},
+  {code:'TR', dial:'90',  fa:'ترکیه',       ps:'ترکیه',       en:'Turkey'},
+  {code:'AE', dial:'971', fa:'امارات',      ps:'امارات',      en:'UAE'},
+  {code:'SA', dial:'966', fa:'عربستان',     ps:'عربستان',     en:'Saudi Arabia'},
+  {code:'QA', dial:'974', fa:'قطر',         ps:'قطر',         en:'Qatar'},
+  {code:'KW', dial:'965', fa:'کویت',        ps:'کویت',        en:'Kuwait'},
+  {code:'DE', dial:'49',  fa:'آلمان',       ps:'آلمان',       en:'Germany'},
+  {code:'NL', dial:'31',  fa:'هالند',       ps:'هالند',       en:'Netherlands'},
+  {code:'SE', dial:'46',  fa:'سویدن',       ps:'سویدن',       en:'Sweden'},
+  {code:'NO', dial:'47',  fa:'ناروی',       ps:'ناروی',       en:'Norway'},
+  {code:'DK', dial:'45',  fa:'دنمارک',      ps:'دنمارک',      en:'Denmark'},
+  {code:'GB', dial:'44',  fa:'بریتانیا',    ps:'بریتانیا',    en:'United Kingdom'},
+  {code:'FR', dial:'33',  fa:'فرانسه',      ps:'فرانسه',      en:'France'},
+  {code:'US', dial:'1',   fa:'امریکا',      ps:'امریکا',      en:'United States'},
+  {code:'CA', dial:'1',   fa:'کانادا',      ps:'کانادا',      en:'Canada'},
+  {code:'AU', dial:'61',  fa:'استرالیا',    ps:'استرالیا',    en:'Australia'},
+  {code:'CN', dial:'86',  fa:'چین',         ps:'چین',         en:'China'},
+  {code:'RU', dial:'7',   fa:'روسیه',       ps:'روسیه',       en:'Russia'},
+  {code:'MY', dial:'60',  fa:'مالیزیا',     ps:'مالیزیا',     en:'Malaysia'},
+  {code:'ID', dial:'62',  fa:'اندونیزیا',   ps:'اندونیزیا',   en:'Indonesia'}
+];
+
+/* ========== Translations ========== */
+const T = {
+  fa:{
+    headTitle:'خوش آمدید',
+    headSub:'برای ورود، نام و شماره واتساپ خود را وارد کنید',
+    labelName:'نام شما',phName:'مثلاً: فاطمه',
+    labelPhone:'شماره واتساپ',phPhone:'70 123 4567',
+    whatsappHint:'شماره واتساپ شما برای ارتباط با فروشندگان استفاده می‌شود',
+    infoText:'اگر شماره شما قبلاً ثبت شده باشد، مستقیماً وارد می‌شوید. اگر نه، حساب جدید ساخته می‌شود.',
+    btnEnter:'ورود به بازارچه',
+    termsNote:'با ورود، شما',termsLink:'قوانین و شرایط',termsNote2:'بازارچه را می‌پذیرید',
+    pickerTitle:'انتخاب کشور',pickerSearch:'جستجوی کشور...',
+    noCountry:'کشوری یافت نشد',
+    loadingNew:'در حال ساخت حساب...',
+    loadingLogin:'در حال ورود...',
+    welcomeNew:'خوش آمدید! حساب ساخته شد',
+    welcomeBack:'خوش برگشتید!',
+    errNameReq:'نام الزامی است',
+    errNameShort:'نام باید حداقل ۲ حرف باشد',
+    errPhoneReq:'شماره واتساپ الزامی است',
+    errPhoneInvalid:'شماره باید بین ۷ تا ۱۵ رقم باشد'
+  },
+  ps:{
+    headTitle:'ښه راغلاست',
+    headSub:'د ننوتلو لپاره، خپل نوم او د واټساپ شمېره ولیکه',
+    labelName:'ستاسو نوم',phName:'لکه: فاطمه',
+    labelPhone:'د واټساپ شمېره',phPhone:'70 123 4567',
+    whatsappHint:'ستاسو د واټساپ شمېره د پلورونکو سره د اړیکې لپاره کارول کیږي',
+    infoText:'که ستاسو شمېره دمخه ثبت شوې وي، سمدلاسه ننوځئ. که نه، نوی حساب جوړیږي.',
+    btnEnter:'بازارچه ته ننوځه',
+    termsNote:'د ننوتلو سره، تاسو',termsLink:'قوانین او شرایط',termsNote2:'د بازارچه منئ',
+    pickerTitle:'هیواد غوره کړه',pickerSearch:'د هیواد پلټنه...',
+    noCountry:'هیواد ونه موندل شو',
+    loadingNew:'حساب جوړیږي...',
+    loadingLogin:'ننوځو...',
+    welcomeNew:'ښه راغلاست! حساب جوړ شو',
+    welcomeBack:'بیرته ښه راغلاست!',
+    errNameReq:'نوم اړین دی',
+    errNameShort:'نوم باید لږترلږه ۲ توري وي',
+    errPhoneReq:'د واټساپ شمېره اړینه ده',
+    errPhoneInvalid:'شمېره باید د ۷ څخه تر ۱۵ عدد وي'
+  },
+  en:{
+    headTitle:'Welcome',
+    headSub:'To enter, provide your name and WhatsApp number',
+    labelName:'Your Name',phName:'e.g. Fatima',
+    labelPhone:'WhatsApp Number',phPhone:'70 123 4567',
+    whatsappHint:'Your WhatsApp number will be used to contact sellers',
+    infoText:'If your number is already registered, you will log in. Otherwise, a new account will be created.',
+    btnEnter:'Enter Bazaarcheh',
+    termsNote:'By entering, you accept',termsLink:'Terms & Conditions',termsNote2:'of Bazaarcheh',
+    pickerTitle:'Select Country',pickerSearch:'Search country...',
+    noCountry:'No country found',
+    loadingNew:'Creating account...',
+    loadingLogin:'Logging in...',
+    welcomeNew:'Welcome! Account created',
+    welcomeBack:'Welcome back!',
+    errNameReq:'Name is required',
+    errNameShort:'Name must be at least 2 characters',
+    errPhoneReq:'WhatsApp number is required',
+    errPhoneInvalid:'Number must be 7 to 15 digits'
+  }
+};
+
+let currentLang = localStorage.getItem('bazaarcheh_lang') || 'fa';
+let selectedCountry = JSON.parse(localStorage.getItem('bazaarcheh_country') || 'null') || COUNTRIES[0];
+
+/* ========== Helpers ========== */
+function t(k){ return T[currentLang][k] || T.fa[k]; }
+function showToast(msg, type){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.className = 'toast', 2400);
+}
+function showError(id, msg){
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(msg){
+    el.textContent = msg; el.classList.add('show');
+    const wrap = el.previousElementSibling;
+    if(wrap){ const inp = wrap.querySelector('input'); if(inp) inp.classList.add('error'); }
+  } else {
+    el.classList.remove('show'); el.textContent = '';
+    const wrap = el.previousElementSibling;
+    if(wrap){ const inp = wrap.querySelector('input'); if(inp) inp.classList.remove('error'); }
+  }
+}
+function getCountryName(c){
+  return c[currentLang] || c.fa;
+}
+function getFullPhone(){
+  const phone = document.getElementById('phone').value.trim().replace(/[\s-]/g,'').replace(/^0+/,'');
+  return '+' + selectedCountry.dial + phone;
+}
+function validatePhone(v){
+  v = v.replace(/[\s-]/g,'').replace(/^0+/,'');
+  return /^\d{7,15}$/.test(v);
+}
+
+/* ========== Country Picker ========== */
+function updateCountryButton(){
+  document.getElementById('currentFlag').textContent = selectedCountry.code;
+  document.getElementById('currentDial').textContent = '+' + selectedCountry.dial;
+  // Update placeholder based on country
+  const ph = document.getElementById('phone');
+  if(selectedCountry.code === 'AF') ph.placeholder = '70 123 4567';
+  else if(selectedCountry.code === 'US' || selectedCountry.code === 'CA') ph.placeholder = '555 123 4567';
+  else ph.placeholder = '123 456 789';
+}
+
+function renderCountries(filter){
+  const list = document.getElementById('countryList');
+  filter = (filter || '').toLowerCase().trim();
+  const filtered = COUNTRIES.filter(c => {
+    if(!filter) return true;
+    return c.code.toLowerCase().includes(filter)
+      || c.dial.includes(filter)
+      || getCountryName(c).toLowerCase().includes(filter)
+      || c.en.toLowerCase().includes(filter);
+  });
+
+  if(filtered.length === 0){
+    list.innerHTML = `<div class="no-country">${t('noCountry')}</div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(c => `
+    <div class="country-item ${c.code === selectedCountry.code && c.dial === selectedCountry.dial ? 'selected' : ''}"
+         onclick="selectCountry('${c.code}', '${c.dial}')">
+      <div class="ci-flag">${c.code}</div>
+      <div class="ci-name">${getCountryName(c)}</div>
+      <div class="ci-dial">+${c.dial}</div>
+      <svg class="ci-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+  `).join('');
+}
+
+function openCountryPicker(){
+  document.getElementById('countrySearch').value = '';
+  renderCountries('');
+  document.getElementById('pickerOverlay').classList.add('show');
+  setTimeout(() => document.getElementById('countrySearch').focus(), 400);
+}
+
+function closeCountryPicker(){
+  document.getElementById('pickerOverlay').classList.remove('show');
+}
+
+function filterCountries(){
+  renderCountries(document.getElementById('countrySearch').value);
+}
+
+function selectCountry(code, dial){
+  selectedCountry = COUNTRIES.find(c => c.code === code && c.dial === dial);
+  localStorage.setItem('bazaarcheh_country', JSON.stringify(selectedCountry));
+  updateCountryButton();
+  closeCountryPicker();
+  document.getElementById('phone').focus();
+}
+
+/* ========== Submit ========== */
+document.getElementById('enterForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  showError('errName','');
+  showError('errPhone','');
+
+  const name = document.getElementById('fullName').value.trim();
+  const rawPhone = document.getElementById('phone').value.trim();
+
+  if(!name){ showError('errName', t('errNameReq')); return; }
+  if(name.length < 2){ showError('errName', t('errNameShort')); return; }
+  if(!rawPhone){ showError('errPhone', t('errPhoneReq')); return; }
+  if(!validatePhone(rawPhone)){ showError('errPhone', t('errPhoneInvalid')); return; }
+
+  const fullPhone = getFullPhone();
+  const users = JSON.parse(localStorage.getItem('bazaarcheh_users') || '[]');
+  const existing = users.find(u => u.phone === fullPhone);
+
+  const overlay = document.getElementById('loadingOverlay');
+  const spinner = document.getElementById('loadingSpinner');
+  const successIcon = document.getElementById('successIcon');
+  const loadingText = document.getElementById('loadingText');
+
+  spinner.style.display = 'block';
+  successIcon.style.display = 'none';
+  loadingText.textContent = existing ? t('loadingLogin') : t('loadingNew');
+  overlay.classList.add('show');
+  document.getElementById('submitBtn').disabled = true;
+
+  setTimeout(() => {
+    let user;
+
+    if(existing){
+      existing.name = name;
+      existing.lastLogin = new Date().toISOString();
+      const updatedUsers = users.map(u => u.phone === fullPhone ? existing : u);
+      localStorage.setItem('bazaarcheh_users', JSON.stringify(updatedUsers));
+      user = existing;
+      showToast(t('welcomeBack'), 'success');
+    } else {
+      user = {
+        id: Date.now(),
+        name: name,
+        phone: fullPhone,
+        country: selectedCountry.code,
+        countryDial: selectedCountry.dial,
+        avatar: null,
+        city: '',
+        gender: 'female',
+        accountType: 'personal',
+        businessName: null,
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString()
+      };
+      users.push(user);
+      localStorage.setItem('bazaarcheh_users', JSON.stringify(users));
+      localStorage.setItem('bazaarcheh_wallet_' + user.id, JSON.stringify({ balance: 0, currency: 'AFN' }));
+      showToast(t('welcomeNew'), 'success');
+    }
+
+    const session = {
+      id: user.id, name: user.name, phone: user.phone,
+      country: user.country, countryDial: user.countryDial,
+      avatar: user.avatar, city: user.city, gender: user.gender,
+      accountType: user.accountType, businessName: user.businessName,
+      loginAt: new Date().toISOString()
+    };
+    localStorage.setItem('bazaarcheh_session', JSON.stringify(session));
+
+    spinner.style.display = 'none';
+    successIcon.style.display = 'flex';
+
+    setTimeout(() => {
+      location.href = 'home.html';
+    }, 1200);
+  }, 1200);
+});
+
+/* ========== Language ========== */
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem('bazaarcheh_lang', lang);
+  const html = document.documentElement;
+  html.lang = lang==='en'?'en':'fa';
+  html.dir = lang==='en'?'ltr':'rtl';
+  document.querySelectorAll('.lang-pills button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.lang===lang);
+  });
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.dataset.i18n;
+    if(T[lang][key] !== undefined) el.textContent = T[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const key = el.dataset.i18nPh;
+    if(T[lang][key] !== undefined) el.placeholder = T[lang][key];
+  });
+  document.title = (lang==='en'?'Login':'ورود') + ' | Bazaarcheh';
+
+  // Update country list to new language
+  if(document.getElementById('pickerOverlay').classList.contains('show')){
+    renderCountries(document.getElementById('countrySearch').value);
+  }
+}
+
+/* ========== Init ========== */
+setLang(currentLang);
+updateCountryButton();
+renderCountries('');
+</script>
+</body>
+</html>

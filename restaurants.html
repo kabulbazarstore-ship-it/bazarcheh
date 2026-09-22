@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a1929">
+<title>رستورانت‌ها | بازارچه</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{
+  --navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;
+  --gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);
+  --text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;
+  --border:rgba(212,175,55,0.22);
+  --danger:#e74c3c;--success:#2ecc71;--live:#ff2d55;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;padding-bottom:100px;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+input{font-family:inherit}
+::-webkit-scrollbar{display:none}
+
+.bg{position:fixed;inset:0;z-index:0;background:radial-gradient(circle at 15% 15%,rgba(26,58,92,0.85) 0%,transparent 55%),radial-gradient(circle at 85% 85%,rgba(212,175,55,0.1) 0%,transparent 55%),linear-gradient(160deg,#0a1929 0%,#0d2137 50%,#050d17 100%)}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.5;animation:float 20s ease-in-out infinite}
+.orb.o1{width:280px;height:280px;background:radial-gradient(circle,rgba(212,175,55,0.55),transparent 70%);top:-90px;right:-90px}
+.orb.o2{width:240px;height:240px;background:radial-gradient(circle,rgba(26,90,150,0.65),transparent 70%);bottom:-80px;left:-80px;animation-delay:-8s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-25px) scale(1.1)}66%{transform:translate(-25px,35px) scale(0.95)}}
+
+.page{position:relative;z-index:2;min-height:100vh}
+
+.top-bar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(10,25,41,0.98),rgba(10,25,41,0.92));backdrop-filter:blur(16px);border-bottom:1px solid rgba(212,175,55,0.15);padding:12px 16px}
+.top-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);transition:all .2s;flex-shrink:0}
+.icon-btn:active{transform:scale(0.92);background:var(--gold-soft)}
+.icon-btn svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.page-title{flex:1;font-size:16px;font-weight:800;text-align:center;color:var(--gold)}
+
+.search-wrap{position:relative}
+.search-wrap input{width:100%;height:46px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:0 44px;color:var(--text);font-size:13px;outline:none}
+.search-wrap input:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+.search-wrap input::placeholder{color:var(--text-dim)}
+.search-wrap .si{position:absolute;top:50%;right:14px;transform:translateY(-50%);width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2;pointer-events:none}
+.search-wrap .mic{position:absolute;top:50%;left:14px;transform:translateY(-50%);width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2}
+
+/* Section Head */
+.section-head{display:flex;align-items:center;justify-content:space-between;padding:18px 16px 10px;max-width:520px;margin:0 auto}
+.section-title{font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
+.section-title .accent{display:inline-block;width:4px;height:14px;border-radius:2px;background:linear-gradient(180deg,var(--gold-2),var(--gold))}
+.section-count{font-size:11.5px;color:var(--text-dim)}
+
+/* Wrap */
+.wrap{padding:0 16px 30px;max-width:520px;margin:0 auto}
+.restaurants{display:flex;flex-direction:column;gap:14px;padding:0 0 8px}
+
+/* Restaurant Card */
+.rest-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  position:relative;
+  transition:transform .2s;
+  animation:fadeUp .4s both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.rest-card:active{transform:scale(0.99)}
+
+.rest-cover{
+  position:relative;width:100%;aspect-ratio:16/9;
+  background:linear-gradient(135deg,var(--navy-3),var(--navy-2));
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.rest-cover svg.cover-icon{width:60px;height:60px;stroke:var(--gold);fill:none;stroke-width:1;opacity:0.4}
+.rest-badges{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:6px;z-index:2}
+html[dir="ltr"] .rest-badges{left:auto;right:12px}
+.rest-badge{padding:5px 10px;border-radius:8px;font-size:10px;font-weight:800;backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px}
+.badge-free{background:var(--gold);color:var(--navy)}
+.badge-open{background:rgba(46,204,113,0.95);color:#fff}
+.badge-closed{background:rgba(231,76,60,0.95);color:#fff}
+.badge-live{background:var(--live);color:#fff}
+.badge-live::before{content:'';width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse-dot 1.4s infinite}
+.badge-soon{background:rgba(212,175,55,0.2);color:var(--gold);border:1px solid rgba(212,175,55,0.4)}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+
+.fav-rest{position:absolute;top:12px;right:12px;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(10,25,41,0.75);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:all .2s}
+html[dir="ltr"] .fav-rest{right:auto;left:12px}
+.fav-rest:active{transform:scale(0.9)}
+.fav-rest svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+.fav-rest.active svg{fill:var(--gold);stroke:var(--gold)}
+
+.rest-body{padding:14px}
+.rest-name-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px}
+.rest-name{font-size:15px;font-weight:800;line-height:1.3;flex:1}
+.rest-rating{display:flex;align-items:center;gap:4px;background:var(--gold-soft);padding:4px 9px;border-radius:8px;flex-shrink:0}
+.rest-rating svg{width:12px;height:12px;fill:var(--gold);stroke:none}
+.rest-rating span{font-size:12px;font-weight:800;color:var(--gold)}
+.rest-cuisine{font-size:12px;color:var(--text-dim);margin-bottom:10px;line-height:1.5}
+.rest-location{font-size:11px;color:var(--text-dim);display:flex;align-items:center;gap:5px;margin-bottom:10px}
+.rest-location svg{width:12px;height:12px;stroke:var(--gold);fill:none;stroke-width:2}
+
+.rest-actions-row{
+  display:flex;gap:8px;align-items:stretch;
+  padding-top:12px;border-top:1px solid rgba(212,175,55,0.1);
+}
+
+.info-btn{
+  width:46px;height:46px;border-radius:12px;flex-shrink:0;
+  background:var(--gold-soft);border:1.5px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;cursor:pointer;
+}
+.info-btn:active{transform:scale(0.94);background:var(--gold)}
+.info-btn svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:2}
+.info-btn:active svg{stroke:var(--navy)}
+
+.rest-meta-quick{
+  flex:1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  font-size:11.5px;color:var(--text-dim);padding-inline-start:6px;
+}
+.rest-meta-quick span{display:flex;align-items:center;gap:5px}
+.rest-meta-quick svg{width:13px;height:13px;stroke:var(--gold);fill:none;stroke-width:2}
+.plus-code{
+  font-size:10px;font-family:monospace;direction:ltr;
+  padding:2px 7px;background:rgba(212,175,55,0.1);
+  border:1px solid rgba(212,175,55,0.25);
+  border-radius:5px;color:var(--gold);font-weight:700;
+}
+
+.view-menu-btn{
+  flex:1;height:46px;border-radius:12px;
+  background:linear-gradient(135deg,#f4d03f,#d4af37);
+  color:var(--navy);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:13px;font-weight:800;
+  box-shadow:0 6px 20px rgba(212,175,55,0.3);
+  transition:all .2s;
+}
+.view-menu-btn:active{transform:scale(0.97)}
+.view-menu-btn svg{width:16px;height:16px;stroke:var(--navy);fill:none;stroke-width:2.5}
+
+.empty{text-align:center;padding:60px 20px;color:var(--text-dim)}
+.empty svg{width:70px;height:70px;stroke:var(--text-dim);fill:none;stroke-width:1.5;margin:0 auto 16px;opacity:0.4}
+.empty p{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px}
+
+/* ==========================================
+   Modal Base
+   ========================================== */
+.modal-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(10,25,41,0.85);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s;
+}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+
+.modal-sheet{
+  width:100%;max-width:560px;
+  max-height:90vh;
+  background:linear-gradient(180deg,#132f4c 0%,#0a1929 100%);
+  border-radius:24px 24px 0 0;
+  border-top:1px solid var(--border);
+  overflow-y:auto;
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 -20px 60px rgba(0,0,0,0.6);
+  scrollbar-width:none;
+}
+.modal-sheet::-webkit-scrollbar{display:none}
+.modal-overlay.show .modal-sheet{transform:translateY(0)}
+
+.modal-handle{width:44px;height:4px;border-radius:2px;background:rgba(212,175,55,0.4);margin:10px auto 0}
+
+/* ==========================================
+   Info Modal (ℹ)
+   ========================================== */
+.info-modal-head{
+  padding:16px 20px 8px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.info-modal-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:16px;font-weight:800;color:var(--gold);
+}
+.info-modal-title .icon-circle{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--gold-soft);
+  display:flex;align-items:center;justify-content:center;
+}
+.info-modal-title .icon-circle svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2}
+
+.close-x{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--card);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;flex-shrink:0;
+}
+.close-x:active{transform:scale(0.9)}
+.close-x svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2.5}
+
+.info-modal-body{padding:8px 20px 20px}
+
+.rest-name-big{
+  font-size:20px;font-weight:900;
+  color:var(--text);margin-bottom:4px;
+}
+.rest-en-big{
+  font-size:11.5px;color:var(--text-dim);
+  direction:ltr;text-align:start;margin-bottom:10px;
+  font-family:monospace;
+}
+.rest-cuisine-big{
+  font-size:13px;color:var(--gold);font-weight:700;margin-bottom:16px;
+}
+
+.rating-row{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 14px;background:rgba(212,175,55,0.06);
+  border:1px solid rgba(212,175,55,0.2);
+  border-radius:12px;margin-bottom:16px;
+}
+.rating-row .r-item{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--text-dim)}
+.rating-row .r-item svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:2}
+.rating-row .r-item.highlight svg{fill:var(--gold);stroke:none}
+.rating-row .r-item .val{color:var(--gold);font-weight:800}
+
+.info-grid{
+  display:flex;flex-direction:column;gap:12px;
+  margin-bottom:18px;
+}
+.info-row{display:flex;gap:12px;align-items:flex-start;padding:12px;background:rgba(10,25,41,0.4);border:1px solid var(--border);border-radius:12px}
+.info-icon{
+  width:40px;height:40px;border-radius:11px;
+  background:var(--gold-soft);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.info-icon svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2}
+.info-content{flex:1;min-width:0}
+.info-label{font-size:10.5px;color:var(--text-dim);font-weight:700;margin-bottom:4px;letter-spacing:0.3px}
+.info-value{font-size:13px;color:var(--text);font-weight:600;line-height:1.5;word-break:break-word}
+.info-value.phone{direction:ltr;text-align:start;font-family:monospace;color:var(--gold);font-size:14px;font-weight:800}
+.info-value.plus-code-value{font-family:monospace;direction:ltr;color:var(--gold);font-weight:800;font-size:14px}
+.info-value.hours{color:var(--success);font-weight:700}
+
+.desc-box{
+  background:rgba(212,175,55,0.06);
+  border:1px solid rgba(212,175,55,0.15);
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:16px;
+}
+.desc-box-title{
+  font-size:12px;font-weight:800;color:var(--gold);
+  margin-bottom:8px;display:flex;align-items:center;gap:6px;
+}
+.desc-box-title svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:2}
+.desc-box-text{
+  font-size:12.5px;color:var(--text-dim);line-height:1.8;
+}
+
+.info-modal-actions{
+  display:flex;gap:10px;
+  padding:8px 20px calc(20px + env(safe-area-inset-bottom));
+  position:sticky;bottom:0;
+  background:linear-gradient(180deg,transparent,rgba(10,25,41,0.95) 30%);
+}
+
+.modal-action-btn{
+  flex:1;height:50px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:13px;font-weight:800;transition:all .2s;
+}
+.modal-action-btn:active{transform:scale(0.97)}
+.modal-action-btn svg{width:18px;height:18px;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.modal-action-btn.call{
+  background:linear-gradient(135deg,#2ecc71,#27ae60);
+  color:#fff;box-shadow:0 6px 20px rgba(46,204,113,0.3);
+}
+.modal-action-btn.call svg{stroke:#fff}
+.modal-action-btn.share{
+  background:var(--card);border:1.5px solid var(--border);color:var(--gold);
+}
+.modal-action-btn.share svg{stroke:var(--gold)}
+
+/* ==========================================
+   Menu Modal (🍽)
+   ========================================== */
+.menu-modal-head{
+  padding:16px 20px 8px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(212,175,55,0.1);
+}
+.menu-modal-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:16px;font-weight:800;color:var(--gold);
+}
+.menu-modal-title .icon-circle{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--gold-soft);
+  display:flex;align-items:center;justify-content:center;
+}
+.menu-modal-title .icon-circle svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2}
+
+.menu-modal-body{padding:16px 20px 20px}
+
+.menu-rest-name{
+  font-size:15px;font-weight:800;color:var(--text);
+  margin-bottom:4px;
+}
+.menu-rest-sub{
+  font-size:11.5px;color:var(--text-dim);
+  margin-bottom:14px;
+}
+
+.menu-tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px;scrollbar-width:none}
+.menu-tabs::-webkit-scrollbar{display:none}
+.menu-tab{
+  flex-shrink:0;padding:8px 14px;border-radius:18px;
+  background:var(--card);border:1.5px solid var(--border);
+  font-size:12px;font-weight:700;color:var(--text-dim);
+  transition:all .2s;
+}
+.menu-tab:active{transform:scale(0.95)}
+.menu-tab.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+
+.menu-list{display:flex;flex-direction:column;gap:10px;padding-bottom:20px}
+.menu-item{
+  display:flex;gap:12px;
+  padding:12px;background:var(--card);
+  border:1px solid var(--border);border-radius:12px;
+  animation:fadeUp .3s both;
+}
+.menu-item-img{
+  width:80px;height:80px;border-radius:12px;
+  background:linear-gradient(135deg,#1a3a5c,#0d2137);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;overflow:hidden;
+}
+.menu-item-img svg{width:36px;height:36px;stroke:var(--gold);fill:none;stroke-width:1.5;opacity:0.5}
+.menu-item-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;padding:2px 0}
+.menu-item-name{font-size:14px;font-weight:800;margin-bottom:4px;line-height:1.3}
+.menu-item-price{font-size:15px;font-weight:900;color:var(--gold)}
+.menu-item-price span{font-size:10px;color:var(--text-dim);font-weight:600}
+
+/* Coming Soon */
+.coming-soon-box{
+  text-align:center;
+  padding:40px 20px 30px;
+}
+.coming-icon{
+  width:100px;height:100px;margin:0 auto 20px;
+  border-radius:50%;
+  background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.03));
+  border:2px dashed rgba(212,175,55,0.4);
+  display:flex;align-items:center;justify-content:center;
+  animation:pulse-glow 2.5s ease-in-out infinite;
+}
+@keyframes pulse-glow{
+  0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0.3);transform:scale(1)}
+  50%{box-shadow:0 0 0 18px rgba(212,175,55,0);transform:scale(1.03)}
+}
+.coming-icon svg{width:48px;height:48px;stroke:var(--gold);fill:none;stroke-width:1.5}
+.coming-title{
+  font-size:20px;font-weight:900;color:var(--gold);margin-bottom:10px;
+}
+.coming-text{
+  font-size:13px;color:var(--text-dim);line-height:1.8;
+  max-width:320px;margin:0 auto 20px;
+}
+.coming-badge{
+  display:inline-block;
+  padding:6px 16px;border-radius:20px;
+  background:rgba(212,175,55,0.15);
+  border:1px solid rgba(212,175,55,0.4);
+  font-size:12px;font-weight:800;color:var(--gold);
+}
+
+/* Bottom Nav */
+.bottom-nav{position:fixed;bottom:8px;left:12px;right:12px;z-index:60;background:rgba(19,47,76,0.55);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(212,175,55,0.2);box-shadow:0 -8px 32px rgba(0,0,0,0.4);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));border-radius:20px}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;color:var(--text-dim);font-size:9.5px;font-weight:700;position:relative}
+.nav-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-item.active{color:var(--gold)}
+.nav-item.active::after{content:'';position:absolute;bottom:0;width:4px;height:4px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:800;z-index:400;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,0.45);white-space:nowrap;max-width:90%}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.success{background:var(--success);color:#fff}
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<div class="page">
+
+  <div class="top-bar">
+    <div class="top-row">
+      <button class="icon-btn" onclick="history.back()">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </button>
+      <div class="page-title">رستورانت‌ها</div>
+      <button class="icon-btn" onclick="location.href='search.html'">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </div>
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="جستجوی رستورانت..." oninput="onSearch(this.value)">
+      <svg class="si" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <svg class="mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <div class="section-title">
+      <span class="accent"></span>
+      <span>همه رستورانت‌ها</span>
+    </div>
+    <div class="section-count" id="resultCount">۰</div>
+  </div>
+
+  <div class="wrap">
+    <div class="restaurants" id="restaurantsList"></div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>خانه</span>
+    </a>
+    <a href="restaurants.html" class="nav-item active">
+      <svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/></svg>
+      <span>رستورانت</span>
+    </a>
+    <a href="chat.html" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>
+      <span>چت</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>پروفایل</span>
+    </a>
+  </nav>
+
+</div>
+
+<!-- ============ Info Modal (ℹ) ============ -->
+<div class="modal-overlay" id="infoModal" onclick="if(event.target===this)closeInfoModal()">
+  <div class="modal-sheet" id="infoContent"></div>
+</div>
+
+<!-- ============ Menu Modal (🍽) ============ -->
+<div class="modal-overlay" id="menuModal" onclick="if(event.target===this)closeMenuModal()">
+  <div class="modal-sheet" id="menuContent"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==========================================
+   📊 DATABASE
+   ========================================== */
+const RESTAURANTS = [
+  /* ===== ⭐ ویژگی: گل یخ و ضیافت ===== */
+  {
+    id: 101,
+    name: 'رستورانت گل یخ',
+    en: 'Gole Yakh Restaurant',
+    featured: true,
+    rank: 1,
+    area: 'برچی، کابل',
+    address: 'برچی، سرک عمومی، مقابل شهرک',
+    plusCode: 'H52C+X5M',
+    cuisine: 'آشپزی افغانی، فست فود، چلو کباب',
+    description: 'یکی از بهترین و مدرن‌ترین رستورانت‌های برچی کابل با فضای دل‌نشین، کیفیت بی‌نظیر غذا و پذیرایی گرم. مخصوص کباب، چلو و فست‌فود با مواد تازه و طعم خانگی.',
+    workingHours: 'هر روز — ۱۰:۰۰ صبح تا ۱۱:۰۰ شب',
+    rating: 4.9,
+    reviews: 512,
+    delivery: 25,
+    distance: 2.0,
+    minOrder: 150,
+    isOpen: true,
+    free: true,
+    live: false,
+    phone: '0780111222',
+    hasMenu: true,
+    menu: [
+      {id:10101, cat:'kabab', name:'کباب قوچی گل یخ', desc:'گوشت گوسفندی تازه با ادویه‌های مخصوص', price:800},
+      {id:10102, cat:'kabab', name:'چوپان کباب', desc:'کباب چوپانی سنتی با چربی گوسفند', price:700},
+      {id:10103, cat:'kabab', name:'کباب مرغ', desc:'سینه مرغ مزه‌دار با سس مخصوص', price:450},
+      {id:10104, cat:'chalaw', name:'قابلی پلو', desc:'قابلی پلو با گوشت و کشمش', price:550},
+      {id:10105, cat:'chalaw', name:'چلو کباب', desc:'برنج بنجاره با کباب گوشت', price:600},
+      {id:10106, cat:'burger', name:'برگر مخصوص گل یخ', desc:'برگر دو طبقه با پنیر و سس ویژه', price:380},
+      {id:10107, cat:'cafe', name:'دوغ مخصوص', desc:'دوغ خانگی با نعنا', price:80}
+    ]
+  },
+  {
+    id: 102,
+    name: 'رستورانت ضیافت',
+    en: 'Ziyafat Restaurant',
+    featured: true,
+    rank: 2,
+    area: 'وزیر اکبر خان، کابل',
+    address: 'وزیر اکبر خان، سرک عمومی، نزدیک پارک',
+    plusCode: 'G5MC+9Q5',
+    cuisine: 'آشپزی میکس افغانی و ترکی',
+    description: 'رستورانت ضیافت یکی از محبوب‌ترین رستورانت‌های فامیلی کابل با فضای بزرگ، منوی میکس افغانی-ترکی و کیفیت بالای غذا. مخصوص کباب‌هایش شهرت دارد.',
+    workingHours: 'هر روز — ۱۱:۰۰ صبح تا ۱۲:۰۰ شب',
+    rating: 4.8,
+    reviews: 387,
+    delivery: 30,
+    distance: 3.2,
+    minOrder: 250,
+    isOpen: true,
+    free: true,
+    live: true,
+    phone: '0790222333',
+    hasMenu: true,
+    menu: [
+      {id:10201, cat:'kabab', name:'کباب فمیلی ضیافت', desc:'سینی کباب مخصوص برای ۳-۴ نفر', price:2200},
+      {id:10202, cat:'kabab', name:'اسکندر کباب', desc:'کباب ترکی با سس مخصوص', price:750},
+      {id:10203, cat:'chalaw', name:'چلو کباب ترکی', desc:'برنج با کباب ترکی', price:650},
+      {id:10204, cat:'pizza', name:'پیتزا مخصوص ضیافت', desc:'پیتزا مخلوط با پنیر دوبل', price:550},
+      {id:10205, cat:'cafe', name:'چای سبز افغانی', desc:'چای سبز با هل و زعفران', price:60}
+    ]
+  },
+
+  /* ===== کابل ===== */
+  {id:1, name:'Sufi Mahal', en:'Sufi Mahal Restaurant', area:'کلوله پشته، کابل', address:'کلوله پشته، کابل', plusCode:'G5W8+V42', cuisine:'آشپزی افغانی، کباب، قابلی', description:'رستورانت صوفی محل با منظره زیبا و فضای سنتی افغانی، مخصوص کباب چوپان و قابلی پلو.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.7, reviews:245, delivery:35, distance:4.5, minOrder:300, isOpen:true, free:false, live:false, phone:'0700000001', hasMenu:false},
+  {id:2, name:'The Cafeteria', en:'The Cafeteria Kabul', area:'شهرنو، چهارراهی حاجی یعقوب', address:'شهرنو، چهارراهی حاجی یعقوب', plusCode:'H53F+G52', cuisine:'سالاد، کباب بختیاری، فست فود', description:'کافه تریا با فضای مدرن و منوی بین‌المللی، مخصوص سالاد انار و کباب بختیاری.', workingHours:'هر روز — ۹:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.6, reviews:178, delivery:25, distance:2.8, minOrder:250, isOpen:true, free:false, live:false, phone:'0700000002', hasMenu:false},
+  {id:3, name:'Kabul Serena Restaurant', en:'Serena Hotel Restaurant', area:'مرکز شهر، جاده اصغرخان', address:'مرکز شهر، جاده اصغرخان', plusCode:'G5G7+M54', cuisine:'آسیایی، بین‌المللی، دسر لوکس', description:'رستورانت لوکس هوتل سرینا با بوفه بین‌المللی و دسر‌های اروپایی.', workingHours:'هر روز — ۶:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.9, reviews:320, delivery:45, distance:5.0, minOrder:500, isOpen:true, free:false, live:false, phone:'0700000003', hasMenu:false},
+  {id:4, name:'Shaam Kabul', en:'Shaam Kabul Restaurant', area:'جاده احمد ظاهر', address:'جاده احمد ظاهر', plusCode:'G5J3+XWX', cuisine:'آشپزی سنتی افغانی', description:'گوشت روش سنتی، کوفته و کباب گوسفندی در فضای سنتی.', workingHours:'هر روز — ۱۲:۰۰ ظهر تا ۱۰:۰۰ شب', rating:4.7, reviews:210, delivery:30, distance:3.5, minOrder:250, isOpen:true, free:true, live:false, phone:'0700000004', hasMenu:false},
+  {id:6, name:'Bukhara Restaurant', en:'Bukhara Restaurant', area:'شهرنو، جاده تورابازخان', address:'شهرنو، جاده تورابازخان', plusCode:'H52C+R41', cuisine:'مغز مصالح، کباب تکه، قورمه محلی', description:'رستورانت بخارا با غذاهای اصیل افغانی و مغز مصالح مخصوص.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.6, reviews:156, delivery:30, distance:3.0, minOrder:250, isOpen:true, free:false, live:false, phone:'0700000006', hasMenu:false},
+  {id:7, name:'Turkish Family Restaurant', en:'Turkish Family Restaurant', area:'سرک صلح', address:'سرک صلح', plusCode:'H52F+X42', cuisine:'آشپزی ترکی', description:'اسکندر کباب، بورک ترکی و پیده گوشت در فضای گرم ترکی.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.7, reviews:189, delivery:32, distance:3.8, minOrder:300, isOpen:true, free:false, live:false, phone:'0700000007', hasMenu:false},
+  {id:8, name:'Barg Continental', en:'Barg Continental Restaurant', area:'سرک دهم تایمنی', address:'سرک دهم تایمنی', plusCode:'H563+R32', cuisine:'چیکن تیکا، کباب شینواری', description:'رستورانت برگ با غذاهای قاره‌ای و افغانی، چیکن تیکا مخصوص.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.5, reviews:134, delivery:28, distance:3.0, minOrder:250, isOpen:true, free:true, live:false, phone:'0700000008', hasMenu:false},
+  {id:9, name:'Plan B Cafe & Restaurant', en:'Plan B Cafe & Restaurant', area:'پروژۀ تایمنی', address:'پروژۀ تایمنی', plusCode:'H553+M4X', cuisine:'استیک، برگر، پاستا، قهوه', description:'کافه و رستورانت مدرن با استیک مرغ، برگر مخصوص و قهوه اسپرسو.', workingHours:'هر روز — ۸:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.6, reviews:167, delivery:25, distance:2.5, minOrder:200, isOpen:true, free:false, live:false, phone:'0700000009', hasMenu:false},
+  {id:10, name:'Istanbul Restaurant', en:'Istanbul Restaurant', area:'وزیر اکبر خان', address:'وزیر اکبر خان', plusCode:'G5PC+X81', cuisine:'آشپزی ترکی', description:'کباب دونر، باقلوا ترکی و آبمیوه معجون مخصوص.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.5, reviews:145, delivery:32, distance:3.5, minOrder:250, isOpen:true, free:false, live:false, phone:'0700000010', hasMenu:false},
+  {id:11, name:'BBQ Tonight Kabul', en:'BBQ Tonight', area:'پل سرخ', address:'پل سرخ', plusCode:'G44M+Q8J', cuisine:'چیکن باتر، کباب سیخی، بریانی', description:'مرغ مکهنی، کباب سیخی و بریانی با کیفیت بین‌المللی.', workingHours:'هر روز — ۱۲:۰۰ ظهر تا ۱۲:۰۰ شب', rating:4.7, reviews:267, delivery:35, distance:4.2, minOrder:350, isOpen:true, free:false, live:false, phone:'0700000011', hasMenu:false},
+  {id:12, name:'Chehelseton Palace', en:'Chehelseton Palace Restaurant', area:'باغ چهلستون', address:'باغ چهلستون', plusCode:'F5C3+V36', cuisine:'آشپزی شاهانه سنتی', description:'منوی سنتی شاهانه، قابلی پلو اوزبکی و منتو در فضای باغ چهلستون.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.8, reviews:234, delivery:40, distance:5.5, minOrder:400, isOpen:true, free:false, live:false, phone:'0700000012', hasMenu:false},
+
+  /* ===== مزار شریف ===== */
+  {id:21, name:'Rayhan Restaurant', en:'Rayhan Restaurant', area:'مرکز شهر مزار', address:'مرکز شهر مزار شریف', plusCode:'P447+GG3', cuisine:'کباب، چوپان، اسپاگتی، بریانی', description:'رستورانت ریحان با سینی کباب مخصوص، چوپان کباب و اسپاگتی و بریانی.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.7, reviews:189, delivery:30, distance:3.0, minOrder:200, isOpen:true, free:true, live:false, phone:'0770000011', hasMenu:false},
+  {id:22, name:'Bilal Restaurant', en:'Bilal Restaurant', area:'سرک شادین، مزار', address:'سرک شادین، مزار شریف', plusCode:'P446+CQ5', cuisine:'قابلی پلو، شیش کباب، شینسل', description:'قابلی پلو مزار، شیش کباب و شینسل مرغ در رستورانت بلال.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.6, reviews:145, delivery:28, distance:2.5, minOrder:200, isOpen:true, free:true, live:false, phone:'0770000012', hasMenu:false},
+
+  /* ===== بامیان ===== */
+  {id:31, name:'هوتل بامیان شاهان', en:'Bamyan Shahaan Hotel', area:'بامیان جدید', address:'بامیان جدید، سمت شمال ریاست حج و اوقاف', plusCode:'RR8G+F42', cuisine:'بریانی هندی، چلو کباب', description:'هوتل و رستورانت بامیان شاهان با منظره کوه‌های بامیان و منوی متنوع.', workingHours:'هر روز — ۷:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.5, reviews:98, delivery:35, distance:5.0, minOrder:200, isOpen:true, free:false, live:false, phone:'0790000021', hasMenu:false},
+  {id:32, name:'رستورانت غلغله', en:'Ghalghala Restaurant', area:'سرک عمومی بامیان', address:'داخل افغانتور، نزدیک بت‌های بامیان', plusCode:'RR9G+W5V', cuisine:'شامی کباب، منتو بامیانی', description:'رستورانت غلغله داخل افغانتور بامیان با منوی محلی و سنتی.', workingHours:'هر روز — ۸:۰۰ صبح تا ۹:۰۰ شب', rating:4.4, reviews:67, delivery:40, distance:6.0, minOrder:150, isOpen:true, free:false, live:false, phone:'0790000022', hasMenu:false},
+
+  /* ===== غزنی ===== */
+  {id:41, name:'غزنی رستورانت', en:'Ghazni Restaurant', area:'مرکز شهر غزنی', address:'مرکز شهر غزنی', plusCode:'GCW8+49', cuisine:'پیتزا، کباب چوپان، برگر', description:'رستورانت غزنی با پیتزا چیکن ویژه، کباب چوپان و برگر.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.3, reviews:76, delivery:32, distance:4.0, minOrder:150, isOpen:true, free:true, live:false, phone:'0798000031', hasMenu:false},
+  {id:42, name:'رستورانت ستاره شهر', en:'Setara-e-Shahr Restaurant', area:'سرک عمومی غزنی', address:'سرک عمومی غزنی', plusCode:'GCX9+RCQ', cuisine:'مرغ تندوری، چلو جوجه', description:'مرغ تندوری و چلو جوجه کباب در رستورانت ستاره شهر.', workingHours:'هر روز — ۱۱:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.4, reviews:89, delivery:35, distance:4.5, minOrder:200, isOpen:true, free:false, live:false, phone:'0798000032', hasMenu:false},
+
+  /* ===== جلال‌آباد ===== */
+  {id:51, name:'Zeenat Restaurant', en:'Zeenat Restaurant', area:'چهارراهی تلاشی', address:'چهارراهی تلاشی، جلال‌آباد', plusCode:'CFJ5+VF5', cuisine:'فست فود، پیتزا، کرایی', description:'زینت رستورانت با فست فود بین‌المللی و کرایی شینواری.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.5, reviews:112, delivery:30, distance:3.0, minOrder:180, isOpen:true, free:true, live:false, phone:'0788000041', hasMenu:false},
+  {id:52, name:'Adam Khan Chapli Kabab', en:'Adam Khan Chapli Kabab', area:'سرک جلال‌آباد - کنر', address:'سرک جلال‌آباد - کنر', plusCode:'CFM5+GJW', cuisine:'چپلی کباب ننگرهار', description:'چپلی کباب مخصوص ننگرهار، تند و سنتی همراه با نان گرم خاص.', workingHours:'هر روز — ۷:۰۰ صبح تا ۱۱:۰۰ شب', rating:4.8, reviews:234, delivery:25, distance:2.0, minOrder:100, isOpen:true, free:false, live:true, phone:'0788000042', hasMenu:false},
+
+  /* ===== بدخشان ===== */
+  {id:61, name:'قصر کوکچه', en:'Qasri Kokcha Restaurant', area:'شهر نو فیض‌آباد', address:'شهر نو فیض‌آباد، روبروی دریای کوکچه', plusCode:'4H24+M52', cuisine:'سنتی، بین‌المللی، ماهی تازه', description:'قصر کوکچه با منظره دریای کوکچه، کباب ملوکانه و ماهی تازه.', workingHours:'هر روز — ۹:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.7, reviews:145, delivery:40, distance:5.5, minOrder:250, isOpen:true, free:false, live:false, phone:'0799000051', hasMenu:false},
+  {id:62, name:'رستورانت زیتون بدخشان', en:'Zaytoon Badakhshan', area:'فیض‌آباد', address:'فیض‌آباد، روبروی ریاست معارف', plusCode:'4H24+J3X', cuisine:'فست فود، کباب سیخی، قورمه', description:'رستورانت زیتون با فست فود و کباب سیخی و قورمه پاچه.', workingHours:'هر روز — ۱۰:۰۰ صبح تا ۱۰:۰۰ شب', rating:4.5, reviews:98, delivery:35, distance:4.0, minOrder:180, isOpen:true, free:true, live:false, phone:'0799000052', hasMenu:false}
+];
+
+const CAT_NAMES = {
+  kabab:'کباب', chalaw:'چلو', burger:'برگر', cafe:'کافه',
+  pizza:'پیتزا', qorma:'قورمه', mantu:'منتو', biryani:'بریانی',
+  juice:'آبمیوه', ashak:'آشک', iceCream:'بستنی'
+};
+
+/* ========== State ========== */
+let favorites = JSON.parse(localStorage.getItem('bazaarcheh_rest_favs') || '[]');
+let cart = JSON.parse(localStorage.getItem('bazaarcheh_cart') || '[]');
+let currentSearch = '';
+let currentRest = null;
+let currentMenuCat = 'all';
+
+function toPersianDigits(n){
+  const p = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+  return String(n).replace(/\d/g,d=>p[d]);
+}
+function showToast(msg, type){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.className = 'toast', 2400);
+}
+function checkAuth(){
+  const raw = localStorage.getItem('bazaarcheh_session') || sessionStorage.getItem('bazaarcheh_session');
+  if(!raw){ location.replace('index.html'); return false; }
+  try {
+    const s = JSON.parse(raw);
+    if(!s || !s.id){ location.replace('index.html'); return false; }
+  } catch(e){ location.replace('index.html'); return false; }
+  return true;
+}
+
+/* ========== Filtered ========== */
+function getFiltered(){
+  return RESTAURANTS.filter(r => {
+    if(!currentSearch) return true;
+    const q = currentSearch.toLowerCase();
+    return r.name.toLowerCase().includes(q) ||
+           (r.en && r.en.toLowerCase().includes(q)) ||
+           r.cuisine.toLowerCase().includes(q) ||
+           r.area.toLowerCase().includes(q);
+  });
+}
+
+/* ========== Render List ========== */
+function renderList(){
+  const list = document.getElementById('restaurantsList');
+  const arr = getFiltered();
+
+  document.getElementById('resultCount').textContent = toPersianDigits(arr.length) + ' رستورانت';
+
+  if(arr.length === 0){
+    list.innerHTML = `
+      <div class="empty">
+        <svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/></svg>
+        <p>رستورانتی یافت نشد</p>
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = arr.map(r => `
+    <div class="rest-card">
+      <div class="rest-cover">
+        <svg class="cover-icon" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/></svg>
+        <div class="rest-badges">
+          ${r.free ? `<div class="rest-badge badge-free">ارسال رایگان</div>` : ''}
+          <div class="rest-badge ${r.isOpen ? 'badge-open' : 'badge-closed'}">${r.isOpen ? 'باز' : 'بسته'}</div>
+          ${r.live ? `<div class="rest-badge badge-live">لایو</div>` : ''}
+          ${!r.hasMenu ? `<div class="rest-badge badge-soon">منو به‌زودی</div>` : ''}
+        </div>
+        <button class="fav-rest ${favorites.includes(r.id) ? 'active' : ''}" onclick="event.stopPropagation();toggleFav(${r.id},this)">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="rest-body">
+        <div class="rest-name-row">
+          <div class="rest-name">${r.name}</div>
+          <div class="rest-rating">
+            <svg viewBox="0 0 24 24"><path d="M12 2 15 9l7 .5-5.5 4.5L18 21l-6-3.5L6 21l1.5-7L2 9.5 9 9z"/></svg>
+            <span>${toPersianDigits(r.rating)}</span>
+          </div>
+        </div>
+        <div class="rest-cuisine">${r.cuisine}</div>
+        <div class="rest-location">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${r.area}
+        </div>
+
+        <div class="rest-actions-row">
+          <button class="info-btn" onclick="event.stopPropagation();openInfoModal(${r.id})" title="اطلاعات">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          </button>
+          <div class="rest-meta-quick">
+            <span>
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              ${toPersianDigits(r.delivery)} دقیقه
+            </span>
+            <span class="plus-code">${r.plusCode}</span>
+          </div>
+          <button class="view-menu-btn" onclick="event.stopPropagation();openMenuModal(${r.id})">
+            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>مشاهده منو</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ==========================================
+   ℹ Info Modal
+   ========================================== */
+function openInfoModal(id){
+  const r = RESTAURANTS.find(x => x.id === id);
+  if(!r) return;
+  currentRest = r;
+
+  document.getElementById('infoContent').innerHTML = `
+    <div class="modal-handle"></div>
+
+    <div class="info-modal-head">
+      <div class="info-modal-title">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+        <span>اطلاعات رستورانت</span>
+      </div>
+      <button class="close-x" onclick="closeInfoModal()">
+        <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="info-modal-body">
+
+      <div class="rest-name-big">${r.name}</div>
+      ${r.en ? `<div class="rest-en-big">${r.en}</div>` : ''}
+      <div class="rest-cuisine-big">${r.cuisine}</div>
+
+      <div class="rating-row">
+        <div class="r-item highlight">
+          <svg viewBox="0 0 24 24"><path d="M12 2 15 9l7 .5-5.5 4.5L18 21l-6-3.5L6 21l1.5-7L2 9.5 9 9z"/></svg>
+          <span class="val">${toPersianDigits(r.rating)}</span>
+        </div>
+        <div class="r-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+          <span>${toPersianDigits(r.reviews)} نظر</span>
+        </div>
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="info-content">
+            <div class="info-label">آدرس</div>
+            <div class="info-value">${r.address}</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          </div>
+          <div class="info-content">
+            <div class="info-label">پلس کد گوگل مپ</div>
+            <div class="info-value plus-code-value">${r.plusCode}</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div class="info-content">
+            <div class="info-label">شماره تماس</div>
+            <div class="info-value phone">${r.phone}</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div class="info-content">
+            <div class="info-label">ساعت کاری</div>
+            <div class="info-value hours">${r.workingHours}</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div class="info-content">
+            <div class="info-label">خدمات دلیوری</div>
+            <div class="info-value">${r.free ? 'ارسال رایگان •' : ''} حدود ${toPersianDigits(r.delivery)} دقیقه • فاصله ${toPersianDigits(r.distance)} کیلومتر</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>
+          </div>
+          <div class="info-content">
+            <div class="info-label">حداقل سفارش</div>
+            <div class="info-value">${toPersianDigits(r.minOrder)} افغانی</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="desc-box">
+        <div class="desc-box-title">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          معرفی رستورانت
+        </div>
+        <div class="desc-box-text">${r.description}</div>
+      </div>
+
+    </div>
+
+    <div class="info-modal-actions">
+      <button class="modal-action-btn call" onclick="callRestaurant()">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        تماس
+      </button>
+      <button class="modal-action-btn share" onclick="shareRest()">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        اشتراک
+      </button>
+    </div>
+  `;
+
+  document.getElementById('infoModal').classList.add('show');
+}
+
+function closeInfoModal(){
+  document.getElementById('infoModal').classList.remove('show');
+}
+
+/* ==========================================
+   🍽 Menu Modal
+   ========================================== */
+function openMenuModal(id){
+  const r = RESTAURANTS.find(x => x.id === id);
+  if(!r) return;
+  currentRest = r;
+  currentMenuCat = 'all';
+
+  // اگه منو نداره → به‌زودی
+  if(!r.hasMenu){
+    document.getElementById('menuContent').innerHTML = `
+      <div class="modal-handle"></div>
+      <div class="menu-modal-head">
+        <div class="menu-modal-title">
+          <div class="icon-circle">
+            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <span>منو</span>
+        </div>
+        <button class="close-x" onclick="closeMenuModal()">
+          <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="menu-modal-body">
+        <div class="menu-rest-name">${r.name}</div>
+        <div class="menu-rest-sub">${r.area}</div>
+
+        <div class="coming-soon-box">
+          <div class="coming-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div class="coming-title">به‌زودی</div>
+          <div class="coming-text">منوی این رستورانت به‌زودی توسط فروشنده اضافه می‌شود. منتظر بمانید.</div>
+          <div class="coming-badge">${r.name}</div>
+        </div>
+      </div>
+    `;
+    document.getElementById('menuModal').classList.add('show');
+    return;
+  }
+
+  // اگه منو داره → نمایش منو
+  const cats = ['all', ...new Set(r.menu.map(m => m.cat))];
+
+  document.getElementById('menuContent').innerHTML = `
+    <div class="modal-handle"></div>
+
+    <div class="menu-modal-head">
+      <div class="menu-modal-title">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <span>منو</span>
+      </div>
+      <button class="close-x" onclick="closeMenuModal()">
+        <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="menu-modal-body">
+      <div class="menu-rest-name">${r.name}</div>
+      <div class="menu-rest-sub">${r.cuisine} · ${r.area}</div>
+
+      <div class="menu-tabs" id="menuTabs">
+        ${cats.map(c => `
+          <button class="menu-tab ${c === 'all' ? 'active' : ''}" onclick="selectMenuCat('${c}',this)">
+            ${c === 'all' ? 'همه' : (CAT_NAMES[c] || c)}
+          </button>
+        `).join('')}
+      </div>
+
+      <div class="menu-list" id="menuList"></div>
+    </div>
+  `;
+
+  renderMenu();
+  document.getElementById('menuModal').classList.add('show');
+}
+
+function closeMenuModal(){
+  document.getElementById('menuModal').classList.remove('show');
+}
+
+function renderMenu(){
+  if(!currentRest || !currentRest.hasMenu) return;
+  const items = currentMenuCat === 'all'
+    ? currentRest.menu
+    : currentRest.menu.filter(m => m.cat === currentMenuCat);
+
+  document.getElementById('menuList').innerHTML = items.map(item => `
+    <div class="menu-item">
+      <div class="menu-item-img">
+        <svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/></svg>
+      </div>
+      <div class="menu-item-info">
+        <div class="menu-item-name">${item.name}</div>
+        <div class="menu-item-price">${toPersianDigits(item.price)} <span>افغانی</span></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectMenuCat(cat, el){
+  currentMenuCat = cat;
+  document.querySelectorAll('#menuTabs .menu-tab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderMenu();
+}
+
+/* ========== Actions ========== */
+function toggleFav(id, el){
+  const i = favorites.indexOf(id);
+  if(i > -1){ favorites.splice(i,1); el.classList.remove('active'); }
+  else { favorites.push(id); el.classList.add('active'); }
+  localStorage.setItem('bazaarcheh_rest_favs', JSON.stringify(favorites));
+}
+
+function callRestaurant(){
+  if(!currentRest) return;
+  setTimeout(() => { window.location.href = 'tel:' + currentRest.phone; }, 300);
+  showToast(currentRest.phone);
+}
+
+function shareRest(){
+  if(!currentRest) return;
+  const url = location.origin + location.pathname + '?id=' + currentRest.id;
+  if(navigator.share){
+    navigator.share({title: currentRest.name, url: url}).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(url).then(()=>showToast('لینک کپی شد', 'success'));
+  }
+}
+
+function onSearch(v){
+  currentSearch = v.trim();
+  renderList();
+}
+
+/* ========== Init ========== */
+if(checkAuth()){
+  renderList();
+}
+</script>
+</body>
+</html>

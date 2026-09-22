@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سوپر اپلیکیشن بازارچه</title>
+    <!-- استفاده از پلتفرم بین‌المللی تلویند برای دیزاین لوکس -->
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Vazirmatn', sans-serif; background-color: #f8fafc; }
+    </style>
+</head>
+<body class="max-w-md mx-auto bg-slate-50 min-h-screen shadow-2xl relative pb-20">
+
+    <!-- هدر لوکس بالای برنامه -->
+    <header class="bg-blue-900 text-white p-5 rounded-b-3xl shadow-lg flex justify-between items-center">
+        <div>
+            <h1 class="text-xl font-bold tracking-wide">بازارچه بزرگ</h1>
+            <p class="text-xs text-blue-200 mt-1">پلتفرم ملی و جهانی افغانستان</p>
+        </div>
+        <div class="bg-blue-800 p-2.5 rounded-full cursor-pointer hover:bg-blue-700 transition">
+            <span class="text-sm font-medium">کابل 🇦🇫</span>
+        </div>
+    </header>
+
+    <!-- بار جستجوی مدرن -->
+    <div class="px-4 -mt-4">
+        <div class="bg-white p-3 rounded-2xl shadow-md flex items-center border border-slate-100">
+            <input type="text" placeholder="جستجو در رستورانت‌ها، موترها، وظایف..." class="w-full bg-transparent outline-none text-sm text-slate-700 pr-2">
+        </div>
+    </div>
+
+    <!-- بخش خدمات اصلی (Grid سیستم مدرن شبیه فلاتر) -->
+    <main class="p-4 mt-4">
+        <h2 class="text-sm font-bold text-slate-500 mb-3 px-1">خدمات مورد نیاز شما</h2>
+        <div class="grid grid-cols-3 gap-3">
+            
+            <!-- سرویس رستورانت -->
+            <div class="bg-white p-4 rounded-2xl shadow-xs border border-slate-100 text-center flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition">
+                <div class="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center text-xl mb-2">🍔</div>
+                <span class="text-xs font-bold text-slate-800">شکم‌بازار</span>
+                <span class="text-[10px] text-slate-400 mt-0.5">مینو و ریزرو</span>
+            </div>
+
+            <!-- سرویس خرید و فروش -->
+            <div class="bg-white p-4 rounded-2xl shadow-xs border border-slate-100 text-center flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition">
+                <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-xl mb-2">🛍️</div>
+                <span class="text-xs font-bold text-slate-800">خرید و فروش</span>
+                <span class="text-[10px] text-slate-400 mt-0.5">نو و مستعمل</span>
+            </div>
+
+            <!-- سرویس کاریابی -->
+            <div class="bg-white p-4 rounded-2xl shadow-xs border border-slate-100 text-center flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition">
+                <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-xl mb-2">💼</div>
+                <span class="text-xs font-bold text-slate-800">کاریابی</span>
+                <span class="text-[10px] text-slate-400 mt-0.5">اعلان وظایف</span>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- منوی ناوبری پایینی فیکس شده (Bottom Navigation Bar) -->
+    <nav class="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-3 flex justify-around items-center rounded-t-3xl shadow-[0_-4px_10px_rgba(0,0,0,0.03)]">
+        <div class="text-center text-blue-900 cursor-pointer flex flex-col items-center">
+            <span class="text-xl">🏠</span>
+            <span class="text-[10px] font-bold mt-1">خانه</span>
+        </div>
+        <div class="text-slate-400 text-center cursor-pointer flex flex-col items-center">
+            <span class="text-xl">💬</span>
+            <span class="text-[10px] mt-1">چت‌ها</span>
+        </div>
+        <div class="text-slate-400 text-center cursor-pointer flex flex-col items-center">
+            <span class="text-xl">➕</span>
+            <span class="text-[10px] mt-1">اعلان جدید</span>
+        </div>
+        <div class="text-slate-400 text-center cursor-pointer flex flex-col items-center">
+            <span class="text-xl">👤</span>
+            <span class="text-[10px] mt-1">پروفایل</span>
+        </div>
+    </nav>
+
+</body>
+</html>
