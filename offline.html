@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>آفلاین | بازارچه</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Tahoma,'Segoe UI',sans-serif;
+  background:radial-gradient(circle at 30% 30%,#1a3a5c 0%,#0a1929 60%,#050d17 100%);
+  color:#e8eef5;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;text-align:center;
+}
+.box{max-width:380px;width:100%}
+.icon{
+  width:120px;height:120px;margin:0 auto 24px;
+  border-radius:50%;
+  background:rgba(212,175,55,0.12);
+  border:2px solid rgba(212,175,55,0.3);
+  display:flex;align-items:center;justify-content:center;
+  animation:pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.05);opacity:0.85}
+}
+.icon svg{width:60px;height:60px;stroke:#d4af37;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+h1{font-size:22px;color:#d4af37;margin-bottom:10px}
+p{font-size:14px;color:#8ba3bd;line-height:1.8;margin-bottom:24px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:14px;
+  background:linear-gradient(135deg,#f4d03f,#d4af37);
+  color:#0a1929;font-weight:800;font-size:14px;
+  border:none;cursor:pointer;font-family:inherit;
+  box-shadow:0 8px 24px rgba(212,175,55,0.35);
+  transition:transform .2s;
+}
+.btn:active{transform:scale(0.96)}
+.btn svg{width:18px;height:18px;stroke:#0a1929;fill:none;stroke-width:2.5}
+.brand{
+  margin-top:36px;font-size:11px;color:#8ba3bd;
+  letter-spacing:1px;
+}
+.brand strong{color:#d4af37}
+</style>
+</head>
+<body>
+<div class="box">
+
+  <div class="icon">
+    <svg viewBox="0 0 24 24">
+      <path d="M1 6l11 7 11-7"/>
+      <path d="M12 13v9"/>
+      <path d="M3 4.5h18l2 5H1l2-5z"/>
+      <circle cx="12" cy="12" r="0"/>
+    </svg>
+  </div>
+
+  <h1>آفلاین هستید</h1>
+  <p>اتصال انترنت خود را بررسی کنید و دوباره تلاش کنید.</p>
+
+  <button class="btn" onclick="location.reload()">
+    <svg viewBox="0 0 24 24">
+      <path d="M23 4v6h-6"/>
+      <path d="M1 20v-6h6"/>
+      <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/>
+      <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"/>
+    </svg>
+    تلاش مجدد
+  </button>
+
+  <div class="brand">Powered by <strong>بازارچه</strong></div>
+
+</div>
+</body>
+</html>
