@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a1929">
+<title>آرایشی و بهداشتی | بازارچه</title>
+<style>
+:root{--navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;--gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);--text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;--border:rgba(212,175,55,0.22);--danger:#e74c3c;--success:#2ecc71}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;padding-bottom:100px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input{font-family:inherit}
+::-webkit-scrollbar{display:none}
+
+.bg{position:fixed;inset:0;z-index:0;background:radial-gradient(circle at 15% 15%,rgba(26,58,92,0.85) 0%,transparent 55%),radial-gradient(circle at 85% 85%,rgba(212,175,55,0.1) 0%,transparent 55%),linear-gradient(160deg,#0a1929 0%,#0d2137 50%,#050d17 100%)}
+.page{position:relative;z-index:2;min-height:100vh}
+
+.top-bar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(10,25,41,0.98),rgba(10,25,41,0.92));backdrop-filter:blur(16px);border-bottom:1px solid rgba(212,175,55,0.15);padding:12px 16px}
+.top-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);flex-shrink:0}
+.icon-btn:active{transform:scale(0.92);background:var(--gold-soft)}
+.icon-btn svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.page-title{flex:1;font-size:16px;font-weight:800;text-align:center;color:var(--gold)}
+
+.search-wrap{position:relative}
+.search-wrap input{width:100%;height:46px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:0 44px;color:var(--text);font-size:13px;outline:none}
+.search-wrap input:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+.search-wrap input::placeholder{color:var(--text-dim)}
+.search-wrap .si{position:absolute;top:50%;right:14px;transform:translateY(-50%);width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2;pointer-events:none}
+
+.main-tabs{display:flex;gap:10px;padding:16px;max-width:560px;margin:0 auto}
+.main-tab{flex:1;padding:16px 8px;border-radius:16px;background:var(--card);border:2px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .25s}
+.main-tab:active{transform:scale(0.97)}
+.main-tab.active{border-color:var(--gold);background:linear-gradient(145deg,rgba(212,175,55,0.2),rgba(212,175,55,0.05));box-shadow:0 8px 25px rgba(212,175,55,0.25)}
+.main-tab-icon{width:48px;height:48px;border-radius:14px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center}
+.main-tab.active .main-tab-icon{background:linear-gradient(135deg,#f4d03f,#d4af37)}
+.main-tab-icon svg{width:26px;height:26px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.main-tab.active .main-tab-icon svg{stroke:var(--navy)}
+.main-tab-name{font-size:11.5px;font-weight:800;color:var(--text);text-align:center;line-height:1.3}
+.main-tab.active .main-tab-name{color:var(--gold)}
+
+.sub-tabs{display:flex;gap:8px;padding:0 16px 12px;max-width:560px;margin:0 auto;justify-content:center}
+.sub-tab{flex:1;padding:10px 16px;border-radius:14px;background:var(--card);border:1.5px solid var(--border);font-size:13px;font-weight:700;color:var(--text-dim);display:flex;align-items:center;justify-content:center;gap:6px;max-width:160px}
+.sub-tab.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.sub-tab svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+
+.filter-scroll{display:flex;gap:8px;overflow-x:auto;padding:0 16px 12px;max-width:560px;margin:0 auto;scrollbar-width:none}
+.filter-scroll::-webkit-scrollbar{display:none}
+.filter-chip{flex-shrink:0;padding:8px 16px;border-radius:20px;background:var(--card);border:1.5px solid var(--border);font-size:12px;font-weight:700;color:var(--text-dim)}
+.filter-chip.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+
+.section-head{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 12px;max-width:560px;margin:0 auto}
+.section-title{font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
+.section-title .accent{display:inline-block;width:4px;height:14px;border-radius:2px;background:linear-gradient(180deg,var(--gold-2),var(--gold))}
+.section-count{font-size:11.5px;color:var(--text-dim)}
+
+.wrap{padding:0 16px 30px;max-width:560px;margin:0 auto}
+.loading-box{text-align:center;padding:60px 20px}
+.spinner{width:50px;height:50px;border:3px solid rgba(212,175,55,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-box p{font-size:13px;color:var(--text-dim)}
+
+/* Products Grid */
+.products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.product-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;animation:fadeUp .4s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.product-img{position:relative;width:100%;aspect-ratio:1/1;background:linear-gradient(135deg,var(--navy-3),var(--navy-2));display:flex;align-items:center;justify-content:center;overflow:hidden}
+.product-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.product-img svg.ph{width:50%;height:50%;stroke:var(--gold);fill:none;stroke-width:1;opacity:0.4}
+.product-badge{position:absolute;top:8px;right:8px;background:var(--gold);color:var(--navy);font-size:10px;font-weight:900;padding:3px 8px;border-radius:6px;z-index:2}
+.product-badge.sale{background:var(--danger);color:#fff}
+.product-info{padding:10px}
+.product-brand{font-size:10px;color:var(--text-dim);margin-bottom:3px}
+.product-name{font-size:12.5px;font-weight:600;line-height:1.4;margin-bottom:7px;height:35px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.product-price{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap}
+.price-now{font-size:14px;font-weight:900;color:var(--gold)}
+.price-old{font-size:10px;color:var(--text-dim);text-decoration:line-through}
+.price-cur{font-size:9px;color:var(--text-dim)}
+
+/* Salon / Shop Cards */
+.entity-list{display:flex;flex-direction:column;gap:14px}
+.entity-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative;animation:fadeUp .4s both}
+.entity-cover{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,var(--navy-3),var(--navy-2));display:flex;align-items:center;justify-content:center;overflow:hidden}
+.entity-cover .cover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.entity-cover svg.cover-icon{width:70px;height:70px;stroke:var(--gold);fill:none;stroke-width:1;opacity:0.4;position:relative;z-index:0}
+.entity-badges{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:6px;z-index:3}
+.entity-badge{padding:5px 10px;border-radius:8px;font-size:10px;font-weight:800;backdrop-filter:blur(8px)}
+.badge-featured{background:var(--gold);color:var(--navy)}
+.badge-open{background:rgba(46,204,113,0.95);color:#fff}
+.fav-entity{position:absolute;top:12px;right:12px;z-index:3;width:38px;height:38px;border-radius:50%;background:rgba(10,25,41,0.75);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center}
+.fav-entity svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+.fav-entity.active svg{fill:var(--gold);stroke:var(--gold)}
+.entity-body{padding:14px}
+.entity-name-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px}
+.entity-name{font-size:15px;font-weight:800;line-height:1.3;flex:1}
+.entity-rating{display:flex;align-items:center;gap:4px;background:var(--gold-soft);padding:4px 9px;border-radius:8px;flex-shrink:0}
+.entity-rating svg{width:12px;height:12px;fill:var(--gold);stroke:none}
+.entity-rating span{font-size:12px;font-weight:800;color:var(--gold)}
+.entity-cuisine{font-size:12px;color:var(--text-dim);margin-bottom:10px;line-height:1.5}
+.entity-location{font-size:11px;color:var(--text-dim);display:flex;align-items:center;gap:5px;margin-bottom:10px}
+.entity-location svg{width:12px;height:12px;stroke:var(--gold);fill:none;stroke-width:2}
+.entity-actions{display:flex;gap:8px;align-items:stretch;padding-top:12px;border-top:1px solid rgba(212,175,55,0.1)}
+.info-btn{width:46px;height:46px;border-radius:12px;flex-shrink:0;background:var(--gold-soft);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center}
+.info-btn svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:2}
+.view-btn{flex:1;height:46px;border-radius:12px;background:linear-gradient(135deg,#f4d03f,#d4af37);color:var(--navy);display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;box-shadow:0 6px 20px rgba(212,175,55,0.3)}
+.view-btn svg{width:16px;height:16px;stroke:var(--navy);fill:none;stroke-width:2.5}
+
+.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-dim)}
+.empty svg{width:70px;height:70px;stroke:var(--text-dim);fill:none;stroke-width:1.5;margin:0 auto 16px;opacity:0.4}
+.empty p{font-size:14px;font-weight:700;color:var(--text)}
+.empty span{font-size:12px;display:block;margin-top:6px}
+
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(10,25,41,0.85);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal-sheet{width:100%;max-width:560px;max-height:92vh;background:linear-gradient(180deg,#132f4c 0%,#0a1929 100%);border-radius:24px 24px 0 0;border-top:1px solid var(--border);overflow-y:auto;transform:translateY(100%);transition:transform .35s cubic-bezier(0.34,1.56,0.64,1);scrollbar-width:none}
+.modal-sheet::-webkit-scrollbar{display:none}
+.modal-overlay.show .modal-sheet{transform:translateY(0)}
+.modal-handle{width:44px;height:4px;border-radius:2px;background:rgba(212,175,55,0.4);margin:10px auto 0}
+.modal-header{padding:16px 20px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(212,175,55,0.1)}
+.modal-title{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:800;color:var(--gold)}
+.modal-title .icon-circle{width:36px;height:36px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center}
+.modal-title .icon-circle svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2}
+.close-x{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.close-x svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2.5}
+.modal-body{padding:16px 20px 20px}
+.entity-name-big{font-size:20px;font-weight:900;margin-bottom:4px}
+.entity-en-big{font-size:11.5px;color:var(--text-dim);direction:ltr;text-align:start;margin-bottom:10px;font-family:monospace}
+.entity-cuisine-big{font-size:13px;color:var(--gold);font-weight:700;margin-bottom:16px}
+.rating-row{display:flex;align-items:center;gap:14px;padding:12px 14px;background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.2);border-radius:12px;margin-bottom:16px;flex-wrap:wrap}
+.rating-row .r-item{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--text-dim)}
+.rating-row .r-item svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:2}
+.rating-row .r-item.highlight svg{fill:var(--gold);stroke:none}
+.rating-row .r-item .val{color:var(--gold);font-weight:800}
+.info-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+.info-row{display:flex;gap:12px;align-items:flex-start;padding:12px;background:rgba(10,25,41,0.4);border:1px solid var(--border);border-radius:12px}
+.info-icon{width:40px;height:40px;border-radius:11px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info-icon svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2}
+.info-content{flex:1;min-width:0}
+.info-label{font-size:10.5px;color:var(--text-dim);font-weight:700;margin-bottom:4px}
+.info-value{font-size:13px;font-weight:600;line-height:1.5;word-break:break-word}
+.info-value.phone{direction:ltr;text-align:start;font-family:monospace;color:var(--gold);font-size:14px;font-weight:800}
+.info-value.hours{color:var(--success);font-weight:700}
+.desc-box{background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.15);border-radius:12px;padding:14px;margin-bottom:16px}
+.desc-box-title{font-size:12px;font-weight:800;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.desc-box-title svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:2}
+.desc-box-text{font-size:12.5px;color:var(--text-dim);line-height:1.9;white-space:pre-line}
+.modal-actions-bottom{display:flex;gap:10px;padding:12px 20px calc(20px + env(safe-area-inset-bottom));position:sticky;bottom:0;border-top:1px solid rgba(212,175,55,0.1);background:linear-gradient(180deg,transparent,rgba(10,25,41,0.95) 30%)}
+.modal-action-btn{flex:1;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:800}
+.modal-action-btn svg{width:20px;height:20px;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.modal-action-btn.call{background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff}
+.modal-action-btn.call svg{stroke:#fff}
+.modal-action-btn.share{background:var(--card);border:1.5px solid var(--border);color:var(--gold)}
+.modal-action-btn.share svg{stroke:var(--gold)}
+
+.services-list{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.service-row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(10,25,41,0.4);border:1px solid var(--border);border-radius:12px}
+.service-name{font-size:13px;font-weight:600}
+.service-price{font-size:14px;font-weight:900;color:var(--gold)}
+.service-price span{font-size:10px;color:var(--text-dim);font-weight:600;margin-inline-start:3px}
+
+.bottom-nav{position:fixed;bottom:8px;left:12px;right:12px;z-index:60;background:rgba(19,47,76,0.55);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(212,175,55,0.2);box-shadow:0 -8px 32px rgba(0,0,0,0.4);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));border-radius:20px}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;color:var(--text-dim);font-size:9.5px;font-weight:700}
+.nav-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-item.active{color:var(--gold)}
+
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:800;z-index:400;transition:transform .3s;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.success{background:var(--success);color:#fff}
+.toast.error{background:var(--danger);color:#fff}
+
+.error-box{text-align:center;padding:40px 20px}
+.error-icon{width:70px;height:70px;margin:0 auto 16px;border-radius:50%;background:rgba(231,76,60,0.15);display:flex;align-items:center;justify-content:center}
+.error-icon svg{width:36px;height:36px;stroke:var(--danger);fill:none;stroke-width:2}
+.error-title{font-size:15px;font-weight:800;color:var(--danger);margin-bottom:8px}
+.error-text{font-size:12px;color:var(--text-dim);margin-bottom:16px}
+.retry-btn{padding:10px 22px;border-radius:10px;background:var(--gold);color:var(--navy);font-size:13px;font-weight:800}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="page">
+
+  <div class="top-bar">
+    <div class="top-row">
+      <button class="icon-btn" onclick="history.back()">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </button>
+      <div class="page-title">آرایشی و بهداشتی</div>
+      <button class="icon-btn" onclick="location.href='cart.html'">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      </button>
+    </div>
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="جستجوی محصول، سالن یا فروشگاه..." oninput="onSearch(this.value)">
+      <svg class="si" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </div>
+  </div>
+
+  <!-- MAIN TABS -->
+  <div class="main-tabs">
+    <button class="main-tab active" id="tabProducts" onclick="selectMainTab('products')">
+      <div class="main-tab-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 2h6v6H9z"/><path d="M6 8h12l1 14H5z"/><circle cx="12" cy="14" r="2"/></svg>
+      </div>
+      <div class="main-tab-name">معرفی محصولات</div>
+    </button>
+    <button class="main-tab" id="tabSalons" onclick="selectMainTab('salons')">
+      <div class="main-tab-icon">
+        <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/></svg>
+      </div>
+      <div class="main-tab-name">سالن آرایشی</div>
+    </button>
+    <button class="main-tab" id="tabShops" onclick="selectMainTab('shops')">
+      <div class="main-tab-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>
+      </div>
+      <div class="main-tab-name">فروشگاه‌ها</div>
+    </button>
+  </div>
+
+  <!-- SUB TABS (فقط برای سالن) -->
+  <div class="sub-tabs" id="subTabs" style="display:none">
+    <button class="sub-tab active" id="subWomen" onclick="selectSalonGender('women')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M12 15v7M9 19h6"/></svg>
+      زنانه
+    </button>
+    <button class="sub-tab" id="subMen" onclick="selectSalonGender('men')">
+      <svg viewBox="0 0 24 24"><circle cx="10" cy="14" r="6"/><path d="M20 4l-6 6M15 4h5v5"/></svg>
+      مردانه
+    </button>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-scroll" id="filterScroll"></div>
+
+  <div class="section-head">
+    <div class="section-title">
+      <span class="accent"></span>
+      <span id="sectionTitle">محصولات</span>
+    </div>
+    <div class="section-count" id="resultCount"></div>
+  </div>
+
+  <div class="wrap">
+    <div id="contentArea">
+      <div class="loading-box">
+        <div class="spinner"></div>
+        <p>در حال بارگذاری...</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>خانه</span>
+    </a>
+    <a href="restaurants.html" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/></svg>
+      <span>رستورانت</span>
+    </a>
+    <a href="chat.html" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>
+      <span>چت</span>
+    </a>
+    <a href="clothes.html" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+      <span>لباس</span>
+    </a>
+  </nav>
+</div>
+
+<div class="modal-overlay" id="infoModal" onclick="if(event.target===this)closeModal('infoModal')">
+  <div class="modal-sheet" id="infoContent"></div>
+</div>
+<div class="modal-overlay" id="viewModal" onclick="if(event.target===this)closeModal('viewModal')">
+  <div class="modal-sheet" id="viewContent"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var CDN = 'https://cdn.jsdelivr.net/gh/kabulbazarstore-ship-it/bazarcheh-data@latest';
+var IMG = CDN + '/images/cosmetics';
+
+var DATA = null;
+var mainTab = 'products';
+var salonGender = 'women';
+var currentFilter = 'all';
+var currentSearch = '';
+var favorites = JSON.parse(localStorage.getItem('bazaarcheh_favs') || '[]');
+var currentEntity = null;
+
+function toPersianDigits(n){
+  var p = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+  return String(n).replace(/\d/g, function(d){ return p[d]; });
+}
+function showToast(msg, type){
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.className = 'toast'; }, 2400);
+}
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+function esc(s){
+  if(!s) return '';
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function loadJSON(path){
+  return fetch(CDN + path).then(function(r){
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  });
+}
+
+function loadAll(){
+  return loadJSON('/data/cosmetics/cosmetics.json').then(function(d){
+    DATA = d;
+  });
+}
+
+function selectMainTab(tab){
+  mainTab = tab;
+  document.getElementById('tabProducts').classList.toggle('active', tab === 'products');
+  document.getElementById('tabSalons').classList.toggle('active', tab === 'salons');
+  document.getElementById('tabShops').classList.toggle('active', tab === 'shops');
+  document.getElementById('subTabs').style.display = (tab === 'salons') ? 'flex' : 'none';
+  renderFilters();
+  renderAll();
+}
+
+function selectSalonGender(g){
+  salonGender = g;
+  document.getElementById('subWomen').classList.toggle('active', g === 'women');
+  document.getElementById('subMen').classList.toggle('active', g === 'men');
+  renderAll();
+}
+
+function renderFilters(){
+  var el = document.getElementById('filterScroll');
+  if(mainTab === 'products'){
+    var subs = DATA.subFilters || [];
+    el.innerHTML = subs.map(function(f){
+      return '<button class="filter-chip ' + (f.id===currentFilter?'active':'') + '" onclick="setFilter(\'' + f.id + '\')">' + esc(f.name) + '</button>';
+    }).join('');
+  } else {
+    el.innerHTML = '';
+  }
+}
+function setFilter(id){ currentFilter = id; renderFilters(); renderAll(); }
+
+function renderAll(){
+  var el = document.getElementById('contentArea');
+  if(mainTab === 'products') renderProducts(el);
+  else if(mainTab === 'salons') renderSalons(el);
+  else renderShops(el);
+}
+
+/* ============ PRODUCTS ============ */
+function renderProducts(el){
+  var list = (DATA.products || []).slice();
+  if(currentFilter !== 'all') list = list.filter(function(p){ return p.cat === currentFilter; });
+  if(currentSearch){
+    var q = currentSearch.toLowerCase();
+    list = list.filter(function(p){
+      return (p.name||'').toLowerCase().indexOf(q) > -1 ||
+             (p.brand||'').toLowerCase().indexOf(q) > -1;
+    });
+  }
+  document.getElementById('sectionTitle').textContent = 'محصولات';
+  document.getElementById('resultCount').textContent = toPersianDigits(list.length) + ' محصول';
+  
+  if(list.length === 0){
+    el.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><p>چیزی یافت نشد</p></div>';
+    return;
+  }
+  
+  var html = '<div class="products-grid">';
+  for(var i = 0; i < list.length; i++){
+    var p = list[i];
+    var imgSrc = IMG + '/products/p' + p.id + '.jpg';
+    var badgeClass = p.badge && p.badge.indexOf('٪') > -1 ? 'sale' : '';
+    html += '<div class="product-card">'
+      + '<div class="product-img">'
+      + '<svg class="ph" viewBox="0 0 24 24"><path d="M9 2h6v6H9z"/><path d="M6 8h12l1 14H5z"/></svg>'
+      + '<img src="' + imgSrc + '" alt="' + esc(p.name) + '" loading="lazy" onerror="this.style.display=\'none\'">'
+      + (p.badge ? '<span class="product-badge ' + badgeClass + '">' + esc(p.badge) + '</span>' : '')
+      + '</div>'
+      + '<div class="product-info">'
+      + '<div class="product-brand">' + esc(p.brand || '') + '</div>'
+      + '<div class="product-name">' + esc(p.name) + '</div>'
+      + '<div class="product-price">'
+      + '<span class="price-now">' + toPersianDigits(p.price) + '</span>'
+      + (p.old ? '<span class="price-old">' + toPersianDigits(p.old) + '</span>' : '')
+      + '<span class="price-cur">افغانی</span>'
+      + '</div></div></div>';
+  }
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+/* ============ SALONS ============ */
+function renderSalons(el){
+  var list = (DATA.salons && DATA.salons[salonGender]) || [];
+  document.getElementById('sectionTitle').textContent = salonGender === 'women' ? 'سالن زیبایی زنانه' : 'آرایشگاه مردانه';
+  document.getElementById('resultCount').textContent = toPersianDigits(list.length) + ' سالن';
+  
+  if(list.length === 0){
+    el.innerHTML = '<div class="empty"><p>سالنی یافت نشد</p></div>';
+    return;
+  }
+  
+  var html = '<div class="entity-list">';
+  for(var i = 0; i < list.length; i++){
+    var e = list[i];
+    var isFav = favorites.indexOf(e.id) > -1;
+    var imgSrc = IMG + '/salons/p' + e.id + '.jpg';
+    var coverIcon = '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>';
+    
+    html += '<div class="entity-card">'
+      + '<div class="entity-cover">'
+      + '<svg class="cover-icon" viewBox="0 0 24 24">' + coverIcon + '</svg>'
+      + '<img class="cover-img" src="' + imgSrc + '" alt="' + esc(e.name) + '" loading="lazy" onerror="this.style.display=\'none\'">'
+      + '<div class="entity-badges">'
+      + (e.featured ? '<div class="entity-badge badge-featured">ویژه</div>' : '')
+      + (e.open ? '<div class="entity-badge badge-open">باز</div>' : '')
+      + '</div>'
+      + '<button class="fav-entity' + (isFav ? ' active' : '') + '" onclick="toggleFav(' + e.id + ',this)">'
+      + '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
+      + '</button></div>'
+      + '<div class="entity-body">'
+      + '<div class="entity-name-row">'
+      + '<div class="entity-name">' + esc(e.name) + '</div>'
+      + '<div class="entity-rating"><svg viewBox="0 0 24 24"><path d="M12 2 15 9l7 .5-5.5 4.5L18 21l-6-3.5L6 21l1.5-7L2 9.5 9 9z"/></svg><span>' + toPersianDigits(e.rating || 0) + '</span></div>'
+      + '</div>'
+      + '<div class="entity-cuisine">' + esc(e.specialty || '') + '</div>'
+      + '<div class="entity-location"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(e.area || '') + '</div>'
+      + '<div class="entity-actions">'
+      + '<button class="info-btn" onclick="openInfo(\'salon\',' + e.id + ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></button>'
+      + '<button class="view-btn" onclick="openView(\'salon\',' + e.id + ')"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>مشاهده خدمات</button>'
+      + '</div></div></div>';
+  }
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+/* ============ SHOPS ============ */
+function renderShops(el){
+  var list = (DATA.shops || []).slice();
+  if(currentSearch){
+    var q = currentSearch.toLowerCase();
+    list = list.filter(function(s){
+      return (s.name||'').toLowerCase().indexOf(q) > -1 ||
+             (s.specialty||'').toLowerCase().indexOf(q) > -1;
+    });
+  }
+  document.getElementById('sectionTitle').textContent = 'فروشگاه‌های آرایشی';
+  document.getElementById('resultCount').textContent = toPersianDigits(list.length) + ' فروشگاه';
+  
+  if(list.length === 0){
+    el.innerHTML = '<div class="empty"><p>فروشگاهی یافت نشد</p></div>';
+    return;
+  }
+  
+  var html = '<div class="entity-list">';
+  for(var i = 0; i < list.length; i++){
+    var e = list[i];
+    var isFav = favorites.indexOf(e.id) > -1;
+    var imgSrc = IMG + '/shops/p' + e.id + '.jpg';
+    var coverIcon = '<path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/>';
+    
+    html += '<div class="entity-card">'
+      + '<div class="entity-cover">'
+      + '<svg class="cover-icon" viewBox="0 0 24 24">' + coverIcon + '</svg>'
+      + '<img class="cover-img" src="' + imgSrc + '" alt="' + esc(e.name) + '" loading="lazy" onerror="this.style.display=\'none\'">'
+      + '<div class="entity-badges">'
+      + (e.featured ? '<div class="entity-badge badge-featured">ویژه</div>' : '')
+      + (e.open ? '<div class="entity-badge badge-open">باز</div>' : '')
+      + '</div>'
+      + '<button class="fav-entity' + (isFav ? ' active' : '') + '" onclick="toggleFav(' + e.id + ',this)">'
+      + '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
+      + '</button></div>'
+      + '<div class="entity-body">'
+      + '<div class="entity-name-row">'
+      + '<div class="entity-name">' + esc(e.name) + '</div>'
+      + '<div class="entity-rating"><svg viewBox="0 0 24 24"><path d="M12 2 15 9l7 .5-5.5 4.5L18 21l-6-3.5L6 21l1.5-7L2 9.5 9 9z"/></svg><span>' + toPersianDigits(e.rating || 0) + '</span></div>'
+      + '</div>'
+      + '<div class="entity-cuisine">' + esc(e.specialty || '') + '</div>'
+      + '<div class="entity-location"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(e.area || '') + '</div>'
+      + '<div class="entity-actions">'
+      + '<button class="info-btn" onclick="openInfo(\'shop\',' + e.id + ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></button>'
+      + '<button class="view-btn" onclick="openView(\'shop\',' + e.id + ')"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>مشاهده</button>'
+      + '</div></div></div>';
+  }
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+/* ============ INFO ============ */
+function openInfo(type, id){
+  var e;
+  if(type === 'salon'){
+    e = (DATA.salons.women.concat(DATA.salons.men)).find(function(s){ return s.id === id; });
+  } else {
+    e = DATA.shops.find(function(s){ return s.id === id; });
+  }
+  if(!e) return;
+  
+  var html = '<div class="modal-handle"></div>'
+    + '<div class="modal-header">'
+    + '<div class="modal-title"><div class="icon-circle"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><span>اطلاعات</span></div>'
+    + '<button class="close-x" onclick="closeModal(\'infoModal\')"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'
+    + '<div class="modal-body">'
+    + '<div class="entity-name-big">' + esc(e.name) + '</div>'
+    + (e.en ? '<div class="entity-en-big">' + esc(e.en) + '</div>' : '')
+    + '<div class="entity-cuisine-big">' + esc(e.specialty || '') + '</div>'
+    + '<div class="rating-row">'
+    + '<div class="r-item highlight"><svg viewBox="0 0 24 24"><path d="M12 2 15 9l7 .5-5.5 4.5L18 21l-6-3.5L6 21l1.5-7L2 9.5 9 9z"/></svg><span class="val">' + toPersianDigits(e.rating || 0) + '</span></div>'
+    + '<div class="r-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg><span>' + toPersianDigits(e.reviews || 0) + ' نظر</span></div>'
+    + (e.experience ? '<div class="r-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span>' + toPersianDigits(e.experience) + ' سال</span></div>' : '')
+    + '</div>'
+    + '<div class="info-grid">'
+    + '<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="info-content"><div class="info-label">آدرس</div><div class="info-value">' + esc(e.address || '') + '</div></div></div>'
+    + (e.phone ? '<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="info-content"><div class="info-label">شماره ۱</div><div class="info-value phone">' + esc(e.phone) + '</div></div></div>' : '')
+    + (e.phone2 ? '<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="info-content"><div class="info-label">شماره ۲</div><div class="info-value phone">' + esc(e.phone2) + '</div></div></div>' : '')
+    + '<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="info-content"><div class="info-label">ساعت کاری</div><div class="info-value hours">' + esc(e.workingHours || '—') + '</div></div></div>'
+    + '</div>'
+    + '<div class="desc-box"><div class="desc-box-title"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>معرفی</div><div class="desc-box-text">' + esc(e.extended || e.description || '—') + '</div></div>'
+    + '</div>'
+    + '<div class="modal-actions-bottom">'
+    + '<button class="modal-action-btn call" onclick="callEntity(\'' + esc(e.phone || '') + '\')"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>تماس</button>'
+    + '<button class="modal-action-btn share" onclick="shareEntity(\'' + esc(e.name) + '\')"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>اشتراک</button>'
+    + '</div>';
+  document.getElementById('infoContent').innerHTML = html;
+  openModal('infoModal');
+}
+
+/* ============ VIEW (SERVICES) ============ */
+function openView(type, id){
+  var e;
+  if(type === 'salon'){
+    e = (DATA.salons.women.concat(DATA.salons.men)).find(function(s){ return s.id === id; });
+  } else {
+    e = DATA.shops.find(function(s){ return s.id === id; });
+  }
+  if(!e) return;
+  currentEntity = e;
+  
+  var html = '<div class="modal-handle"></div>'
+    + '<div class="modal-header">'
+    + '<div class="modal-title"><div class="icon-circle"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/></svg></div><span>' + esc(e.name) + '</span></div>'
+    + '<button class="close-x" onclick="closeModal(\'viewModal\')"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'
+    + '<div class="modal-body">';
+  
+  if(type === 'salon' && e.services){
+    html += '<div class="section-title" style="margin-bottom:10px"><span class="accent"></span>لیست خدمات و قیمت‌ها</div>'
+      + '<div class="services-list">';
+    for(var i = 0; i < e.services.length; i++){
+      var s = e.services[i];
+      html += '<div class="service-row">'
+        + '<div class="service-name">' + esc(s.name) + '</div>'
+        + '<div class="service-price">' + toPersianDigits(s.price) + '<span>افغانی</span></div>'
+        + '</div>';
+    }
+    html += '</div>';
+  } else {
+    html += '<div class="empty" style="padding:30px 20px"><p>محصولات به‌زودی</p></div>';
+  }
+  html += '</div>';
+  document.getElementById('viewContent').innerHTML = html;
+  openModal('viewModal');
+}
+
+function toggleFav(id, el){
+  var i = favorites.indexOf(id);
+  if(i > -1){ favorites.splice(i,1); el.classList.remove('active'); }
+  else { favorites.push(id); el.classList.add('active'); }
+  localStorage.setItem('bazaarcheh_favs', JSON.stringify(favorites));
+}
+function callEntity(phone){
+  if(!phone) return;
+  location.href = 'tel:' + phone;
+}
+function shareEntity(name){
+  if(navigator.share){
+    navigator.share({title: name, url: location.href}).catch(function(){});
+  } else {
+    navigator.clipboard.writeText(location.href).then(function(){
+      showToast('لینک کپی شد', 'success');
+    });
+  }
+}
+function onSearch(v){ currentSearch = v.trim(); renderAll(); }
+
+function showError(msg){
+  document.getElementById('contentArea').innerHTML =
+    '<div class="error-box">'
+    + '<div class="error-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></div>'
+    + '<div class="error-title">خطا در بارگذاری</div>'
+    + '<div class="error-text">' + msg + '</div>'
+    + '<button class="retry-btn" onclick="location.reload()">تلاش مجدد</button></div>';
+}
+
+(function init(){
+  loadAll().then(function(){
+    renderFilters();
+    renderAll();
+  }).catch(function(err){
+    console.error(err);
+    showError('فایل cosmetics.json بارگذاری نشد.');
+  });
+})();
+</script>
+</body>
+</html>
