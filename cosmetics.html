@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0a1929">
 <title>آرایشی و بهداشتی | بازارچه</title>
+<link rel="manifest" href="manifest.json">
 <style>
 :root{--navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;--gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);--text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;--border:rgba(212,175,55,0.22);--danger:#e74c3c;--success:#2ecc71}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;padding-bottom:100px}
+html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;padding-bottom:100px;-webkit-font-smoothing:antialiased}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 input{font-family:inherit}
 ::-webkit-scrollbar{display:none}
@@ -61,7 +62,6 @@ input{font-family:inherit}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-box p{font-size:13px;color:var(--text-dim)}
 
-/* Products Grid */
 .products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .product-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;animation:fadeUp .4s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
@@ -78,7 +78,6 @@ input{font-family:inherit}
 .price-old{font-size:10px;color:var(--text-dim);text-decoration:line-through}
 .price-cur{font-size:9px;color:var(--text-dim)}
 
-/* Salon / Shop Cards */
 .entity-list{display:flex;flex-direction:column;gap:14px}
 .entity-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative;animation:fadeUp .4s both}
 .entity-cover{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,var(--navy-3),var(--navy-2));display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -111,60 +110,12 @@ input{font-family:inherit}
 .empty p{font-size:14px;font-weight:700;color:var(--text)}
 .empty span{font-size:12px;display:block;margin-top:6px}
 
-.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(10,25,41,0.85);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
-.modal-overlay.show{opacity:1;pointer-events:auto}
-.modal-sheet{width:100%;max-width:560px;max-height:92vh;background:linear-gradient(180deg,#132f4c 0%,#0a1929 100%);border-radius:24px 24px 0 0;border-top:1px solid var(--border);overflow-y:auto;transform:translateY(100%);transition:transform .35s cubic-bezier(0.34,1.56,0.64,1);scrollbar-width:none}
-.modal-sheet::-webkit-scrollbar{display:none}
-.modal-overlay.show .modal-sheet{transform:translateY(0)}
-.modal-handle{width:44px;height:4px;border-radius:2px;background:rgba(212,175,55,0.4);margin:10px auto 0}
-.modal-header{padding:16px 20px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(212,175,55,0.1)}
-.modal-title{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:800;color:var(--gold)}
-.modal-title .icon-circle{width:36px;height:36px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center}
-.modal-title .icon-circle svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2}
-.close-x{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.close-x svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2.5}
-.modal-body{padding:16px 20px 20px}
-.entity-name-big{font-size:20px;font-weight:900;margin-bottom:4px}
-.entity-en-big{font-size:11.5px;color:var(--text-dim);direction:ltr;text-align:start;margin-bottom:10px;font-family:monospace}
-.entity-cuisine-big{font-size:13px;color:var(--gold);font-weight:700;margin-bottom:16px}
-.rating-row{display:flex;align-items:center;gap:14px;padding:12px 14px;background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.2);border-radius:12px;margin-bottom:16px;flex-wrap:wrap}
-.rating-row .r-item{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--text-dim)}
-.rating-row .r-item svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:2}
-.rating-row .r-item.highlight svg{fill:var(--gold);stroke:none}
-.rating-row .r-item .val{color:var(--gold);font-weight:800}
-.info-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
-.info-row{display:flex;gap:12px;align-items:flex-start;padding:12px;background:rgba(10,25,41,0.4);border:1px solid var(--border);border-radius:12px}
-.info-icon{width:40px;height:40px;border-radius:11px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.info-icon svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2}
-.info-content{flex:1;min-width:0}
-.info-label{font-size:10.5px;color:var(--text-dim);font-weight:700;margin-bottom:4px}
-.info-value{font-size:13px;font-weight:600;line-height:1.5;word-break:break-word}
-.info-value.phone{direction:ltr;text-align:start;font-family:monospace;color:var(--gold);font-size:14px;font-weight:800}
-.info-value.hours{color:var(--success);font-weight:700}
-.desc-box{background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.15);border-radius:12px;padding:14px;margin-bottom:16px}
-.desc-box-title{font-size:12px;font-weight:800;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.desc-box-title svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:2}
-.desc-box-text{font-size:12.5px;color:var(--text-dim);line-height:1.9;white-space:pre-line}
-.modal-actions-bottom{display:flex;gap:10px;padding:12px 20px calc(20px + env(safe-area-inset-bottom));position:sticky;bottom:0;border-top:1px solid rgba(212,175,55,0.1);background:linear-gradient(180deg,transparent,rgba(10,25,41,0.95) 30%)}
-.modal-action-btn{flex:1;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:800}
-.modal-action-btn svg{width:20px;height:20px;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.modal-action-btn.call{background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff}
-.modal-action-btn.call svg{stroke:#fff}
-.modal-action-btn.share{background:var(--card);border:1.5px solid var(--border);color:var(--gold)}
-.modal-action-btn.share svg{stroke:var(--gold)}
-
-.services-list{display:flex;flex-direction:column;gap:10px;margin-top:16px}
-.service-row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(10,25,41,0.4);border:1px solid var(--border);border-radius:12px}
-.service-name{font-size:13px;font-weight:600}
-.service-price{font-size:14px;font-weight:900;color:var(--gold)}
-.service-price span{font-size:10px;color:var(--text-dim);font-weight:600;margin-inline-start:3px}
-
 .bottom-nav{position:fixed;bottom:8px;left:12px;right:12px;z-index:60;background:rgba(19,47,76,0.55);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(212,175,55,0.2);box-shadow:0 -8px 32px rgba(0,0,0,0.4);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));border-radius:20px}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;color:var(--text-dim);font-size:9.5px;font-weight:700}
 .nav-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .nav-item.active{color:var(--gold)}
 
-.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:800;z-index:400;transition:transform .3s;white-space:nowrap}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:14px 28px;border-radius:14px;font-size:15px;font-weight:800;z-index:400;transition:transform .3s;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.success{background:var(--success);color:#fff}
 .toast.error{background:var(--danger);color:#fff}
@@ -199,7 +150,6 @@ input{font-family:inherit}
     </div>
   </div>
 
-  <!-- MAIN TABS -->
   <div class="main-tabs">
     <button class="main-tab active" id="tabProducts" onclick="selectMainTab('products')">
       <div class="main-tab-icon">
@@ -221,7 +171,6 @@ input{font-family:inherit}
     </button>
   </div>
 
-  <!-- SUB TABS (فقط برای سالن) -->
   <div class="sub-tabs" id="subTabs" style="display:none">
     <button class="sub-tab active" id="subWomen" onclick="selectSalonGender('women')">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M12 15v7M9 19h6"/></svg>
@@ -233,7 +182,6 @@ input{font-family:inherit}
     </button>
   </div>
 
-  <!-- FILTERS -->
   <div class="filter-scroll" id="filterScroll"></div>
 
   <div class="section-head">
@@ -273,12 +221,6 @@ input{font-family:inherit}
   </nav>
 </div>
 
-<div class="modal-overlay" id="infoModal" onclick="if(event.target===this)closeModal('infoModal')">
-  <div class="modal-sheet" id="infoContent"></div>
-</div>
-<div class="modal-overlay" id="viewModal" onclick="if(event.target===this)closeModal('viewModal')">
-  <div class="modal-sheet" id="viewContent"></div>
-</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -291,7 +233,6 @@ var salonGender = 'women';
 var currentFilter = 'all';
 var currentSearch = '';
 var favorites = JSON.parse(localStorage.getItem('bazaarcheh_favs') || '[]');
-var currentEntity = null;
 
 function toPersianDigits(n){
   var p = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
@@ -304,8 +245,6 @@ function showToast(msg, type){
   clearTimeout(el._t);
   el._t = setTimeout(function(){ el.className = 'toast'; }, 2400);
 }
-function closeModal(id){ document.getElementById(id).classList.remove('show'); }
-function openModal(id){ document.getElementById(id).classList.add('show'); }
 function esc(s){
   if(!s) return '';
   return String(s).replace(/[&<>"']/g, function(c){
@@ -442,8 +381,8 @@ function renderSalons(el){
       + '<div class="entity-cuisine">' + esc(e.specialty || '') + '</div>'
       + '<div class="entity-location"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(e.area || '') + '</div>'
       + '<div class="entity-actions">'
-      + '<button class="info-btn" onclick="openInfo(\'salon\',' + e.id + ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></button>'
-      + '<button class="view-btn" onclick="openView(\'salon\',' + e.id + ')"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>مشاهده خدمات</button>'
+      + '<button class="info-btn" onclick="showToast(\'اطلاعات به زودی\')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></button>'
+      + '<button class="view-btn" onclick="showToast(\'به زودی\')"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>مشاهده</button>'
       + '</div></div></div>';
   }
   html += '</div>';
@@ -494,87 +433,12 @@ function renderShops(el){
       + '<div class="entity-cuisine">' + esc(e.specialty || '') + '</div>'
       + '<div class="entity-location"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(e.area || '') + '</div>'
       + '<div class="entity-actions">'
-      + '<button class="info-btn" onclick="openInfo(\'shop\',' + e.id + ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></button>'
-      + '<button class="view-btn" onclick="openView(\'shop\',' + e.id + ')"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>مشاهده</button>'
+      + '<button class="info-btn" onclick="showToast(\'اطلاعات به زودی\')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></button>'
+      + '<button class="view-btn" onclick="showToast(\'به زودی\')"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>مشاهده</button>'
       + '</div></div></div>';
   }
   html += '</div>';
   el.innerHTML = html;
-}
-
-/* ============ INFO ============ */
-function openInfo(type, id){
-  var e;
-  if(type === 'salon'){
-    e = (DATA.salons.women.concat(DATA.salons.men)).find(function(s){ return s.id === id; });
-  } else {
-    e = DATA.shops.find(function(s){ return s.id === id; });
-  }
-  if(!e) return;
-  
-  var html = '<div class="modal-handle"></div>'
-    + '<div class="modal-header">'
-    + '<div class="modal-title"><div class="icon-circle"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><span>اطلاعات</span></div>'
-    + '<button class="close-x" onclick="closeModal(\'infoModal\')"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'
-    + '<div class="modal-body">'
-    + '<div class="entity-name-big">' + esc(e.name) + '</div>'
-    + (e.en ? '<div class="entity-en-big">' + esc(e.en) + '</div>' : '')
-    + '<div class="entity-cuisine-big">' + esc(e.specialty || '') + '</div>'
-    + '<div class="rating-row">'
-    + '<div class="r-item highlight"><svg viewBox="0 0 24 24"><path d="M12 2 15 9l7 .5-5.5 4.5L18 21l-6-3.5L6 21l1.5-7L2 9.5 9 9z"/></svg><span class="val">' + toPersianDigits(e.rating || 0) + '</span></div>'
-    + '<div class="r-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg><span>' + toPersianDigits(e.reviews || 0) + ' نظر</span></div>'
-    + (e.experience ? '<div class="r-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span>' + toPersianDigits(e.experience) + ' سال</span></div>' : '')
-    + '</div>'
-    + '<div class="info-grid">'
-    + '<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="info-content"><div class="info-label">آدرس</div><div class="info-value">' + esc(e.address || '') + '</div></div></div>'
-    + (e.phone ? '<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="info-content"><div class="info-label">شماره ۱</div><div class="info-value phone">' + esc(e.phone) + '</div></div></div>' : '')
-    + (e.phone2 ? '<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="info-content"><div class="info-label">شماره ۲</div><div class="info-value phone">' + esc(e.phone2) + '</div></div></div>' : '')
-    + '<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="info-content"><div class="info-label">ساعت کاری</div><div class="info-value hours">' + esc(e.workingHours || '—') + '</div></div></div>'
-    + '</div>'
-    + '<div class="desc-box"><div class="desc-box-title"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>معرفی</div><div class="desc-box-text">' + esc(e.extended || e.description || '—') + '</div></div>'
-    + '</div>'
-    + '<div class="modal-actions-bottom">'
-    + '<button class="modal-action-btn call" onclick="callEntity(\'' + esc(e.phone || '') + '\')"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>تماس</button>'
-    + '<button class="modal-action-btn share" onclick="shareEntity(\'' + esc(e.name) + '\')"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>اشتراک</button>'
-    + '</div>';
-  document.getElementById('infoContent').innerHTML = html;
-  openModal('infoModal');
-}
-
-/* ============ VIEW (SERVICES) ============ */
-function openView(type, id){
-  var e;
-  if(type === 'salon'){
-    e = (DATA.salons.women.concat(DATA.salons.men)).find(function(s){ return s.id === id; });
-  } else {
-    e = DATA.shops.find(function(s){ return s.id === id; });
-  }
-  if(!e) return;
-  currentEntity = e;
-  
-  var html = '<div class="modal-handle"></div>'
-    + '<div class="modal-header">'
-    + '<div class="modal-title"><div class="icon-circle"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/></svg></div><span>' + esc(e.name) + '</span></div>'
-    + '<button class="close-x" onclick="closeModal(\'viewModal\')"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'
-    + '<div class="modal-body">';
-  
-  if(type === 'salon' && e.services){
-    html += '<div class="section-title" style="margin-bottom:10px"><span class="accent"></span>لیست خدمات و قیمت‌ها</div>'
-      + '<div class="services-list">';
-    for(var i = 0; i < e.services.length; i++){
-      var s = e.services[i];
-      html += '<div class="service-row">'
-        + '<div class="service-name">' + esc(s.name) + '</div>'
-        + '<div class="service-price">' + toPersianDigits(s.price) + '<span>افغانی</span></div>'
-        + '</div>';
-    }
-    html += '</div>';
-  } else {
-    html += '<div class="empty" style="padding:30px 20px"><p>محصولات به‌زودی</p></div>';
-  }
-  html += '</div>';
-  document.getElementById('viewContent').innerHTML = html;
-  openModal('viewModal');
 }
 
 function toggleFav(id, el){
@@ -583,19 +447,7 @@ function toggleFav(id, el){
   else { favorites.push(id); el.classList.add('active'); }
   localStorage.setItem('bazaarcheh_favs', JSON.stringify(favorites));
 }
-function callEntity(phone){
-  if(!phone) return;
-  location.href = 'tel:' + phone;
-}
-function shareEntity(name){
-  if(navigator.share){
-    navigator.share({title: name, url: location.href}).catch(function(){});
-  } else {
-    navigator.clipboard.writeText(location.href).then(function(){
-      showToast('لینک کپی شد', 'success');
-    });
-  }
-}
+
 function onSearch(v){ currentSearch = v.trim(); renderAll(); }
 
 function showError(msg){
