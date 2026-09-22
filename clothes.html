@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0a1929">
 <title>لباس | بازارچه</title>
-<link rel="manifest" href="manifest.json">
 <style>
-:root{--navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;--gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);--text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;--border:rgba(212,175,55,0.22);--danger:#e74c3c;--success:#2ecc71}
+:root{
+  --navy:#0a1929;--navy-2:#102a43;--navy-3:#1a3a5c;
+  --gold:#d4af37;--gold-2:#f4d03f;--gold-soft:rgba(212,175,55,0.15);
+  --text:#e8eef5;--text-dim:#8ba3bd;--card:#132f4c;
+  --border:rgba(212,175,55,0.22);
+  --danger:#e74c3c;--success:#2ecc71;
+}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;padding-bottom:100px;-webkit-font-smoothing:antialiased}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
@@ -22,6 +27,7 @@ input{font-family:inherit}
 
 .page{position:relative;z-index:2;min-height:100vh}
 
+/* Top Bar */
 .top-bar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(10,25,41,0.98),rgba(10,25,41,0.92));backdrop-filter:blur(16px);border-bottom:1px solid rgba(212,175,55,0.15);padding:12px 16px}
 .top-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .icon-btn{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);flex-shrink:0}
@@ -36,6 +42,7 @@ input{font-family:inherit}
 .search-wrap .si{position:absolute;top:50%;right:14px;transform:translateY(-50%);width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2;pointer-events:none}
 .search-wrap .mic{position:absolute;top:50%;left:14px;transform:translateY(-50%);width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2}
 
+/* Category Tabs */
 .cat-tabs{display:flex;gap:10px;padding:16px;max-width:520px;margin:0 auto}
 .cat-tab{flex:1;padding:14px 8px;border-radius:16px;background:var(--card);border:2px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all .25s}
 .cat-tab:active{transform:scale(0.96)}
@@ -49,17 +56,20 @@ input{font-family:inherit}
 .cat-tab-count{font-size:10px;color:var(--text-dim)}
 .cat-tab.active .cat-tab-count{color:var(--gold);opacity:0.7}
 
+/* Sub Filters */
 .sub-filters{display:flex;gap:8px;overflow-x:auto;padding:0 16px 12px;max-width:520px;margin:0 auto;scrollbar-width:none}
 .sub-filters::-webkit-scrollbar{display:none}
 .sub-chip{flex-shrink:0;padding:8px 16px;border-radius:20px;background:var(--card);border:1.5px solid var(--border);font-size:12px;font-weight:700;color:var(--text-dim);transition:all .2s}
 .sub-chip:active{transform:scale(0.95)}
 .sub-chip.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
 
+/* Section Head */
 .section-head{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 12px;max-width:520px;margin:0 auto}
 .section-title{font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
 .section-title .accent{display:inline-block;width:4px;height:14px;border-radius:2px;background:linear-gradient(180deg,var(--gold-2),var(--gold))}
 .section-count{font-size:11.5px;color:var(--text-dim)}
 
+/* Products */
 .wrap{padding:0 16px 30px;max-width:520px;margin:0 auto}
 .products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 
@@ -69,8 +79,10 @@ input{font-family:inherit}
 .product-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 .product-img svg.ph{width:50%;height:50%;stroke:var(--gold);fill:none;stroke-width:1;opacity:0.4;position:relative;z-index:0}
 .product-badge{position:absolute;top:8px;right:8px;background:var(--gold);color:var(--navy);font-size:10px;font-weight:900;padding:3px 8px;border-radius:6px;z-index:2}
+html[dir="ltr"] .product-badge{right:auto;left:8px}
 .product-badge.sale{background:var(--danger);color:#fff}
 .fav-btn{position:absolute;top:8px;left:8px;width:30px;height:30px;border-radius:50%;background:rgba(10,25,41,0.75);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:2}
+html[dir="ltr"] .fav-btn{left:auto;right:8px}
 .fav-btn:active{transform:scale(0.85)}
 .fav-btn svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2}
 .fav-btn.active svg{fill:var(--gold);stroke:var(--gold)}
@@ -88,21 +100,21 @@ input{font-family:inherit}
 .add-btn:active{background:var(--gold);color:var(--navy)}
 .add-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5}
 
+/* Loading & Error */
 .loading{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-dim)}
 .spinner{width:50px;height:50px;border:3px solid rgba(212,175,55,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading p{font-size:13px}
-
 .error-box{grid-column:1/-1;text-align:center;padding:40px 20px}
 .error-icon{width:70px;height:70px;margin:0 auto 16px;border-radius:50%;background:rgba(231,76,60,0.15);display:flex;align-items:center;justify-content:center}
 .error-icon svg{width:36px;height:36px;stroke:var(--danger);fill:none;stroke-width:2}
 .error-title{font-size:15px;font-weight:800;color:var(--danger);margin-bottom:8px}
 .error-text{font-size:12px;color:var(--text-dim);line-height:1.7;margin-bottom:16px}
 .retry-btn{padding:10px 22px;border-radius:10px;background:var(--gold);color:var(--navy);font-size:13px;font-weight:800}
-
 .empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-dim)}
 .empty p{font-size:14px;font-weight:700;color:var(--text)}
 
+/* Modal */
 .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(10,25,41,0.85);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
 .modal-overlay.show{opacity:1;pointer-events:auto}
 .modal-sheet{width:100%;max-width:560px;max-height:90vh;background:linear-gradient(180deg,#132f4c 0%,#0a1929 100%);border-radius:24px 24px 0 0;border-top:1px solid var(--border);overflow-y:auto;transform:translateY(100%);transition:transform .35s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 -20px 60px rgba(0,0,0,0.6);scrollbar-width:none}
@@ -114,6 +126,7 @@ input{font-family:inherit}
 .modal-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 .modal-hero svg.big{width:90px;height:90px;stroke:var(--gold);fill:none;stroke-width:1;opacity:0.4;position:relative;z-index:0}
 .modal-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;background:rgba(10,25,41,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:3}
+html[dir="ltr"] .modal-close{right:auto;left:14px}
 .modal-close:active{transform:scale(0.9)}
 .modal-close svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.5}
 
@@ -128,18 +141,22 @@ input{font-family:inherit}
 .size-row{margin-bottom:16px}
 .size-label{font-size:12px;font-weight:700;color:var(--text-dim);margin-bottom:10px}
 .size-options{display:flex;gap:8px;flex-wrap:wrap}
-.size-btn{min-width:48px;height:44px;padding:0 14px;border-radius:10px;background:var(--card);border:1.5px solid var(--border);font-size:13px;font-weight:800;color:var(--text-dim);display:flex;align-items:center;justify-content:center}
+.size-btn{min-width:48px;height:44px;padding:0 14px;border-radius:10px;background:var(--card);border:1.5px solid var(--border);font-size:13px;font-weight:800;color:var(--text-dim);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.size-btn:active{transform:scale(0.95)}
 .size-btn.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
 
 .color-row{margin-bottom:16px}
 .color-options{display:flex;gap:10px;flex-wrap:wrap}
-.color-btn{width:38px;height:38px;border-radius:50%;border:2px solid var(--border);cursor:pointer}
+.color-btn{width:38px;height:38px;border-radius:50%;border:2px solid var(--border);transition:all .2s;cursor:pointer;position:relative}
+.color-btn:active{transform:scale(0.9)}
 .color-btn.active{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
 
 .qty-box{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .qty-label{font-size:12px;color:var(--text-dim);font-weight:700;flex:1}
 .qty-ctrl{display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:4px}
-.qty-btn{width:36px;height:36px;border-radius:9px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center}
+.qty-btn{width:36px;height:36px;border-radius:9px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.qty-btn:active{transform:scale(0.9);background:var(--gold)}
+.qty-btn:active svg{stroke:var(--navy)}
 .qty-btn svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2.5}
 .qty-value{font-size:16px;font-weight:900;color:var(--text);min-width:32px;text-align:center}
 
@@ -149,20 +166,23 @@ input{font-family:inherit}
 .price-box-value span{font-size:12px;color:var(--text-dim);font-weight:600}
 
 .modal-actions-bottom{display:flex;gap:10px;padding:12px 20px calc(20px + env(safe-area-inset-bottom));background:linear-gradient(180deg,transparent,rgba(10,25,41,0.95) 30%);position:sticky;bottom:0;border-top:1px solid rgba(212,175,55,0.1)}
-.modal-action-btn{flex:1;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:800}
+.modal-action-btn{flex:1;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:800;transition:all .2s}
+.modal-action-btn:active{transform:scale(0.97)}
 .modal-action-btn svg{width:20px;height:20px;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .modal-action-btn.share{width:52px;flex:0 0 52px;background:var(--card);border:1.5px solid var(--border)}
 .modal-action-btn.share svg{stroke:var(--gold)}
 .modal-action-btn.buy{background:linear-gradient(135deg,#f4d03f,#d4af37);color:var(--navy)}
 .modal-action-btn.buy svg{stroke:var(--navy)}
 
-.bottom-nav{position:fixed;bottom:8px;left:12px;right:12px;z-index:60;background:rgba(19,47,76,0.55);backdrop-filter:blur(24px);border:1px solid rgba(212,175,55,0.2);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));border-radius:20px}
+/* Bottom Nav */
+.bottom-nav{position:fixed;bottom:8px;left:12px;right:12px;z-index:60;background:rgba(19,47,76,0.55);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(212,175,55,0.2);box-shadow:0 -8px 32px rgba(0,0,0,0.4);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));border-radius:20px}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;color:var(--text-dim);font-size:9.5px;font-weight:700;position:relative}
 .nav-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .nav-item.active{color:var(--gold)}
-.nav-item.active::after{content:'';position:absolute;bottom:0;width:4px;height:4px;border-radius:50%;background:var(--gold)}
+.nav-item.active::after{content:'';position:absolute;bottom:0;width:4px;height:4px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
 
-.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:800;z-index:400;transition:transform .3s;white-space:nowrap}
+/* Toast */
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--navy);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:800;z-index:400;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,0.45);white-space:nowrap;max-width:90%}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.success{background:var(--success);color:#fff}
 .toast.error{background:var(--danger);color:#fff}
@@ -240,7 +260,7 @@ input{font-family:inherit}
 
 <script>
 /* ==========================================
-   CDN URL
+   تنظیمات
    ========================================== */
 var CDN_URL = 'https://cdn.jsdelivr.net/gh/kabulbazarstore-ship-it/bazarcheh-data@main';
 
@@ -260,6 +280,9 @@ var selectedSize = null;
 var selectedColor = null;
 var selectedQty = 1;
 
+/* ==========================================
+   SVG Icons
+   ========================================== */
 var ICONS = {
   women: '<svg viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>',
   kids: '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-4 4-7 8-7s8 3 8 7"/></svg>',
@@ -273,6 +296,7 @@ function toPersianDigits(n){
   var p = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
   return String(n).replace(/\d/g, function(d){ return p[d]; });
 }
+
 function showToast(msg, type){
   var el = document.getElementById('toast');
   el.textContent = msg;
@@ -280,22 +304,13 @@ function showToast(msg, type){
   clearTimeout(el._t);
   el._t = setTimeout(function(){ el.className = 'toast'; }, 2400);
 }
-function checkAuth(){
-  var raw = localStorage.getItem('bazaarcheh_session') || sessionStorage.getItem('bazaarcheh_session');
-  if(!raw){ location.replace('index.html'); return false; }
-  try {
-    var s = JSON.parse(raw);
-    if(!s || !s.id){ location.replace('index.html'); return false; }
-  } catch(e){ location.replace('index.html'); return false; }
-  return true;
-}
 
 /* ==========================================
-   Load JSON from GitHub CDN
+   CDN Loading
    ========================================== */
 function loadJSON(path){
-  return fetch(CDN_URL + path).then(function(r){
-    if(!r.ok) throw new Error('فایل پیدا نشد: ' + path + ' — کد ' + r.status);
+  return fetch(CDN_URL + path, {cache: 'default'}).then(function(r){
+    if(!r.ok) throw new Error('HTTP ' + r.status + ' — ' + path);
     return r.json();
   });
 }
@@ -398,8 +413,8 @@ function getFiltered(){
   return arr;
 }
 
-function getImageUrl(id){
-  return CDN_URL + '/images/clothes/' + currentCat + '/p' + id + '.jpg';
+function getImageUrl(id, cat){
+  return CDN_URL + '/images/clothes/' + (cat || currentCat) + '/p' + id + '.jpg';
 }
 
 function renderProducts(){
@@ -422,7 +437,7 @@ function renderProducts(){
     var p = arr[k];
     var isFav = favorites.indexOf(p.id) > -1;
     var badgeClass = p.badge && p.badge.indexOf('٪') > -1 ? 'sale' : '';
-    var imgUrl = getImageUrl(p.id);
+    var imgUrl = getImageUrl(p.id, p.cat);
 
     html += '<div class="product-card" onclick="openProduct(' + p.id + ')">'
       + '<div class="product-img">'
@@ -471,22 +486,47 @@ function showError(message){
 /* ==========================================
    Interactions
    ========================================== */
-function selectCat(id){ currentCat = id; currentSub = 'all'; renderCatTabs(); renderSubFilters(); renderProducts(); }
-function selectSub(id){ currentSub = id; renderSubFilters(); renderProducts(); }
-function onSearch(v){ currentSearch = v.trim(); renderProducts(); }
+function selectCat(id){
+  currentCat = id;
+  currentSub = 'all';
+  renderCatTabs();
+  renderSubFilters();
+  renderProducts();
+}
+
+function selectSub(id){
+  currentSub = id;
+  renderSubFilters();
+  renderProducts();
+}
+
+function onSearch(v){
+  currentSearch = v.trim();
+  renderProducts();
+}
 
 function openProduct(id){
   var p = null;
-  for(var i = 0; i < CLOTHES.length; i++){ if(CLOTHES[i].id === id){ p = CLOTHES[i]; break; } }
+  for(var i = 0; i < CLOTHES.length; i++){
+    if(CLOTHES[i].id === id){ p = CLOTHES[i]; break; }
+  }
   if(!p) return;
-  currentProduct = p; selectedSize = null; selectedColor = null; selectedQty = 1;
+  currentProduct = p;
+  selectedSize = null;
+  selectedColor = null;
+  selectedQty = 1;
 
   var sizeHtml = '';
-  for(var j = 0; j < p.sizes.length; j++){ sizeHtml += '<button class="size-btn" onclick="selectSize(this,\'' + p.sizes[j] + '\')">' + p.sizes[j] + '</button>'; }
-  var colorHtml = '';
-  for(var k = 0; k < p.colors.length; k++){ colorHtml += '<div class="color-btn" style="background:' + p.colors[k] + '" onclick="selectColor(this,\'' + p.colors[k] + '\')"></div>'; }
+  for(var j = 0; j < p.sizes.length; j++){
+    sizeHtml += '<button class="size-btn" onclick="selectSize(this,\'' + p.sizes[j] + '\')">' + p.sizes[j] + '</button>';
+  }
 
-  var imgUrl = getImageUrl(p.id);
+  var colorHtml = '';
+  for(var k = 0; k < p.colors.length; k++){
+    colorHtml += '<div class="color-btn" style="background:' + p.colors[k] + '" onclick="selectColor(this,\'' + p.colors[k] + '\')"></div>';
+  }
+
+  var imgUrl = getImageUrl(p.id, p.cat);
 
   var html = '<div class="modal-handle"></div>'
     + '<div class="modal-hero">'
@@ -532,16 +572,21 @@ function openProduct(id){
 }
 
 function closeModal(){ document.getElementById('modal').classList.remove('show'); }
+
 function selectSize(el, size){
   var all = document.querySelectorAll('#sizeOptions .size-btn');
   for(var i = 0; i < all.length; i++){ all[i].classList.remove('active'); }
-  el.classList.add('active'); selectedSize = size;
+  el.classList.add('active');
+  selectedSize = size;
 }
+
 function selectColor(el, color){
   var all = document.querySelectorAll('#colorOptions .color-btn');
   for(var i = 0; i < all.length; i++){ all[i].classList.remove('active'); }
-  el.classList.add('active'); selectedColor = color;
+  el.classList.add('active');
+  selectedColor = color;
 }
+
 function changeQty(delta){
   selectedQty = selectedQty + delta;
   if(selectedQty < 1) selectedQty = 1;
@@ -550,44 +595,64 @@ function changeQty(delta){
   var total = currentProduct.price * selectedQty;
   document.getElementById('finalPrice').innerHTML = toPersianDigits(total) + ' <span>افغانی</span>';
 }
+
 function confirmAdd(){
-  if(!selectedSize){ showToast('سایز را انتخاب کنید', 'error'); return; }
-  if(!selectedColor){ showToast('رنگ را انتخاب کنید', 'error'); return; }
+  if(!selectedSize){ showToast('لطفاً سایز را انتخاب کنید', 'error'); return; }
+  if(!selectedColor){ showToast('لطفاً رنگ را انتخاب کنید', 'error'); return; }
+
   var key = currentProduct.id + '_' + selectedSize + '_' + selectedColor;
   var existing = null;
-  for(var i = 0; i < cart.length; i++){ if(cart[i].key === key){ existing = cart[i]; break; } }
-  if(existing){ existing.qty += selectedQty; }
-  else { cart.push({key:key, id:currentProduct.id, name:currentProduct.name, price:currentProduct.price, size:selectedSize, color:selectedColor, qty:selectedQty}); }
+  for(var i = 0; i < cart.length; i++){
+    if(cart[i].key === key){ existing = cart[i]; break; }
+  }
+  if(existing){
+    existing.qty += selectedQty;
+  } else {
+    cart.push({
+      key: key,
+      id: currentProduct.id,
+      name: currentProduct.name,
+      price: currentProduct.price,
+      size: selectedSize,
+      color: selectedColor,
+      qty: selectedQty
+    });
+  }
   localStorage.setItem('bazaarcheh_cart', JSON.stringify(cart));
   showToast('به سبد خرید اضافه شد', 'success');
   closeModal();
 }
+
 function toggleFav(id, el){
   var idx = favorites.indexOf(id);
   if(idx > -1){ favorites.splice(idx, 1); el.classList.remove('active'); }
   else { favorites.push(id); el.classList.add('active'); }
   localStorage.setItem('bazaarcheh_favs', JSON.stringify(favorites));
 }
+
 function shareProduct(){
   if(!currentProduct) return;
   var url = location.origin + location.pathname + '?id=' + currentProduct.id;
-  if(navigator.share){ navigator.share({title: currentProduct.name, url: url}).catch(function(){}); }
-  else { navigator.clipboard.writeText(url).then(function(){ showToast('لینک کپی شد', 'success'); }); }
+  if(navigator.share){
+    navigator.share({title: currentProduct.name, url: url}).catch(function(){});
+  } else {
+    navigator.clipboard.writeText(url).then(function(){
+      showToast('لینک کپی شد', 'success');
+    });
+  }
 }
 
 /* ==========================================
    Init
    ========================================== */
 (function init(){
-  if(!checkAuth()) return;
-
   loadAllData()
     .then(function(data){
       applyData(data);
     })
     .catch(function(err){
       console.error('Load error:', err);
-      showError('فایل‌های JSON پیدا نشد. لطفاً مطمئن شوید در GitHub در مسیر data/clothes/ آپلود شده‌اند.<br>خطا: ' + err.message);
+      showError('فایل‌های JSON بارگذاری نشدند.<br>لطفاً مطمئن شوید در GitHub مسیر <b>data/clothes/</b> فایل‌ها آپلود شده‌اند.<br>خطا: ' + err.message);
     });
 })();
 </script>
