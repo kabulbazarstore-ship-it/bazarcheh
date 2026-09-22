@@ -70,8 +70,9 @@ input{font-family:inherit}
 @keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
 .entity-card:active{transform:scale(0.99)}
 .entity-cover{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,var(--navy-3),var(--navy-2));display:flex;align-items:center;justify-content:center;overflow:hidden}
-.entity-cover svg.cover-icon{width:70px;height:70px;stroke:var(--gold);fill:none;stroke-width:1;opacity:0.4}
-.entity-badges{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:6px;z-index:2}
+.entity-cover .cover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.entity-cover svg.cover-icon{width:70px;height:70px;stroke:var(--gold);fill:none;stroke-width:1;opacity:0.4;position:relative;z-index:0}
+.entity-badges{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:6px;z-index:3}
 html[dir="ltr"] .entity-badges{left:auto;right:12px}
 .entity-badge{padding:5px 10px;border-radius:8px;font-size:10px;font-weight:800;backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px}
 .badge-featured{background:var(--gold);color:var(--navy)}
@@ -80,7 +81,7 @@ html[dir="ltr"] .entity-badges{left:auto;right:12px}
 .badge-live::before{content:'';width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse-dot 1.4s infinite}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
 
-.fav-entity{position:absolute;top:12px;right:12px;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(10,25,41,0.75);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.fav-entity{position:absolute;top:12px;right:12px;z-index:3;width:38px;height:38px;border-radius:50%;background:rgba(10,25,41,0.75);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:all .2s}
 html[dir="ltr"] .fav-entity{right:auto;left:12px}
 .fav-entity:active{transform:scale(0.9)}
 .fav-entity svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
@@ -324,9 +325,10 @@ html[dir="ltr"] .fav-entity{right:auto;left:12px}
 
 <script>
 /* ==========================================
-   CDN URL
+   CDN URL + Image Base
    ========================================== */
 var CDN = 'https://cdn.jsdelivr.net/gh/kabulbazarstore-ship-it/bazarcheh-data@main';
+var IMG = CDN + '/images/clothes';
 
 /* ==========================================
    State
@@ -342,6 +344,7 @@ var currentViewEntity = null;
 var currentViewTab = 'products';
 var currentShopCat = 'women';
 var selectedQty = 1;
+var currentProductData = null;
 
 /* ==========================================
    Helpers
@@ -359,6 +362,12 @@ function showToast(msg, type){
 }
 function closeModal(id){ document.getElementById(id).classList.remove('show'); }
 function openModal(id){ document.getElementById(id).classList.add('show'); }
+function escapeHtml(str){
+  if(!str) return '';
+  return String(str).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
 
 /* ==========================================
    Load Data from CDN
@@ -420,7 +429,7 @@ function getFiltered(){
     if(currentSearch){
       var q = currentSearch.toLowerCase();
       arr = arr.filter(function(d){
-        return d.name.toLowerCase().indexOf(q) > -1 ||
+        return (d.name||'').toLowerCase().indexOf(q) > -1 ||
                (d.specialty || '').toLowerCase().indexOf(q) > -1 ||
                (d.area || '').toLowerCase().indexOf(q) > -1;
       });
@@ -434,7 +443,7 @@ function getFiltered(){
     if(currentSearch){
       var q2 = currentSearch.toLowerCase();
       arr = arr.filter(function(s){
-        return s.name.toLowerCase().indexOf(q2) > -1 ||
+        return (s.name||'').toLowerCase().indexOf(q2) > -1 ||
                (s.specialty || '').toLowerCase().indexOf(q2) > -1 ||
                (s.area || '').toLowerCase().indexOf(q2) > -1;
       });
@@ -467,13 +476,21 @@ function renderAll(){
   for(var i = 0; i < arr.length; i++){
     var e = arr[i];
     var isFav = favorites.indexOf(e.id) > -1;
-    var coverIcon = mainTab === 'designers'
+    var isDesigner = mainTab === 'designers';
+    
+    var coverIcon = isDesigner
       ? '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/>'
       : '<path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/>';
     
+    /* === IMAGE PATH === */
+    var imgFolder = isDesigner ? 'designers' : 'shops';
+    var imgSrc = IMG + '/' + imgFolder + '/p' + e.id + '.jpg';
+    
     html += '<div class="entity-card">'
+      /* COVER with image */
       + '<div class="entity-cover">'
       + '<svg class="cover-icon" viewBox="0 0 24 24">' + coverIcon + '</svg>'
+      + '<img class="cover-img" src="' + imgSrc + '" alt="' + escapeHtml(e.name) + '" loading="lazy" onerror="this.style.display=\'none\'">'
       + '<div class="entity-badges">'
       + (e.featured ? '<div class="entity-badge badge-featured">ویژه</div>' : '')
       + (e.open ? '<div class="entity-badge badge-open">باز</div>' : '')
@@ -482,18 +499,19 @@ function renderAll(){
       + '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
       + '</button>'
       + '</div>'
+      /* BODY */
       + '<div class="entity-body">'
       + '<div class="entity-name-row">'
-      + '<div class="entity-name">' + e.name + '</div>'
+      + '<div class="entity-name">' + escapeHtml(e.name) + '</div>'
       + '<div class="entity-rating">'
       + '<svg viewBox="0 0 24 24"><path d="M12 2 15 9l7 .5-5.5 4.5L18 21l-6-3.5L6 21l1.5-7L2 9.5 9 9z"/></svg>'
-      + '<span>' + toPersianDigits(e.rating) + '</span>'
+      + '<span>' + toPersianDigits(e.rating || 0) + '</span>'
       + '</div>'
       + '</div>'
-      + '<div class="entity-cuisine">' + e.specialty + '</div>'
+      + '<div class="entity-cuisine">' + escapeHtml(e.specialty || '') + '</div>'
       + '<div class="entity-location">'
       + '<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>'
-      + e.area
+      + escapeHtml(e.area || '')
       + '</div>'
       + '<div class="entity-actions">'
       + '<button class="info-btn" onclick="event.stopPropagation();openInfo(\'' + mainTab + '\',' + e.id + ')">'
@@ -539,13 +557,13 @@ function openInfo(type, id){
     + '</button>'
     + '</div>'
     + '<div class="modal-body">'
-    + '<div class="entity-name-big">' + e.name + '</div>'
-    + (e.en ? '<div class="entity-en-big">' + e.en + '</div>' : '')
-    + '<div class="entity-cuisine-big">' + (e.specialty || '') + '</div>'
+    + '<div class="entity-name-big">' + escapeHtml(e.name) + '</div>'
+    + (e.en ? '<div class="entity-en-big">' + escapeHtml(e.en) + '</div>' : '')
+    + '<div class="entity-cuisine-big">' + escapeHtml(e.specialty || '') + '</div>'
     + '<div class="rating-row">'
     + '<div class="r-item highlight">'
     + '<svg viewBox="0 0 24 24"><path d="M12 2 15 9l7 .5-5.5 4.5L18 21l-6-3.5L6 21l1.5-7L2 9.5 9 9z"/></svg>'
-    + '<span class="val">' + toPersianDigits(e.rating) + '</span>'
+    + '<span class="val">' + toPersianDigits(e.rating || 0) + '</span>'
     + '</div>'
     + '<div class="r-item">'
     + '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>'
@@ -556,19 +574,19 @@ function openInfo(type, id){
     + '<div class="info-grid">'
     + '<div class="info-row">'
     + '<div class="info-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>'
-    + '<div class="info-content"><div class="info-label">آدرس</div><div class="info-value">' + (e.address || e.area) + '</div></div>'
+    + '<div class="info-content"><div class="info-label">آدرس</div><div class="info-value">' + escapeHtml(e.address || e.area || '') + '</div></div>'
     + '</div>'
     + (e.plusCode ? '<div class="info-row">'
     + '<div class="info-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>'
-    + '<div class="info-content"><div class="info-label">پلس کد گوگل مپ</div><div class="info-value plus-code-value">' + e.plusCode + '</div></div>'
+    + '<div class="info-content"><div class="info-label">پلس کد گوگل مپ</div><div class="info-value plus-code-value">' + escapeHtml(e.plusCode) + '</div></div>'
     + '</div>' : '')
     + '<div class="info-row">'
     + '<div class="info-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>'
-    + '<div class="info-content"><div class="info-label">شماره تماس</div><div class="info-value phone">' + (e.phone || '—') + '</div></div>'
+    + '<div class="info-content"><div class="info-label">شماره تماس</div><div class="info-value phone">' + escapeHtml(e.phone || '—') + '</div></div>'
     + '</div>'
     + '<div class="info-row">'
     + '<div class="info-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>'
-    + '<div class="info-content"><div class="info-label">ساعت کاری</div><div class="info-value hours">' + (e.workingHours || '—') + '</div></div>'
+    + '<div class="info-content"><div class="info-label">ساعت کاری</div><div class="info-value hours">' + escapeHtml(e.workingHours || '—') + '</div></div>'
     + '</div>'
     + '</div>'
     + '<div class="desc-box">'
@@ -576,7 +594,7 @@ function openInfo(type, id){
     + '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>'
     + 'معرفی'
     + '</div>'
-    + '<div class="desc-box-text">' + (e.description || '—') + '</div>'
+    + '<div class="desc-box-text">' + escapeHtml(e.description || '—') + '</div>'
     + '</div>'
     + '</div>'
     + '<div class="modal-actions-bottom">'
@@ -584,7 +602,7 @@ function openInfo(type, id){
     + '<svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>'
     + 'تماس'
     + '</button>'
-    + '<button class="modal-action-btn share" onclick="shareEntity(\'' + e.name + '\')">'
+    + '<button class="modal-action-btn share" onclick="shareEntity(\'' + escapeHtml(e.name) + '\')">'
     + '<svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>'
     + 'اشتراک'
     + '</button>'
@@ -625,7 +643,7 @@ function renderDesignerView(){
     + '<div class="icon-circle">'
     + '<svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/></svg>'
     + '</div>'
-    + '<span>' + e.name + '</span>'
+    + '<span>' + escapeHtml(e.name) + '</span>'
     + '</div>'
     + '<button class="close-x" onclick="closeModal(\'viewModal\')">'
     + '<svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>'
@@ -641,7 +659,7 @@ function renderDesignerView(){
     + 'آلبوم سفارش‌ها'
     + '</button>'
     + '</div>'
-    + '<div class="view-content">' + renderDesignerContent() + '</div>';
+    + '<div class="view-content" id="viewContentArea">' + renderDesignerContent() + '</div>';
   document.getElementById('viewContent').innerHTML = html;
 }
 
@@ -659,13 +677,15 @@ function renderDesignerContent(){
     for(var i = 0; i < e.products.length; i++){
       var p = e.products[i];
       var badgeClass = p.badge && p.badge.indexOf('٪') > -1 ? 'sale' : '';
-      html += '<div class="product-card" onclick="openProductDetail(\'' + e.name + '\',\'' + p.name + '\',' + p.price + ',' + (p.old||0) + ',\'\')">'
+      var imgSrc = IMG + '/products/p' + p.id + '.jpg';
+      html += '<div class="product-card" onclick="openProductDetail(\'' + escapeHtml(e.name) + '\',\'' + escapeHtml(p.name) + '\',' + p.price + ',' + (p.old||0) + ',\'' + (p.id||'') + '\')">'
         + '<div class="product-img">'
         + '<svg class="ph" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>'
-        + (p.badge ? '<span class="product-badge ' + badgeClass + '">' + p.badge + '</span>' : '')
+        + '<img src="' + imgSrc + '" alt="' + escapeHtml(p.name) + '" loading="lazy" onerror="this.style.display=\'none\'">'
+        + (p.badge ? '<span class="product-badge ' + badgeClass + '">' + escapeHtml(p.badge) + '</span>' : '')
         + '</div>'
         + '<div class="product-info">'
-        + '<div class="product-name">' + p.name + '</div>'
+        + '<div class="product-name">' + escapeHtml(p.name) + '</div>'
         + '<div class="product-price">'
         + '<span class="price-now">' + toPersianDigits(p.price) + '</span>'
         + (p.old ? '<span class="price-old">' + toPersianDigits(p.old) + '</span>' : '')
@@ -687,12 +707,14 @@ function renderDesignerContent(){
     var html2 = '<div class="products-grid">';
     for(var j = 0; j < e.album.length; j++){
       var a = e.album[j];
+      var imgSrc2 = IMG + '/designers/p' + e.id + '_' + a.id + '.jpg';
       html2 += '<div class="product-card">'
         + '<div class="product-img">'
         + '<svg class="ph" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>'
+        + '<img src="' + imgSrc2 + '" alt="' + escapeHtml(a.title) + '" loading="lazy" onerror="this.style.display=\'none\'">'
         + '</div>'
         + '<div class="product-info">'
-        + '<div class="product-name" style="height:auto">' + a.title + '</div>'
+        + '<div class="product-name" style="height:auto">' + escapeHtml(a.title) + '</div>'
         + '</div>'
         + '</div>';
     }
@@ -706,7 +728,7 @@ function switchDesignerTab(tab){
   var tabs = document.querySelectorAll('#viewContent .view-tab');
   if(tabs[0]) tabs[0].classList.toggle('active', tab === 'products');
   if(tabs[1]) tabs[1].classList.toggle('active', tab === 'album');
-  var content = document.querySelector('#viewContent .view-content');
+  var content = document.getElementById('viewContentArea');
   if(content) content.innerHTML = renderDesignerContent();
 }
 
@@ -718,7 +740,7 @@ function renderShopView(){
     + '<div class="icon-circle">'
     + '<svg viewBox="0 0 24 24"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>'
     + '</div>'
-    + '<span>' + e.name + '</span>'
+    + '<span>' + escapeHtml(e.name) + '</span>'
     + '</div>'
     + '<button class="close-x" onclick="closeModal(\'viewModal\')">'
     + '<svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>'
@@ -749,13 +771,15 @@ function renderShopContent(){
   for(var i = 0; i < items.length; i++){
     var p = items[i];
     var badgeClass = p.badge && p.badge.indexOf('٪') > -1 ? 'sale' : '';
-    html += '<div class="product-card" onclick="openProductDetail(\'' + e.name + '\',\'' + p.name + '\',' + p.price + ',' + (p.old||0) + ',\'' + p.cat + '\')">'
+    var imgSrc = IMG + '/products/p' + p.id + '.jpg';
+    html += '<div class="product-card" onclick="openProductDetail(\'' + escapeHtml(e.name) + '\',\'' + escapeHtml(p.name) + '\',' + p.price + ',' + (p.old||0) + ',\'' + (p.id||'') + '\')">'
       + '<div class="product-img">'
       + '<svg class="ph" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>'
-      + (p.badge ? '<span class="product-badge ' + badgeClass + '">' + p.badge + '</span>' : '')
+      + '<img src="' + imgSrc + '" alt="' + escapeHtml(p.name) + '" loading="lazy" onerror="this.style.display=\'none\'">'
+      + (p.badge ? '<span class="product-badge ' + badgeClass + '">' + escapeHtml(p.badge) + '</span>' : '')
       + '</div>'
       + '<div class="product-info">'
-      + '<div class="product-name">' + p.name + '</div>'
+      + '<div class="product-name">' + escapeHtml(p.name) + '</div>'
       + '<div class="product-price">'
       + '<span class="price-now">' + toPersianDigits(p.price) + '</span>'
       + (p.old ? '<span class="price-old">' + toPersianDigits(p.old) + '</span>' : '')
@@ -781,10 +805,8 @@ function switchShopCat(cat){
 /* ==========================================
    Product Detail Modal
    ========================================== */
-function openProductDetail(shopName, productName, price, oldPrice, cat){
-  var sizeOptions = cat === 'kids'
-    ? ['۲-۳ سال','۴-۵ سال','۶-۷ سال','۸-۹ سال']
-    : ['S','M','L','XL'];
+function openProductDetail(shopName, productName, price, oldPrice, productId){
+  var sizeOptions = ['S','M','L','XL','XXL'];
   
   var sizesHtml = '';
   for(var i = 0; i < sizeOptions.length; i++){
@@ -792,17 +814,26 @@ function openProductDetail(shopName, productName, price, oldPrice, cat){
   }
   
   selectedQty = 1;
+  currentProductData = {
+    shopName: shopName,
+    name: productName,
+    price: price,
+    id: productId
+  };
+  
+  var imgSrc = productId ? IMG + '/products/p' + productId + '.jpg' : '';
   
   var html = '<div class="modal-handle"></div>'
     + '<div class="product-modal-img">'
     + '<svg class="big" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>'
+    + (imgSrc ? '<img src="' + imgSrc + '" alt="' + escapeHtml(productName) + '" onerror="this.style.display=\'none\'">' : '')
     + '<button class="modal-close" onclick="closeModal(\'productModal\')">'
     + '<svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>'
     + '</button>'
     + '</div>'
     + '<div class="modal-body">'
-    + '<div style="font-size:11px;color:var(--text-dim);margin-bottom:6px">' + shopName + '</div>'
-    + '<div class="modal-name">' + productName + '</div>'
+    + '<div style="font-size:11px;color:var(--text-dim);margin-bottom:6px">' + escapeHtml(shopName) + '</div>'
+    + '<div class="modal-name">' + escapeHtml(productName) + '</div>'
     + '<div class="size-row"><div class="size-label">سایز:</div>'
     + '<div class="size-options">' + sizesHtml + '</div></div>'
     + '<div class="qty-box">'
@@ -822,7 +853,7 @@ function openProductDetail(shopName, productName, price, oldPrice, cat){
     + '<button class="modal-action-btn share" onclick="closeModal(\'productModal\')">'
     + '<svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>'
     + '</button>'
-    + '<button class="modal-action-btn call" onclick="showToast(\'به سبد خرید اضافه شد\',\'success\');closeModal(\'productModal\')">'
+    + '<button class="modal-action-btn call" onclick="addToCart()">'
     + '<svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>'
     + 'افزودن به سبد'
     + '</button>'
@@ -830,6 +861,21 @@ function openProductDetail(shopName, productName, price, oldPrice, cat){
   
   document.getElementById('productContent').innerHTML = html;
   openModal('productModal');
+}
+
+function addToCart(){
+  if(!currentProductData) return;
+  var cart = JSON.parse(localStorage.getItem('bazaarcheh_cart') || '[]');
+  cart.push({
+    id: currentProductData.id,
+    name: currentProductData.name,
+    shop: currentProductData.shopName,
+    price: currentProductData.price,
+    qty: selectedQty
+  });
+  localStorage.setItem('bazaarcheh_cart', JSON.stringify(cart));
+  showToast('به سبد خرید اضافه شد', 'success');
+  setTimeout(function(){ closeModal('productModal'); }, 500);
 }
 
 function changeQty(d){
@@ -901,4 +947,4 @@ function showError(msg){
 })();
 </script>
 </body>
-</html>
+  </html>
